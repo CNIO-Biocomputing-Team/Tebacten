@@ -1,0 +1,153 @@
+<!--: spam
+Content-Type: text/html
+
+<body bgcolor="#f0f0f8"><font color="#f0f0f8" size="-5"> -->
+<body bgcolor="#f0f0f8"><font color="#f0f0f8" size="-5"> --> -->
+</font> </font> </font> </script> </object> </blockquote> </pre>
+</table> </table> </table> </table> </table> </font> </font> </font>/usr/lib/python2.6/cgitb.py:173: DeprecationWarning: BaseException.message has been deprecated as of Python 2.6
+  value = pydoc.html.repr(getattr(evalue, name))
+<body bgcolor="#f0f0f8">
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#6622aa">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>&lt;type 'exceptions.RuntimeError'&gt;</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial">Python 2.6.5: /usr/bin/python<br>Fri Jun 15 15:44:43 2012</font></td></tr></table>
+    
+<p>A problem occurred in a Python script.  Here is the sequence of
+function calls leading up to the error, in the order they occurred.</p>
+<table width="100%" cellspacing=0 cellpadding=0 border=0>
+<tr><td bgcolor="#d8bbff"><big>&nbsp;</big><a href="file:///home/tebacten/public_html/wp-content/themes/reactions/scripts/returnPubmedInformation.py">/home/tebacten/public_html/wp-content/themes/reactions/scripts/returnPubmedInformation.py</a> in <strong><module></strong>()</td></tr>
+<tr><td><font color="#909090"><tt><small>&nbsp;&nbsp;&nbsp;44</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;articleTitle<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt><small>&nbsp;&nbsp;&nbsp;45</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sys.exit()&nbsp;&nbsp;&nbsp;<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt><small>&nbsp;&nbsp;&nbsp;46</small>&nbsp;pubmedId=sys.argv[1]<br>
+</tt></font></td></tr>
+<tr><td bgcolor="#ffccee"><tt><small>&nbsp;&nbsp;&nbsp;47</small>&nbsp;get_title(pubmedId)<br>
+</tt></td></tr>
+<tr><td><font color="#909090"><tt><small>&nbsp;&nbsp;&nbsp;48</small>&nbsp;sys.exit()</tt></font></td></tr>
+<tr><td><small><font color="#909090"><strong>get_title</strong>&nbsp;= &lt;function get_title&gt;, <strong>pubmedId</strong>&nbsp;= '10102357'</font></small></td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=0 border=0>
+<tr><td bgcolor="#d8bbff"><big>&nbsp;</big><a href="file:///home/tebacten/public_html/wp-content/themes/reactions/scripts/returnPubmedInformation.py">/home/tebacten/public_html/wp-content/themes/reactions/scripts/returnPubmedInformation.py</a> in <strong>get_title</strong>(pubmedId='10102357')</td></tr>
+<tr><td><font color="#909090"><tt><small>&nbsp;&nbsp;&nbsp;39</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"""once&nbsp;we&nbsp;have&nbsp;the&nbsp;taxied,&nbsp;we&nbsp;can&nbsp;fetch&nbsp;the&nbsp;record"""<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt><small>&nbsp;&nbsp;&nbsp;40</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;search&nbsp;=&nbsp;Entrez.efetch(id&nbsp;=&nbsp;pubmedId,&nbsp;db&nbsp;=&nbsp;"pubmed",&nbsp;retmode&nbsp;=&nbsp;"xml")<br>
+</tt></font></td></tr>
+<tr><td bgcolor="#ffccee"><tt><small>&nbsp;&nbsp;&nbsp;41</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;record=Entrez.read(search)<br>
+</tt></td></tr>
+<tr><td><font color="#909090"><tt><small>&nbsp;&nbsp;&nbsp;42</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;articleTitle=record[0]['MedlineCitation']['Article']['ArticleTitle']<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt><small>&nbsp;&nbsp;&nbsp;43</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;articleTitle<br>
+</tt></font></td></tr>
+<tr><td><small><font color="#909090">record <em>undefined</em>, <em>global</em> <strong>Entrez</strong>&nbsp;= &lt;module 'Bio.Entrez' from '/usr/lib/pymodules/python2.6/Bio/Entrez/__init__.pyc'&gt;, Entrez.<strong>read</strong>&nbsp;= &lt;function read&gt;, <strong>search</strong>&nbsp;= &lt;addinfourl at 140727059899024 whose fp = &lt;socket._fileobject object&gt;&gt;</font></small></td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=0 border=0>
+<tr><td bgcolor="#d8bbff"><big>&nbsp;</big><a href="file:///usr/lib/pymodules/python2.6/Bio/Entrez/__init__.py">/usr/lib/pymodules/python2.6/Bio/Entrez/__init__.py</a> in <strong>read</strong>(handle=&lt;addinfourl at 140727059899024 whose fp = &lt;socket._fileobject object&gt;&gt;)</td></tr>
+<tr><td><font color="#909090"><tt><small>&nbsp;&nbsp;256</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DTDs&nbsp;=&nbsp;os.path.join(__path__[0],&nbsp;"DTDs")<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt><small>&nbsp;&nbsp;257</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;handler&nbsp;=&nbsp;DataHandler(DTDs)<br>
+</tt></font></td></tr>
+<tr><td bgcolor="#ffccee"><tt><small>&nbsp;&nbsp;258</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;record&nbsp;=&nbsp;handler.read(handle)<br>
+</tt></td></tr>
+<tr><td><font color="#909090"><tt><small>&nbsp;&nbsp;259</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;record<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt><small>&nbsp;&nbsp;260</small>&nbsp;<br>
+</tt></font></td></tr>
+<tr><td><small><font color="#909090">record <em>undefined</em>, <strong>handler</strong>&nbsp;= &lt;Bio.Entrez.Parser.DataHandler instance&gt;, handler.<strong>read</strong>&nbsp;= &lt;bound method DataHandler.read of &lt;Bio.Entrez.Parser.DataHandler instance&gt;&gt;, <strong>handle</strong>&nbsp;= &lt;addinfourl at 140727059899024 whose fp = &lt;socket._fileobject object&gt;&gt;</font></small></td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=0 border=0>
+<tr><td bgcolor="#d8bbff"><big>&nbsp;</big><a href="file:///usr/lib/pymodules/python2.6/Bio/Entrez/Parser.py">/usr/lib/pymodules/python2.6/Bio/Entrez/Parser.py</a> in <strong>read</strong>(self=&lt;Bio.Entrez.Parser.DataHandler instance&gt;, handle=&lt;addinfourl at 140727059899024 whose fp = &lt;socket._fileobject object&gt;&gt;)</td></tr>
+<tr><td><font color="#909090"><tt><small>&nbsp;&nbsp;106</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"""Set&nbsp;up&nbsp;the&nbsp;parser&nbsp;and&nbsp;let&nbsp;it&nbsp;parse&nbsp;the&nbsp;XML&nbsp;results"""<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt><small>&nbsp;&nbsp;107</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try:<br>
+</tt></font></td></tr>
+<tr><td bgcolor="#ffccee"><tt><small>&nbsp;&nbsp;108</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.parser.ParseFile(handle)<br>
+</tt></td></tr>
+<tr><td><font color="#909090"><tt><small>&nbsp;&nbsp;109</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;except&nbsp;expat.ExpatError:<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt><small>&nbsp;&nbsp;110</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;self.valid:<br>
+</tt></font></td></tr>
+<tr><td><small><font color="#909090"><strong>self</strong>&nbsp;= &lt;Bio.Entrez.Parser.DataHandler instance&gt;, self.<strong>parser</strong>&nbsp;= &lt;pyexpat.xmlparser object&gt;, self.parser.<strong>ParseFile</strong>&nbsp;= &lt;built-in method ParseFile of pyexpat.xmlparser object&gt;, <strong>handle</strong>&nbsp;= &lt;addinfourl at 140727059899024 whose fp = &lt;socket._fileobject object&gt;&gt;</font></small></td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=0 border=0>
+<tr><td bgcolor="#d8bbff"><big>&nbsp;</big><a href="file:///usr/lib/pymodules/python2.6/Bio/Entrez/Parser.py">/usr/lib/pymodules/python2.6/Bio/Entrez/Parser.py</a> in <strong>externalEntityRefHandler</strong>(self=&lt;Bio.Entrez.Parser.DataHandler instance&gt;, context=None, base=None, systemId=u'http://www.ncbi.nlm.nih.gov/corehtml/query/DTD/pubmed_120101.dtd', publicId=u'-//NLM//DTD PubMedArticle, 1st January 2012//EN')</td></tr>
+<tr><td><font color="#909090"><tt><small>&nbsp;&nbsp;375</small>&nbsp;can&nbsp;include&nbsp;it&nbsp;with&nbsp;the&nbsp;next&nbsp;release&nbsp;of&nbsp;Biopython.<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt><small>&nbsp;&nbsp;376</small>&nbsp;"""&nbsp;%&nbsp;(filename,&nbsp;filename,&nbsp;filename,&nbsp;self.dtd_dir,&nbsp;filename)<br>
+</tt></font></td></tr>
+<tr><td bgcolor="#ffccee"><tt><small>&nbsp;&nbsp;377</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;raise&nbsp;RuntimeError(message)<br>
+</tt></td></tr>
+<tr><td><font color="#909090"><tt><small>&nbsp;&nbsp;378</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+</tt></font></td></tr>
+<tr><td><font color="#909090"><tt><small>&nbsp;&nbsp;379</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parser&nbsp;=&nbsp;self.parser.ExternalEntityParserCreate(context)<br>
+</tt></font></td></tr>
+<tr><td><small><font color="#909090"><em>builtin</em> <strong>RuntimeError</strong>&nbsp;= &lt;type 'exceptions.RuntimeError'&gt;, <strong>message</strong>&nbsp;= u'Unable to load DTD file pubmed_120101.dtd.<font color="#c040c0">\n\n</font>Bio....n include it with the next release of Biopython.<font color="#c040c0">\n</font>'</font></small></td></tr></table><p><strong>&lt;type 'exceptions.RuntimeError'&gt;</strong>: Unable to load DTD file pubmed_120101.dtd.
+
+Bio.Entrez uses NCBI's DTD files to parse XML files returned by NCBI Entrez.
+Though most of NCBI's DTD files are included in the Biopython distribution,
+sometimes you may find that a particular DTD file is missing. In such a
+case, you can download the DTD file from NCBI and install it manually.
+
+Usually, you can find missing DTD files at either
+    http://www.ncbi.nlm.nih.gov/dtd/
+or
+    http://eutils.ncbi.nlm.nih.gov/entrez/query/DTD/
+If you cannot find pubmed_120101.dtd there, you may also try to search
+for it with a search engine such as Google.
+
+Please save pubmed_120101.dtd in the directory
+/usr/lib/pymodules/python2.6/Bio/Entrez/DTDs
+in order for Bio.Entrez to find it.
+Alternatively, you can save pubmed_120101.dtd in the directory
+Bio/Entrez/DTDs in the Biopython distribution, and reinstall Biopython.
+
+Please also inform the Biopython developers by sending an email to
+biopython-dev@biopython.org to inform us about this missing DTD, so that we
+can include it with the next release of Biopython.
+
+<br><tt><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>&nbsp;</tt>args&nbsp;=
+(u'Unable to load DTD file pubmed_120101.dtd.<font color="#c040c0">\n\n</font>Bio....n include it with the next release of Biopython.<font color="#c040c0">\n</font>',)
+<br><tt><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>&nbsp;</tt>message&nbsp;=
+u'Unable to load DTD file pubmed_120101.dtd.<font color="#c040c0">\n\n</font>Bio....n include it with the next release of Biopython.<font color="#c040c0">\n</font>'
+
+
+<!-- The above is a description of an error in a Python program, formatted
+     for a Web browser because the 'cgitb' module was enabled.  In case you
+     are not reading this in a Web browser, here is the original traceback:
+
+Traceback (most recent call last):
+  File "/home/tebacten/public_html/wp-content/themes/reactions/scripts/returnPubmedInformation.py", line 47, in &lt;module&gt;
+    get_title(pubmedId)
+  File "/home/tebacten/public_html/wp-content/themes/reactions/scripts/returnPubmedInformation.py", line 41, in get_title
+    record=Entrez.read(search)
+  File "/usr/lib/pymodules/python2.6/Bio/Entrez/__init__.py", line 258, in read
+    record = handler.read(handle)
+  File "/usr/lib/pymodules/python2.6/Bio/Entrez/Parser.py", line 108, in read
+    self.parser.ParseFile(handle)
+  File "/usr/lib/pymodules/python2.6/Bio/Entrez/Parser.py", line 377, in externalEntityRefHandler
+    raise RuntimeError(message)
+RuntimeError: Unable to load DTD file pubmed_120101.dtd.
+
+Bio.Entrez uses NCBI's DTD files to parse XML files returned by NCBI Entrez.
+Though most of NCBI's DTD files are included in the Biopython distribution,
+sometimes you may find that a particular DTD file is missing. In such a
+case, you can download the DTD file from NCBI and install it manually.
+
+Usually, you can find missing DTD files at either
+    http://www.ncbi.nlm.nih.gov/dtd/
+or
+    http://eutils.ncbi.nlm.nih.gov/entrez/query/DTD/
+If you cannot find pubmed_120101.dtd there, you may also try to search
+for it with a search engine such as Google.
+
+Please save pubmed_120101.dtd in the directory
+/usr/lib/pymodules/python2.6/Bio/Entrez/DTDs
+in order for Bio.Entrez to find it.
+Alternatively, you can save pubmed_120101.dtd in the directory
+Bio/Entrez/DTDs in the Biopython distribution, and reinstall Biopython.
+
+Please also inform the Biopython developers by sending an email to
+biopython-dev@biopython.org to inform us about this missing DTD, so that we
+can include it with the next release of Biopython.
+
+
+-->
+

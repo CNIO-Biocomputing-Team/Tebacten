@@ -1,0 +1,283 @@
+# LANGUAGE (LOCALE) translation for Auto ThickBox Plus
+# Copyright (C) YEAR AUTHOR <EMAIL@ADDRESS or URL>
+# This file is distributed under the same license as the Auto ThickBox Plus package.
+# AUTHOR <EMAIL@ADDRESS or URL>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Auto ThickBox Plus 1.5\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tags/auto-thickbox-plus\n"
+"POT-Creation-Date: 2012-05-18 12:55+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: AUTHOR <EMAIL@ADDRESS or URL>\n"
+"Language-Team: AUTHOR <EMAIL@ADDRESS or URL>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: auto-thickbox.php:5
+msgid "Overlays linked image, inline, iFrame and AJAX content on the page in simple & fast effects. (improved version of Auto Thickbox plugin)"
+msgstr ""
+
+#: auto-thickbox-options.php:79
+msgid "Default Display Style"
+msgstr ""
+
+#: auto-thickbox-options.php:82
+msgid "Single Image (explicitly specify a@rel attribute as needed)"
+msgstr ""
+
+#: auto-thickbox-options.php:84
+msgid "Gallery Images (automatically set a@rel attribute in 'gallery-id' format)"
+msgstr ""
+
+#: auto-thickbox-options.php:88
+msgid "ThickBox on Text Links"
+msgstr ""
+
+#: auto-thickbox-options.php:91
+msgid "Auto (automatically set a@class=&quot;thickbox&quot;)"
+msgstr ""
+
+#: auto-thickbox-options.php:93
+msgid "Manual (explicitly specify a@class=&quot;thickbox&quot; as needed)"
+msgstr ""
+
+#: auto-thickbox-options.php:97
+msgid "Auto Resize"
+msgstr ""
+
+#: auto-thickbox-options.php:104
+msgid "ThickBox Resources"
+msgstr ""
+
+#: auto-thickbox-options.php:116
+msgid "Use WordPress built-in thickbox.js/css (some extra features will be disabled)"
+msgstr ""
+
+#: auto-thickbox.php:378
+msgid "Support"
+msgstr ""
+
+#: auto-thickbox.php:566
+msgid "Contact Me"
+msgstr ""
+
+#: auto-thickbox.php:380
+msgid "Donate"
+msgstr ""
+
+#: auto-thickbox.php:8
+#: auto-thickbox.php:379
+#: auto-thickbox.php:380
+msgid "http://attosoft.info/en/"
+msgstr ""
+
+#: auto-thickbox.php:4
+msgid "http://attosoft.info/en/blog/auto-thickbox-plus/"
+msgstr ""
+
+#: auto-thickbox-options.php:129
+msgid "Mouse Click"
+msgstr ""
+
+#: auto-thickbox.php:561
+msgid "Loop"
+msgstr ""
+
+#: auto-thickbox-options.php:156
+msgid "Clickable Range"
+msgstr ""
+
+#: auto-thickbox-options.php:179
+msgid "Mouse Wheel"
+msgstr ""
+
+#: auto-thickbox-options.php:229
+#: auto-thickbox-options.php:245
+msgid "Space"
+msgstr ""
+
+#: auto-thickbox-options.php:190
+#: auto-thickbox-options.php:200
+#: auto-thickbox-options.php:300
+#: auto-thickbox-options.php:403
+#: auto-thickbox-options.php:415
+#: auto-thickbox-options.php:446
+#: auto-thickbox-options.php:473
+#: auto-thickbox-options.php:517
+msgid "Window"
+msgstr ""
+
+#: auto-thickbox-options.php:189
+msgid "Drag &amp; Drop"
+msgstr ""
+
+#: auto-thickbox-options.php:193
+#: auto-thickbox-options.php:203
+msgid "Move"
+msgstr ""
+
+#: auto-thickbox-options.php:195
+#: auto-thickbox-options.php:205
+msgid "Resize"
+msgstr ""
+
+#: auto-thickbox-options.php:472
+msgid "Border Radius"
+msgstr ""
+
+#: auto-thickbox-options.php:486
+msgid "Opacity"
+msgstr ""
+
+#: auto-thickbox-options.php:516
+msgid "Box Shadow"
+msgstr ""
+
+#: auto-thickbox-options.php:525
+msgid "Text Shadow"
+msgstr ""
+
+#: auto-thickbox-options.php:649
+msgid "Button"
+msgstr ""
+
+#: auto-thickbox-options.php:299
+msgid "https://developer.mozilla.org/en/CSS/position"
+msgstr ""
+
+#: auto-thickbox-options.php:309
+msgid "https://developer.mozilla.org/en/CSS/font-family"
+msgstr ""
+
+#: auto-thickbox-options.php:327
+msgid "https://developer.mozilla.org/en/CSS/font-size"
+msgstr ""
+
+#: auto-thickbox-options.php:348
+msgid "https://developer.mozilla.org/en/CSS/color"
+msgstr ""
+
+#: auto-thickbox-options.php:378
+msgid "https://developer.mozilla.org/en/CSS/background-color"
+msgstr ""
+
+#: auto-thickbox-options.php:438
+msgid "https://developer.mozilla.org/en/CSS/margin"
+msgstr ""
+
+#: auto-thickbox-options.php:445
+msgid "https://developer.mozilla.org/en/CSS/border"
+msgstr ""
+
+#: auto-thickbox-options.php:472
+msgid "https://developer.mozilla.org/en/CSS/border-radius"
+msgstr ""
+
+#: auto-thickbox-options.php:486
+msgid "https://developer.mozilla.org/en/CSS/opacity"
+msgstr ""
+
+#: auto-thickbox-options.php:516
+msgid "https://developer.mozilla.org/en/CSS/box-shadow"
+msgstr ""
+
+#: auto-thickbox-options.php:525
+msgid "https://developer.mozilla.org/en/CSS/text-shadow"
+msgstr ""
+
+#: auto-thickbox-options.php:19
+msgid "Effect"
+msgstr ""
+
+#: auto-thickbox-options.php:19
+msgid "beta"
+msgstr ""
+
+#: auto-thickbox.php:564
+msgid "Open"
+msgstr ""
+
+#: auto-thickbox-options.php:686
+#: auto-thickbox-options.php:699
+#: auto-thickbox-options.php:712
+#: auto-thickbox-options.php:725
+#: auto-thickbox-options.php:740
+msgid "Zoom"
+msgstr ""
+
+#: auto-thickbox-options.php:688
+#: auto-thickbox-options.php:701
+#: auto-thickbox-options.php:714
+#: auto-thickbox-options.php:727
+#: auto-thickbox-options.php:742
+msgid "Slide"
+msgstr ""
+
+#: auto-thickbox-options.php:690
+#: auto-thickbox-options.php:703
+#: auto-thickbox-options.php:716
+#: auto-thickbox-options.php:729
+#: auto-thickbox-options.php:744
+msgid "Fade"
+msgstr ""
+
+#: auto-thickbox-options.php:709
+msgid "Transition"
+msgstr ""
+
+#: auto-thickbox-options.php:733
+#: auto-thickbox-options.php:748
+msgid "Hide initially"
+msgstr ""
+
+#: auto-thickbox-options.php:752
+msgid "Speed"
+msgstr ""
+
+#: auto-thickbox-options.php:755
+msgid "Fast"
+msgstr ""
+
+#: auto-thickbox-options.php:757
+msgid "Normal"
+msgstr ""
+
+#: auto-thickbox-options.php:759
+msgid "Slow"
+msgstr ""
+
+#: auto-thickbox-options.php:305
+msgid "Absolute"
+msgstr ""
+
+#: auto-thickbox-options.php:385
+#: auto-thickbox-options.php:397
+#: auto-thickbox-options.php:409
+#: auto-thickbox-options.php:421
+#: auto-thickbox-options.php:433
+#: auto-thickbox-options.php:491
+#: auto-thickbox-options.php:506
+msgid "Transparent"
+msgstr ""
+
+#: auto-thickbox-options.php:493
+#: auto-thickbox-options.php:508
+msgid "Opaque"
+msgstr ""
+
+#: auto-thickbox-options.php:607
+#: auto-thickbox-options.php:616
+#: auto-thickbox-options.php:625
+#: auto-thickbox-options.php:634
+#: auto-thickbox-options.php:643
+#: auto-thickbox-options.php:652
+#: auto-thickbox-options.php:661
+msgid "Select a File"
+msgstr ""
+
+#: auto-thickbox-options.php:438
+msgid "Margin"
+msgstr ""
+
