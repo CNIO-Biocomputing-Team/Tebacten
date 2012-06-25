@@ -67,131 +67,46 @@ redirectionOKcurated="http://tebacten.bioinfo.cnio.es/curate-evidence/?"
 redirectionKOcurated="http://tebacten.bioinfo.cnio.es/curate-evidence/error?"
 idEvidence=fs['idEvidence'].value
 metodo=fs['metodo'].value
-idEvidencesOrganisms=fs['textminingOrganismName_0'].value
 idOrganismNCBI="unknown" 
 #print "<br/>"+str(metodo)
 #DB_CONN = MySQLdb.connect(host= "jabba.cnio.es", port=3306, user = "tebacten", passwd= "tebacten", db= "tebacten", charset="utf8", init_command="set names utf8")
 DB_CONN = MySQLdb.connect(host= "jabba.cnio.es", port=3306, user = DB_READ_USER, passwd= DB_READ_PWD, db= DB_JABBA_DB, charset="utf8", init_command="set names utf8")
 cur = DB_CONN.cursor()	
-
+#print "<br/>"+str(idEvidence)
 
 if metodo=="curate":
-
+	try:
+		idEvidencesOrganisms=fs['textminingOrganismName_0'].value
+		#Se ha seleccionado un id_evidences_organisms
+		existeIdEvidencesOrganisms=True
+	except:
+		#No se ha seleccionado ningún organismo. No modificaremos la tabla evidences_organisms
+		existeIdEvidencesOrganisms=False
 	#Al curar una evidencia, por la parte del organismo implicado, evidences_organisms. Necesitamos tener o no tener el id_organismo, así como la evidencia.
-	print "<br/>"+str(idEvidence)
-	print "<br/>"+str(idEvidencesOrganisms)
-	sys.exit()
-	
-	"""
-	arrayEvidencesOrganismsAddedModified=[]
-	#En arrayEvidencesOrganismsAddedModified tendremos los organisms que formaran parte de esa evidencia, El resto no. Para ello tenemos que recorrer todos los compuestos de la evidencia y
-	#Creamos un array con los id_evidences_compounds de las entradas que contienen esta evidencia para compararlos:
-	arrayExistentEvidencesOrganisms=[]
-	selectEvidencesOrganisms="select id_evidences_organisms from evidences_organisms where id_evidence='"+str(idEvidence)+"'"
-	cur.execute(selectEvidencesOrganisms)
-	while(1):
-		row = cur.fetchone()
-		if row==None: 
-			break
-		idEvidencesOrganisms=row[0]
-		arrayExistentEvidencesOrganisms.append(idEvidencesOrganisms)
-	
-	for i in range (NUM_MAX_ORGANISMS):
-		
-		#Primero miramos a ver si ha llegado el textminingOrganismName:
+	if existeIdEvidencesOrganisms==True:
+		#print "<br/>"+str(idEvidencesOrganisms)
+		#Recuperamos el strain
 		try:
-			textminingOrganismName=fs['textminingOrganismName_'+str(i)].value
-			existeTextminingOrganismName=True
+			strain=fs['strain_0'].value
 		except:
-			existeTextminingOrganismName=False
-			continue
+			strain=""
+		#print "<br/>"+str(strain)
+		sqlUpdateEvidencesOrganisms="update evidences_organisms set strain='"+str(strain)+"' where id_evidences_organisms="+str(idEvidencesOrganisms)
+		#print "<br/>"+ sqlUpdateEvidencesOrganisms
+		rc = cur.execute(sqlUpdateEvidencesOrganisms)
+		DB_CONN.commit()
+		#Ahora recuperamos el ncbiOrganisms y lo guardamos no vaya a ser que se haya modificado por el usuario.Necesitamos conocer el idOrganism para guardar un id_organism_ncbi
+		idOrganismNCBI=fs['idOrganismNCBI_0'].value
+		selectEvidencesOrganisms="select id_organism from evidences_organisms where id_evidences_organisms="+str(idEvidencesOrganisms)
+		cur.execute(selectEvidencesOrganisms)
+		row = cur.fetchone()
+		idOrganism=row[0]
+		sqlUpdateOrganisms="update organisms set id_organism_ncbi='"+str(idOrganismNCBI)+"' where id_organism="+str(idOrganism)
+		#print "<br/>"+str(sqlUpdateOrganisms)
 		
-		if existeTextminingOrganismName==True:
-			try:
-				strain=fs['strain_'+str(i)].value
-			except:
-				#Si no viene el strain es porque tenemos un texminingOrganismName sin strain, es decir, ""
-				strain=""
-			#Lo guardamos. Primero vemos si existe una entrada en la tabla organisms para ese organismo.
-			selectOrganisms="select id_organism from organisms where textmining_organism_name like '"+str(textminingOrganismName)+"'"
-			#print "<br/>"+str(selectOrganisms)
-			try:
-				cur.execute(selectOrganisms)
-				#Existe una entrada en la tabla organisms para ese organismo
-				rowSelectOrganisms = cur.fetchone()
-				idOrganism=rowSelectOrganisms[0]
-			except:
-				#No existe la entrada para ese textmining_organism_name. La creamos.
-				sqlInsertOrganism="insert into organisms (id_organism,id_organism_ncbi,ncbi_organism_name,textmining_organism_name) values (NULL,NULL,NULL,'"+str(textminingOrganismName)+"')"
-				cur.execute(sqlInsertOrganism)
-				DB_CONN.commit()
-				selectMaxOrganism="select max(id_organism) from organisms";
-				cur.execute(selectMaxOrganism)
-				rowMaxOrganism = cur.fetchone()
-				idOrganism=rowMaxOrganism[0]
-			#Ya tenemos el idOrganism si este existe. Ahora buscamos a ver si hay información del taxid
-			try:
-				idOrganismNCBI=fs['idOrganismNCBI_'+str(i)].value
-				existeIdOrganismNCBI=True
-			except:
-				existeIdOrganismNCBI=False
-			if existeIdOrganismNCBI==True:
-				#Si existeIdOrganismNCBI entonces cogemos el valor del NCBI organism id y lo guardamo en la tabla.
-				sqlUpdateOrganism="update organisms set id_organism_ncbi='"+str(idOrganismNCBI)+"' , ncbi_organism_name='"+str(textminingOrganismName)+"' where id_organism="+str(idOrganism)
-				#print "<br>"+str(sqlUpdateOrganism)
-				cur.execute(sqlUpdateOrganism)
-				DB_CONN.commit()
 	
-			#Al llegar tenemos un organismo o no organismo. En el caso de que exista el organismo entonces tenemos que guardar una entrada en la tabla de evidences_organisms.
-			#Para ello tenemos todos los datos excepto el strain que estará en cualquier caso, así que primero vemos si existe esa entrada para esa evidencia y ese organismo y en caso de que exista la modificamos y si no existe la creamos
-			
-			selectEvidencesOrganisms="select id_evidences_organisms from evidences_organisms where id_evidence='"+idEvidence+"' and id_organism="+str(idOrganism)+""
-			try:
-				cur.execute(selectEvidencesOrganisms)
-				#Existe la entrada en tabla evidences_organisms.
-				rowSelectEvidencesOrganisms = cur.fetchone()
-				idEvidencesOrganisms=rowSelectEvidencesOrganisms[0]
-				existeEvidencesOrganisms=True
-			except:
-				existeEvidencesOrganisms=False
-			if existeEvidencesOrganisms==True:
-				#Modificamos los datos de la entrada en la tabla
-				sqlUpdateEvidencesOrganisms="update evidences_organisms set id_organism="+str(idOrganism)+" , strain='"+str(strain)+"' where id_evidences_organisms="+str(idEvidencesOrganisms)+""
-				cur.execute(sqlUpdateEvidencesOrganisms)
-				DB_CONN.commit()
-				arrayEvidencesOrganismsAddedModified.append(idEvidencesOrganisms)
-			else:
-				#Si no existe la entrada entonces tenemos que crear una nueva entrada en la tabla evidences_organisms, para esa evidencia y para ese organismo
-				sqlInsertEvidencesOrganisms="insert into evidences_organisms (id_evidences_organisms, id_evidence,id_organism,strain) values (NULL,'"+str(idEvidence)+"',"+str(idOrganism)+",'"+str(strain)+"')"
-				cur.execute(sqlInsertEvidencesOrganisms)
-				DB_CONN.commit()
-				selectMaxEvidencesOrganisms="select max(id_evidences_organisms) from evidences_organisms";
-				cur.execute(selectMaxEvidencesOrganisms)
-				rowMaxEvidencesOrganisms = cur.fetchone()
-				idEvidencesOrganisms=rowMaxEvidencesOrganisms[0]
-				arrayEvidencesOrganismsAddedModified.append(idEvidencesOrganisms)
-			
-	#Si no estan en el arrayEvidencesOrganismsAddedModified entonces eliminarlos de la tabla evidences_organisms ya que esos organismos se han eliminado de la evidencia
-	#print "<br/> el arrayEvidencesOrganismsAddedModified contiene: "+str(arrayEvidencesOrganismsAddedModified)		
-	#print "<br/> el arrayExistentEvidencesOrganisms contiene: "+str(arrayExistentEvidencesOrganisms)		
-	for idEvidencesOrganisms in arrayExistentEvidencesOrganisms:
-		#print "<br>"+str(idEvidencesOrganisms)
-		if idEvidencesOrganisms in arrayEvidencesOrganismsAddedModified:
-			#si el idEvidencesOrganisms se encuentra entre los existentes en la base de datos lo dejamos
-			pass
-		else:
-			#si el idEvidencesOrganisms no se encuentra entre los existentes en la base de datos lo eliminamos
-			deleteSQL="delete from evidences_organisms where id_evidences_organisms="+str(idEvidencesOrganisms)
-			#print "<br/>"+str(deleteSQL)
-			try:
-				rc = cur.execute( deleteSQL)
-				DB_CONN.commit()
-			except MySQLdb.OperationalError, e:
-				print "Location: "+str(redirectionKOcurated)+"error=deleteOldCompounds&idEvidence="+idEvidence+" \n\n"
-				sys.exit()
-	"""		
+	
 	#HASTA AQUI LA PARTE DE ORGANISMS Y EVIDENCES_ORGANISMS.
-	
 
 	#Recuperamos datos de los compounds
 	#Hay que ir guardando un array con los idEvidencesCompounds añadidos/modificados, porque una vez añadidos/modificados tendremos

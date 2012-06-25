@@ -1,3 +1,14 @@
+<!-- 
+			<form name="deleteForm" method="post" id="deleteForm" action="http://tebacten.bioinfo.cnio.es/wp-content/themes/reactions/scripts/modificarDatos2.py" accept-charset="UTF-8" class="aligncenter" onsubmit="return confirmDelete();">
+				<input type="hidden" id="idEvidence" name="idEvidence" value="<?php echo $idEvidence; ?>">	
+				<input type="hidden" id="metodo" name="metodo" value="delete">	
+				<input type="hidden" id="type" name="type" value="<?php echo $type;?>">	
+				<input id="deleteEvidence" class="right" type="submit" name="deleteEvidence" value="Delete this evidence">
+			</form>
+		-->
+
+
+
 else{
 							//Si que existen entradas para la tabla evidences_organisms así que recuperamos los valores
 							$result2= mysql_query($selectSQL);

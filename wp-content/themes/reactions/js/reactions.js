@@ -291,7 +291,7 @@ function confirmDelete(){
 	}
 }
 
-function insertTaxonomy(id,idEvidence){
+function insertTaxonomy(id,idEvidencesOrganisms){
 	
     var selector='textminingOrganismName_'+id;
     organismName=$("#"+selector+" option:selected").text();
@@ -302,7 +302,7 @@ function insertTaxonomy(id,idEvidence){
     	
     }*/
     
-	
+	idEvidencesOrganisms=$("#textminingOrganismName_0").val();
 	var ajaxRequest;  // The variable that makes Ajax possible!
 	
 	try{
@@ -331,8 +331,7 @@ function insertTaxonomy(id,idEvidence){
 			$('#overlayTaxonomy_'+id).unmask();
 		}
 	}
-	
-	var queryString ="?organismName="+organismName+"&selectNumber="+id+"&idEvidence="+idEvidence;
+	var queryString ="?organismName="+organismName+"&selectNumber="+id+"&idEvidencesOrganisms="+idEvidencesOrganisms;
 	ajaxRequest.open("GET", "http://tebacten.bioinfo.cnio.es/wp-content/themes/reactions/scripts/returnTaxonomy.py" + queryString, true);
 	ajaxRequest.send(null);
 }

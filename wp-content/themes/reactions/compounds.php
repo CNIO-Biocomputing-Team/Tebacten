@@ -5,7 +5,7 @@ Template Name: Compounds
  *
 */
 
-get_header('enzymes'); 
+get_header(); 
 
 ?>
 <div id="frame">
@@ -57,4 +57,4 @@ get_header('enzymes');
 
 
 <?php get_sidebar(); ?>
-<?php get_footer("compounds"); ?>
+<?php get_footer(); ?>

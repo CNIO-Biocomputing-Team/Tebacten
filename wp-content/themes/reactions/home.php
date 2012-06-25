@@ -1,7 +1,7 @@
 <?php
 
 
-get_header('enzymes'); 
+get_header(); 
 
 ?>
 <div id="frame">

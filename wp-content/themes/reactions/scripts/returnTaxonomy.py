@@ -59,14 +59,24 @@ def get_scientifc_name_from_tax_id(taxid,selectNumber):
 
 
 organismName=fs['organismName'].value 
-selectNumber= fs['selectNumber'].value 
-idEvidence= fs['idEvidence'].value
+selectNumber= fs['selectNumber'].value
 
-	
+try:
+	idEvidencesOrganisms=fs['idEvidencesOrganisms'].value
+	existeIdEvidencesOrganisms=True
+except:
+	existeIdEvidencesOrganisms=False
+
+if existeIdEvidencesOrganisms==True:
+	#podemos poner un valor para el strain
+	selectExisteEvidencesOrganisms="select strain from evidences_organisms where id_evidences_organisms='"+str(idEvidencesOrganisms)+"'"
+	rc = cur.execute(selectExisteEvidencesOrganisms)
+	row = cur.fetchone()
+	strain=row[0]
+
 tmpString+= "<table><tr><td>NCBI organism name: </td><td><select  id=\"idOrganismNCBI_"+str(selectNumber)+"\" type=\"text\" name=\"idOrganismNCBI_"+str(selectNumber)+"\">"
 contadorOpciones=0
 listaIdTaxonomy=get_tax_id(organismName)
-
 	
 for taxid in listaIdTaxonomy:
 	#Tomamos la informacion del taxid para generar la salida de OPTIONS del SELECT
@@ -75,7 +85,15 @@ for taxid in listaIdTaxonomy:
 	tmpString+="<option value=\""+str(taxid)+"\" name=\"textminingOrganismOption_"+str(contadorOpciones)+"\" >"+str(scientificName)+"\n"
 	contadorOpciones=contadorOpciones+1
 tmpString+="</select></td>"
-tmpString+="</tr><tr><td>Strain: </td><td><SELECT name=\"strain_"+str(selectNumber)+"\" id=\"strain_"+str(selectNumber)+"\" ><OPTION value=\"\" SELECTED>Select<OPTION value=\"+\">+<OPTION value=\"-\">-</SELECT></td></tr></table>"
+tmpString+="</tr><tr><td>Strain: </td><td><SELECT name=\"strain_"+str(selectNumber)+"\" id=\"strain_"+str(selectNumber)+"\" >";
+
+if strain=="":
+	tmpString+="<OPTION value=\"\" SELECTED>Select<OPTION value=\"+\">+<OPTION value=\"-\">-</SELECT></td></tr></table>"
+elif strain=="+":
+	tmpString+="<OPTION value=\"\">Select<OPTION value=\"+\" SELECTED>+<OPTION value=\"-\">-</SELECT></td></tr></table>"
+elif strain=="-":
+	tmpString+="<OPTION value=\"\">Select<OPTION value=\"+\">+<OPTION value=\"-\" SELECTED>-</SELECT></td></tr></table>"
+	
 
 print tmpString+"\n"
 #data = get_tax_data(taxid)

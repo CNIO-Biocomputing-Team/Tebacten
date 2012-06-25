@@ -27,7 +27,12 @@
 		<link rel="profile" href="http://gmpg.org/xfn/11" />
 		<link rel="stylesheet" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
 		<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
-		<script type="text/javascript" src="<?php bloginfo('template_url'); ?>/thickbox/jquery.js"></script>
+		<script type="text/javascript" src="<?php bloginfo('template_url')?>/js/jquery.js"></script>
+		<script type="text/javascript" src="<?php bloginfo('template_url')?>/js/jquery-ui-1.8.21.js"></script>
+		<script type="text/javascript" src="<?php bloginfo('template_url')?>/js/reactions.js"></script>
+		<script type="text/javascript" src="<?php bloginfo('template_url')?>/js/jquery.loadmask.js"></script>
+		<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/css/jquery-ui-1.8.21.custom.css" />
+		
 <?php
 		/* We add some JavaScript to pages with the comment form
 		 * to support sites with threaded comments (when in use).
@@ -42,11 +47,19 @@
 		 */
 		wp_head();
 ?>
+	<!-- <script type="text/javascript">
+		onload = function () {
+		    onfocus = function () {
+		        onfocus = function () {}
+		        location.reload (true)
+		    }
+		}
+	</script> -->
 	</head>
 	<body <?php body_class(); ?>>
 		<div id="page_wrap">
 		<header role="banner">
-			<h1><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+			<!-- <h1><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>  -->
 			<p><?php bloginfo( 'description' ); ?></p>
 		</header>
 		<nav id="access" role="navigation">
@@ -55,4 +68,5 @@
 			<?php //wp_nav_menu( array( 'container_class' => 'menu-header', 'theme_location' => 'primary' ) ); ?>
 			
 		</nav><!-- #access -->
+		
 		<section id="content" role="main">

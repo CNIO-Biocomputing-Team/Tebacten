@@ -5,7 +5,7 @@ Template Name: Species
  *
 */
 
-get_header('enzymes'); 
+get_header(); 
 
 ?>
 <div id="frame">
@@ -57,4 +57,4 @@ get_header('enzymes');
 
 
 <?php get_sidebar(); ?>
-<?php get_footer("species"); ?>
+<?php get_footer(); ?>

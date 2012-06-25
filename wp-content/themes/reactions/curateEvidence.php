@@ -8,7 +8,7 @@ Template Name: Curate evidence
 $MAX_ORGANISMS=10;
 $MAX_COMPOUNDS=26;
 $MAX_ENZYMES=26;
-get_header('curate'); 
+get_header(); 
 $idEvidence = $_GET['idEvidence'];
 $idCompound= $_GET['idCompound'];
 $type= $_GET['type'];
@@ -392,14 +392,6 @@ $stringTextEvidenceExtras="</ul>";
 	<div class="clear_both"></div>
 	<div id="footer_frame">
 		<div id="clickOutside">(Click outside this window to close it)</div>
-		<!-- 
-			<form name="deleteForm" method="post" id="deleteForm" action="http://tebacten.bioinfo.cnio.es/wp-content/themes/reactions/scripts/modificarDatos2.py" accept-charset="UTF-8" class="aligncenter" onsubmit="return confirmDelete();">
-				<input type="hidden" id="idEvidence" name="idEvidence" value="<?php echo $idEvidence; ?>">	
-				<input type="hidden" id="metodo" name="metodo" value="delete">	
-				<input type="hidden" id="type" name="type" value="<?php echo $type;?>">	
-				<input id="deleteEvidence" class="right" type="submit" name="deleteEvidence" value="Delete this evidence">
-			</form>
-		-->
 	</div>
 	
 
@@ -408,4 +400,4 @@ $stringTextEvidenceExtras="</ul>";
 
 
 <?php get_sidebar(); ?>
-<?php get_footer('curate-evidence'); ?>
+<?php get_footer(); ?>
