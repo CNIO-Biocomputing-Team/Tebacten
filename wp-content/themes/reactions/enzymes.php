@@ -22,7 +22,8 @@ get_header();
 			</div>
 			<div id="left_content">
 				<?php //Recuperamos todas las enzimas:
-					$conn = mysql_connect ("jabba.cnio.es", "tebacten", "tebacten");
+					include("scripts/config.php");
+					$conn = mysql_connect ($database, $db_user, $db_password);
 					mysql_select_db("tebacten", $conn);
 					mysql_query("SET NAMES 'utf8'");
 					$selectSQL="select distinct(a.id_enzyme),b.textmining_enzyme_name from evidences_enzymes as a, enzymes as b where a.id_enzyme=b.id_enzyme order by textmining_enzyme_name";

@@ -22,7 +22,8 @@ get_header();
 			</div>
 			<div id="left_content">
 				<?php //Recuperamos todas las especies diferentes:
-					$conn = mysql_connect ("jabba.cnio.es", "tebacten", "tebacten");
+					include("scripts/config.php");
+					$conn = mysql_connect ($database, $db_user, $db_password);
 					mysql_select_db("tebacten", $conn);
 					mysql_query("SET NAMES 'utf8'");
 					$selectSQL="select distinct(a.id_organism),b.textmining_organism_name from evidences_organisms as a, organisms as b where a.id_organism=b.id_organism order by textmining_organism_name";

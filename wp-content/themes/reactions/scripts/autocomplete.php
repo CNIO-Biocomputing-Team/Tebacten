@@ -1,5 +1,5 @@
 <?php 
-
+include("config.php");
 $term = $_GET['term'];
 $searchfor = $_GET['searchfor'];
 switch ($searchfor) {
@@ -14,7 +14,7 @@ switch ($searchfor) {
         break;
 }
 
-$conn = mysql_connect ("jabba.cnio.es", "tebacten", "tebacten");
+$conn = mysql_connect ($database, $db_user, $db_password);
 mysql_select_db("tebacten", $conn);
 mysql_query("SET NAMES 'utf8'");
 $selectSQL="select distinct(textmining_".$searchfor."_name) from ".$searchfor."s where textmining_".$searchfor."_name like '%$term%'";

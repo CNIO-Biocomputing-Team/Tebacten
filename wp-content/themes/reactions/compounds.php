@@ -22,7 +22,8 @@ get_header();
 			</div>
 			<div id="left_content">
 				<?php //Recuperamos todos los compuestos:
-					$conn = mysql_connect ("jabba.cnio.es", "tebacten", "tebacten");
+					include("scripts/config.php");
+					$conn = mysql_connect ($database, $db_user, $db_password);
 					mysql_select_db("tebacten", $conn);
 					mysql_query("SET NAMES 'utf8'");
 					$selectSQL="select distinct(a.id_compound),b.textmining_compound_name from evidences_compounds as a, compounds as b where a.id_compound=b.id_compound order by textmining_compound_name";

@@ -1,9 +1,10 @@
 <?php 
 	//Script que devuelve las evidencias y las carga de forma asíncrona en la parte de la derecha (div#evidences)
 	// Retrieve data from Query String
+	include("config.php");
 	$tmpString="";
 	$type= $_GET['type'];
-	$conn = mysql_connect ("jabba.cnio.es", "tebacten", "tebacten");
+	$conn = mysql_connect ($database, $db_user, $db_password);
 	mysql_select_db("tebacten", $conn);
 	mysql_query("SET NAMES 'utf8'");
 	include 'functions.php';
