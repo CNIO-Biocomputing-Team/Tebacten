@@ -27,10 +27,12 @@
 		<link rel="profile" href="http://gmpg.org/xfn/11" />
 		<link rel="stylesheet" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
 		<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
+		<link rel="stylesheet" href="<?php bloginfo('template_url')?>/uniform/uniform.default.css" type="text/css" media="screen" charset="utf-8" />
 		<script type="text/javascript" src="<?php bloginfo('template_url')?>/js/jquery.js"></script>
 		<script type="text/javascript" src="<?php bloginfo('template_url')?>/js/jquery-ui-1.8.21.js"></script>
 		<script type="text/javascript" src="<?php bloginfo('template_url')?>/js/reactions.js"></script>
 		<script type="text/javascript" src="<?php bloginfo('template_url')?>/js/jquery.loadmask.js"></script>
+		<script src="<?php bloginfo('template_url')?>/uniform/jquery.uniform.js" type="text/javascript"></script>
 		<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/css/jquery-ui-1.8.21.custom.css" />
 		
 <?php
