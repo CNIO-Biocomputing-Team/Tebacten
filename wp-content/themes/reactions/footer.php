@@ -62,7 +62,7 @@
 </script>	
 <script>	
 	$(function() {		
-		$("select, input:checkbox, input:radio, input:file").uniform();
+		$("input:text, input:checkbox, input:radio, input:file").uniform();
 		$( "#tags" ).autocomplete({
 			source: "<?php echo $source; ?>",
 			minLength:3,
