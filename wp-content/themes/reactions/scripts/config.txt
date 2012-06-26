@@ -1,6 +1,0 @@
-#Config-file
-DB_READ_USER=tebacten
-DB_READ_PWD=tebacten
-DB_WRITE_USER=tebacten
-DB_WRITE_PWD=tebacten
-DB_JABBA_DB=tebacten
