@@ -8,7 +8,7 @@
 	mysql_select_db("tebacten", $conn);
 	mysql_query("SET NAMES 'utf8'");
 	include 'functions.php';
-	$pathToPython=" /opt/python/2.7/bin/python";
+	$pathToPython="/opt/python/2.7/bin/python";
 	if ($type=="enzyme"){
 		$idCompuesto = $_GET['idCompuesto'];
 		//Tenemos que devolver todas las evidencias que contienen esa id_enzyme
@@ -25,7 +25,7 @@
 			$pubmedId=$row[3];
 			$tmpString.="<div class=\"evidence\">\n";
 			//Colocamos el articleTitle en vez del pubmedId:
-			$command="$pathToPython /home/tebacten/public_html/wp-content/themes/reactions/scripts/returnPubmedInformation.py $pubmedId";
+			$command="$pathToPython returnPubmedInformation.py $pubmedId";
 			exec($command,$output,$return);
 			$titlePaper=$output[0];			
 			$tmpString.="<div class=\"title_paper\">$titlePaper</div>\n";
@@ -51,8 +51,8 @@
 			$pubmedId=$row[3];
 			$tmpString.="<div class=\"evidence\">\n";
 			//Colocamos el articleTitle en vez del pubmedId:
-			$pathToPython=" /opt/python/2.7/bin/python";
-			$command="$pathToPython /home/tebacten/public_html/wp-content/themes/reactions/scripts/returnPubmedInformation.py $pubmedId";
+			$pathToPython="/opt/python/2.7/bin/python";
+			$command="$pathToPython returnPubmedInformation.py $pubmedId";
 			exec($command,$output,$return);
 			$titlePaper=$output[0];			
 			$tmpString.="<div class=\"title_paper\">$titlePaper</div>\n";
@@ -79,8 +79,8 @@
 			$pubmedId=$row[3];
 			$tmpString.="<div class=\"evidence\">\n";
 			//Colocamos el articleTitle en vez del pubmedId:
-			$pathToPython=" /opt/python/2.7/bin/python";
-			$command="$pathToPython /home/tebacten/public_html/wp-content/themes/reactions/scripts/returnPubmedInformation.py $pubmedId";
+			$pathToPython="/opt/python/2.7/bin/python";
+			$command="$pathToPython returnPubmedInformation.py $pubmedId";
 			exec($command,$output,$return);
 			$titlePaper=$output[0];	
 			$tmpString.="<div class=\"title_paper\">$titlePaper</div>\n";
@@ -119,8 +119,8 @@
 			$pubmedId=$row[3];
 			$tmpString.="<div class=\"evidence\">\n";
 			//Colocamos el articleTitle en vez del pubmedId:
-			$pathToPython=" /opt/python/2.7/bin/python";
-			$command="$pathToPython /home/tebacten/public_html/wp-content/themes/reactions/scripts/returnPubmedInformation.py $pubmedId";
+			$pathToPython="/opt/python/2.7/bin/python";
+			$command="$pathToPython returnPubmedInformation.py $pubmedId";
 			exec($command,$output,$return);
 			$titlePaper=$output[0];			
 			$tmpString.="<div class=\"title_paper\">$titlePaper</div>\n";

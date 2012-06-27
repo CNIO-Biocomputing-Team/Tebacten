@@ -1,3 +1,4 @@
+var home_url="http://tebacten.bioinfo.cnio.es/";
 function showEvidences(idCompuesto,type){
     var ajaxDisplay = document.getElementById('evidences');
 	ajaxDisplay.innerHTML = "Searching for evidences. Please wait. This usually takes less than a minute, depending on the number of evidences";
@@ -31,7 +32,7 @@ function showEvidences(idCompuesto,type){
 	}
 	
 	var queryString = "?idCompuesto="+idCompuesto+"&type="+type;
-	ajaxRequest.open("GET", "http://tebacten.bioinfo.cnio.es/wp-content/themes/reactions/scripts/returnEvidences.php" + queryString, true);
+	ajaxRequest.open("GET", home_url+"/wp-content/themes/reactions/scripts/returnEvidences.php" + queryString, true);
 	ajaxRequest.send(null); 
 }
 
@@ -73,7 +74,7 @@ function searchEvidences(whatToSearch,type){
 	}
 	
 	var queryString = "?textminingName="+termToSearch+"&type="+type+"&whatToSearch="+whatToSearch;
-	ajaxRequest.open("GET", "http://tebacten.bioinfo.cnio.es/wp-content/themes/reactions/scripts/returnEvidences.php" + queryString, true);
+	ajaxRequest.open("GET", home_url+"/wp-content/themes/reactions/scripts/returnEvidences.php" + queryString, true);
 	//alert ("http://localhost/reactions/wp-content/themes/reactions/scripts/returnEvidences.php" + queryString);
 	ajaxRequest.send(null); 
 }
@@ -332,7 +333,7 @@ function insertTaxonomy(id,idEvidencesOrganisms){
 		}
 	}
 	var queryString ="?organismName="+organismName+"&selectNumber="+id+"&idEvidencesOrganisms="+idEvidencesOrganisms;
-	ajaxRequest.open("GET", "http://tebacten.bioinfo.cnio.es/wp-content/themes/reactions/scripts/returnTaxonomy.py" + queryString, true);
+	ajaxRequest.open("GET", home_url+"/wp-content/themes/reactions/scripts/returnTaxonomy.py" + queryString, true);
 	ajaxRequest.send(null);
 }
 
@@ -374,7 +375,7 @@ function insertChebiIds(id){
 	}
 	
 	var queryString ="?compoundName="+compoundName+"&id="+id;
-	ajaxRequest.open("GET", "http://tebacten.bioinfo.cnio.es/wp-content/themes/reactions/scripts/returnchebids.py/" + queryString, true);
+	ajaxRequest.open("GET", home_url+"/wp-content/themes/reactions/scripts/returnchebids.py/" + queryString, true);
 	ajaxRequest.send(null); 
 }
 
@@ -458,6 +459,6 @@ function insertProteinsOfEnzyme (id,typeSearch){
 	}
 	
 	queryString +="&selectNumber="+id+"&typeSearch="+typeSearch;
-	ajaxRequest.open("GET", "http://tebacten.bioinfo.cnio.es/wp-content/themes/reactions/scripts/returnProteinsOfEnzyme.py/" + queryString, true);
+	ajaxRequest.open("GET", home_url+"/wp-content/themes/reactions/scripts/returnProteinsOfEnzyme.py/" + queryString, true);
 	ajaxRequest.send(null); 
 }
