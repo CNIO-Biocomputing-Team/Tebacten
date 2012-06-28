@@ -14,7 +14,8 @@ $idCompound= $_GET['idCompound'];
 $type= $_GET['type'];
 //echo "evidencia: ".$idEvidence;
 //Obtenemos toda la información de la evidencia para luego poder editarla
-$conn = mysql_connect ("jabba.cnio.es", "tebacten", "tebacten");
+include("scripts/config.php");
+$conn = mysql_connect ($database, $db_user, $db_password);
 mysql_select_db("tebacten", $conn);
 mysql_query("SET NAMES 'utf8'");
 
@@ -28,8 +29,8 @@ $textEvidence=$row[1];
 $curated=$row[2];
 
 #$pathToProgram="$blogInfo/scripts/returnPubmedInformation.py $pubmedId";
-$pathToPython=" /opt/python/2.7/bin/python";
-$command="$pathToPython /home/tebacten/public_html/wp-content/themes/reactions/scripts/returnPubmedInformation.py $pubmedId";
+$pathToPython="/opt/python/2.7/bin/python";
+$command="$pathToPython scripts/returnPubmedInformation.py $pubmedId";
 exec($command,$output,$return);
 $titlePaper=$output[0];
 if ($titlePaper==""){
@@ -54,7 +55,7 @@ $textoModificado=modificarTexto($idEvidence,$textEvidence);
 <div id="frame">
 	<div id="content_frame">
 		<div id="curate">
-			<form name="curateForm" method="post" id="curateForm" action="http://tebacten.bioinfo.cnio.es/wp-content/themes/reactions/scripts/modificarDatos2.py"  onsubmit="return validateForm();" accept-charset="UTF-8">
+			<form name="curateForm" method="post" id="curateForm" action="<?php echo $home_url;?>/wp-content/themes/reactions/scripts/modificarDatos2.py"  onsubmit="return validateForm();" accept-charset="UTF-8">
 				<input type="hidden" id="idEvidence" name="idEvidence" value="<?php echo $idEvidence; ?>">	
 				<input type="hidden" id="metodo" name="metodo" value="curate">
 				

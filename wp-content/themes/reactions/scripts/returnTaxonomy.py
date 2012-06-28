@@ -10,13 +10,13 @@ import cgitb; cgitb.enable();
 sys.stderr = sys.stdout
 from Bio import Entrez
 import Constants
-DB_READ_USER, DB_READ_PWD, DB_WRITE_USER, DB_WRITE_PWD, DB_JABBA_DB = Constants.initConfig()
+DB_READ_USER, DB_READ_PWD, DB_WRITE_USER, DB_WRITE_PWD, DB_JABBA_DB, HOME_URL, DB_HOST  = Constants.initConfig()
 charmap = {
     "\"":"\\\"",
     # ...
 }
 
-DB_CONN = MySQLdb.connect(host= "jabba.cnio.es", port=3306, user = DB_READ_USER, passwd= DB_READ_PWD, db= DB_JABBA_DB, charset="utf8", init_command="set names utf8")
+DB_CONN = MySQLdb.connect(host= DB_HOST, port=3306, user = DB_READ_USER, passwd= DB_READ_PWD, db= DB_JABBA_DB, charset="utf8", init_command="set names utf8")
 
 cur = DB_CONN.cursor()	
 

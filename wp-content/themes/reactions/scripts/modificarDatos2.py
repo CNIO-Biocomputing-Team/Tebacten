@@ -18,7 +18,7 @@ if not Entrez.email:
     print "you must add your email address"
     sys.exit(2)
 import Constants
-DB_READ_USER, DB_READ_PWD, DB_WRITE_USER, DB_WRITE_PWD, DB_JABBA_DB = Constants.initConfig()
+DB_READ_USER, DB_READ_PWD, DB_WRITE_USER, DB_WRITE_PWD, DB_JABBA_DB, HOME_URL = Constants.initConfig()
 charmap = {
     "\"":"\\\"",
     # ...
@@ -63,13 +63,12 @@ def get_scientifc_name_from_tax_id(taxid):
 commonOutput()
 #RECOGIDA DE DATOS:
 fs = cgi.FieldStorage()
-redirectionOKcurated="http://tebacten.bioinfo.cnio.es/curate-evidence/?"
-redirectionKOcurated="http://tebacten.bioinfo.cnio.es/curate-evidence/error?"
+redirectionOKcurated=HOME_URL+"/curate-evidence/?"
+redirectionKOcurated=HOME_URL+"/curate-evidence/error?"
 idEvidence=fs['idEvidence'].value
 metodo=fs['metodo'].value
 idOrganismNCBI="unknown" 
 #print "<br/>"+str(metodo)
-#DB_CONN = MySQLdb.connect(host= "jabba.cnio.es", port=3306, user = "tebacten", passwd= "tebacten", db= "tebacten", charset="utf8", init_command="set names utf8")
 DB_CONN = MySQLdb.connect(host= "jabba.cnio.es", port=3306, user = DB_READ_USER, passwd= DB_READ_PWD, db= DB_JABBA_DB, charset="utf8", init_command="set names utf8")
 cur = DB_CONN.cursor()	
 #print "<br/>"+str(idEvidence)

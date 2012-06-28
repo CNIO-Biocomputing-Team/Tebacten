@@ -31,10 +31,10 @@
 			$tmpString.="<div class=\"title_paper\">$titlePaper</div>\n";
 			$tmpString.=modificarTexto($idEvidence,$textEvidence);
 			if ($curated==0){
-				$tmpString.="<div class=\"curate_button\"><a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a></div>";
+				$tmpString.="<div class=\"curate_button\"><a href=\"$home_url/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a></div>";
 			}
 			else{
-				$tmpString.="<div class=\"curate_button\"><a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a><span style=\"color:#FF0000\">(Annotated)</span></div>";
+				$tmpString.="<div class=\"curate_button\"><a href=\"$home_url/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a><span style=\"color:#FF0000\">(Annotated)</span></div>";
 			}
 			$tmpString.="</div><!--  End div evidence -->\n";
 		}
@@ -58,10 +58,10 @@
 			$tmpString.="<div class=\"title_paper\">$titlePaper</div>\n";
 			$tmpString.=modificarTexto($idEvidence,$textEvidence);
 			if ($curated==0){
-				$tmpString.="<div class=\"curate_button\"><a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a></div>";
+				$tmpString.="<div class=\"curate_button\"><a href=\"$home_url/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a></div>";
 			}
 			else{
-				$tmpString.="<div class=\"curate_button\"><a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a><span style=\"color:#FF0000\">(Annotated)</span></div>";
+				$tmpString.="<div class=\"curate_button\"><a href=\"$home_url/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a><span style=\"color:#FF0000\">(Annotated)</span></div>";
 			}
 			$tmpString.="</div><!--  End div evidence -->\n";
 		}
@@ -86,10 +86,10 @@
 			$tmpString.="<div class=\"title_paper\">$titlePaper</div>\n";
 			$tmpString.=modificarTexto($idEvidence,$textEvidence);
 			if ($curated==0){
-				$tmpString.="<div class=\"curate_button\"><a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a></div>";
+				$tmpString.="<div class=\"curate_button\"><a href=\"$home_url/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a></div>";
 			}
 			else{
-				$tmpString.="<div class=\"curate_button\"><a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a><span style=\"color:#FF0000\">(Annotated)</span></div>";
+				$tmpString.="<div class=\"curate_button\"><a href=\"$home_url/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a><span style=\"color:#FF0000\">(Annotated)</span></div>";
 			}
 			$tmpString.="</div><!--  End div evidence -->\n";
 		}
@@ -126,10 +126,10 @@
 			$tmpString.="<div class=\"title_paper\">$titlePaper</div>\n";
 			$tmpString.=modificarTexto($idEvidence,$textEvidence);
 			if ($curated==0){
-				$tmpString.="<div class=\"curate_button\"><a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a></div>";
+				$tmpString.="<div class=\"curate_button\"><a href=\"$home_url/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a></div>";
 			}
 			else{
-				$tmpString.="<div class=\"curate_button\"><a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a><span style=\"color:#FF0000\">(Annotated)</span></div>";
+				$tmpString.="<div class=\"curate_button\"><a href=\"$home_url/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a><span style=\"color:#FF0000\">(Annotated)</span></div>";
 			}
 			$tmpString.="</div><!--  End div evidence -->\n";
 		}
