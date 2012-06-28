@@ -14,9 +14,9 @@
 			<nav>
 				<ul>
 					<li>Spanish National Cancer Research Centre. CNIO Structural Biology and BioComputing Programme</li>
-					<li><a href="http://microme.eu"><img src="<?=$template_url?>/images/microme-off.png" border="0" class="rollover" /></a>
-					<li><a href="http://cnio.es"><img src="<?=$template_url?>/images/cnio-off.png" border="0" class="rollover" /></a>
-					<li><a href="http://inab.org"><img src="<?=$template_url?>/images/inb-off.png" border="0" class="rollover" /></a>
+					<li><a href="http://microme.eu"><img src="<?php echo $template_url; ?>/images/microme-off.png" border="0" class="rollover" /></a>
+					<li><a href="http://cnio.es"><img src="<?php echo $template_url; ?>/images/cnio-off.png" border="0" class="rollover" /></a>
+					<li><a href="http://inab.org"><img src="<?php echo $template_url; ?>/images/inb-off.png" border="0" class="rollover" /></a>
 				</ul>
 			</nav>
 <?php
@@ -30,13 +30,13 @@
 </div> <!-- End div page_wrap -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script><!--Load jQuery-->
 <script>!window.jQuery && document.write(unescape('%3Cscript src="<?=$template_url?>/yaff/js/libs/jquery-1.5.2.min.js"%3E%3C/script%3E'))</script>
-<script src="<?=$template_url?>/yaff/js/script.js"></script>
-<script src="<?=$template_url?>/yaff/js/jquery.tipsy.js"></script>
-<script src="<?=$template_url?>/yaff/js/jquery.reveal.js"></script>
-<script src="<?=$template_url?>/yaff/js/jquery.orbit.min.js"></script>
-<script src="<?=$template_url?>/uniform/jquery.uniform.js"></script>
-<script src="<?=$template_url?>/js/jquery-ui-1.8.21.js"></script>
-<script src="<?=$template_url?>/js/reactions.js"></script>
+<script src="<?php echo $template_url; ?>/yaff/js/script.js"></script>
+<script src="<?php echo $template_url; ?>/yaff/js/jquery.tipsy.js"></script>
+<script src="<?php echo $template_url; ?>/yaff/js/jquery.reveal.js"></script>
+<script src="<?php echo $template_url; ?>/yaff/js/jquery.orbit.min.js"></script>
+<script src="<?php echo $template_url; ?>/uniform/jquery.uniform.js"></script>
+<script src="<?php echo $template_url; ?>/js/jquery-ui-1.8.21.js"></script>
+<script src="<?php echo $template_url; ?>/js/reactions.js"></script>
 
 
 

@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-var home_url="http://localhost/tebacten";
-=======
 var home_url="http://tebacten.bioinfo.cnio.es";
->>>>>>> reactions home_url
+var home_url="http://localhost/Tebacten";
 function showEvidences(idCompuesto,type){
     var ajaxDisplay = document.getElementById('evidences');
 	ajaxDisplay.innerHTML = "Searching for evidences. Please wait. This usually takes less than a minute, depending on the number of evidences";

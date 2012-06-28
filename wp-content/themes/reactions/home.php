@@ -2,7 +2,9 @@
 <section class="cols vis-break ">
 	<input id="tags" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"><a href="#" onClick="return searchEvidences('enzyme','search');" class="button orange">Search</a>
 	<div id="left_content">
+				
 				<?php //Recuperamos todas las enzimas:
+					/*
 					$conn = mysql_connect ("localhost", "root", "");
 					mysql_select_db("tebacten", $conn);
 					mysql_query("SET NAMES 'utf8'");
@@ -18,6 +20,7 @@
 						$counter++;
 					}
 					echo "</select>";
+					*/
 				?>
 	</div>
 </section>
