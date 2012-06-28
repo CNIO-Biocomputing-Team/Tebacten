@@ -2,7 +2,8 @@
 	//Script que devuelve las evidencias y las carga de forma asíncrona en la parte de la derecha (div#evidences)
 	// Retrieve data from Query String
 	include("config.php");
-	$tmpString="";
+	$tmpString="<h6>Results</h6>";
+	$tmpString .= "<p><em>Entity mentions are highlighted as follows: <mark class=\"compound\">Compounds</mark>, <mark class=\"enzyme\">Enzymes</mark> and <mark class=\"organism\">Organisms</mark></em></p>";
 	$type= $_GET['type'];
 	$conn = mysql_connect ($database, $db_user, $db_password);
 	mysql_select_db("tebacten", $conn);
@@ -31,12 +32,12 @@
 			$tmpString.="<div class=\"title_paper\">$titlePaper</div>\n";
 			$tmpString.=modificarTexto($idEvidence,$textEvidence);
 			if ($curated==0){
-				$tmpString.="<div class=\"curate_button\"><a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a></div>";
+				$tmpString.=" <a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"rgt-arw\">Annotate</a>";
 			}
 			else{
-				$tmpString.="<div class=\"curate_button\"><a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a><span style=\"color:#FF0000\">(Annotated)</span></div>";
+				$tmpString.=" <a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"rgt-arw\">Annotate</a><span style=\"color:#FF0000\">(Annotated)</span>";
 			}
-			$tmpString.="</div><!--  End div evidence -->\n";
+			$tmpString.="</p></div><!--  End div evidence -->\n";
 		}
 	}
 	
@@ -61,9 +62,9 @@
 				$tmpString.="<div class=\"curate_button\"><a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a></div>";
 			}
 			else{
-				$tmpString.="<div class=\"curate_button\"><a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a><span style=\"color:#FF0000\">(Annotated)</span></div>";
+				$tmpString.=" <a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"rgt-arw\">Annotate</a><span style=\"color:#FF0000\">(Annotated)</span>";
 			}
-			$tmpString.="</div><!--  End div evidence -->\n";
+			$tmpString.="</p></div><!--  End div evidence -->\n";
 		}
 	}
 	
@@ -86,12 +87,12 @@
 			$tmpString.="<div class=\"title_paper\">$titlePaper</div>\n";
 			$tmpString.=modificarTexto($idEvidence,$textEvidence);
 			if ($curated==0){
-				$tmpString.="<div class=\"curate_button\"><a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a></div>";
+				$tmpString.=" <a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"rgt-arw\">Annotate</a>";
 			}
 			else{
-				$tmpString.="<div class=\"curate_button\"><a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a><span style=\"color:#FF0000\">(Annotated)</span></div>";
+				$tmpString.=" <a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"rgt-arw\">Annotate</a><span style=\"color:#FF0000\">(Annotated)</span>";
 			}
-			$tmpString.="</div><!--  End div evidence -->\n";
+			$tmpString.="</p></div><!--  End div evidence -->\n";
 		}
 	}
 	
@@ -126,12 +127,12 @@
 			$tmpString.="<div class=\"title_paper\">$titlePaper</div>\n";
 			$tmpString.=modificarTexto($idEvidence,$textEvidence);
 			if ($curated==0){
-				$tmpString.="<div class=\"curate_button\"><a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a></div>";
+				$tmpString.=" <a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"rgt-arw\">Annotate</a>";
 			}
 			else{
-				$tmpString.="<div class=\"curate_button\"><a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"thickbox\">Annotate</a><span style=\"color:#FF0000\">(Annotated)</span></div>";
+				$tmpString.=" <a href=\"http://tebacten.bioinfo.cnio.es/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000\" class=\"rgt-arw\">Annotate</a><span style=\"color:#FF0000\">(Annotated)</span>";
 			}
-			$tmpString.="</div><!--  End div evidence -->\n";
+			$tmpString.="</p></div><!--  End div evidence -->\n";
 		}
 	}
 	

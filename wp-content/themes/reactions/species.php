@@ -1,26 +1,7 @@
-<?php
-/**
- *
-Template Name: Species
- *
-*/
-
-get_header(); 
-
-?>
-<div id="frame">
-	<div id="header_frame">
-		Browse by <a href="<?php bloginfo('home') ?>/enzymes">ENZYMES</a> <a href="<?php bloginfo('home') ?>/compounds">COMPOUNDS</a> <a href="<?php bloginfo('home') ?>/species" class="active">SPECIES</a>
-		<div id="logos">
-			<a href="http://www.microme.eu/" target="_blank"><img src="<?php bloginfo('template_url') ?>/images/microme.png"></a><a href="http://www.cnio.es" target="_blank"></a><a href="http://www.inab.org/" target="_blank"><img src="<?php bloginfo('template_url') ?>/images/cnio.png"><img src="<?php bloginfo('template_url') ?>/images/inb.png"></a>
-		</div>
-	</div>
-	<div id="content_frame">
-		<div id="left_content_frame">
-			<div id="search">				
-				<input id="tags" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"><a href="#" onClick="return searchEvidences('organism','search');" class="searchLink">Search</a>
-			</div>
-			<div id="left_content">
+<?php get_header(); ?>
+<section class="cols vis-break ">
+	<input id="tags" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"><a href="#" onClick="return searchEvidences('enzyme','search');" class="button orange">Search</a>
+	<div id="left_content">
 				<?php //Recuperamos todas las especies diferentes:
 					include("scripts/config.php");
 					$conn = mysql_connect ($database, $db_user, $db_password);
@@ -39,23 +20,10 @@ get_header();
 					}
 					echo "</select>";
 				?>
-			</div>
-		</div><!-- End id=left_content_frame  -->
-		<div id="right_content_frame">
-			<div id="text_evidences">Evidences</div>
-			<div id="evidences">
-				Select or search a specie to see its evidences. 
-			</div><!-- End id=evidences  -->
-		</div><!-- End id=right_content_frame  -->
-	</div><!-- End id=content_frame  -->
-	<div class="clear_both"></div>
-	<div id="footer_frame">
 	</div>
-	
-
-
-</div> <!-- End id=frame  -->
-
-
+</section>
+<section class="cols">
+	<div id="evidences">Select or search an enzyme to see its evidences.</div>
+</section>
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>

@@ -41,17 +41,17 @@ function modificarTexto($idEvidence,$textEvidence){
 	
 	//Ya tenemos los cuatro arrays, los recorremos cambiando el color de lo que vayamos teniendo, en funcion del tipo de compuesto/enzima/organismo
 	foreach($arrayEnzymes as $textmining_enzyme_name){
-		$textEvidence=str_ireplace($textmining_enzyme_name,"<span class=\"enzyme\">".$textmining_enzyme_name."</span>",$textEvidence);
+		$textEvidence=str_ireplace($textmining_enzyme_name,"<mark class=\"enzyme\">".$textmining_enzyme_name."</mark>",$textEvidence);
 	}
 	foreach($arrayCompoundsInput as $textmining_compound_input_name){
-		$textEvidence=str_ireplace($textmining_compound_input_name,"<span class=\"compound\">".$textmining_compound_input_name."</span>",$textEvidence);
+		$textEvidence=str_ireplace($textmining_compound_input_name,"<mark class=\"compound\">".$textmining_compound_input_name."</mark>",$textEvidence);
 	}
 	foreach($arrayCompoundsOutput as $textmining_compound_output_name){
-		$textEvidence=str_ireplace($textmining_compound_output_name,"<span class=\"compound\">".$textmining_compound_output_name."</span>",$textEvidence);
+		$textEvidence=str_ireplace($textmining_compound_output_name,"<mark class=\"compound\">".$textmining_compound_output_name."</mark>",$textEvidence);
 	}
 	foreach($arrayOrganisms as $textmining_organism_name){
-		$textEvidence=str_ireplace($textmining_organism_name,"<span class=\"organism\">".$textmining_organism_name."</span>",$textEvidence);
+		$textEvidence=str_ireplace($textmining_organism_name,"<mark class=\"organism\">".$textmining_organism_name."</mark>",$textEvidence);
 	}
-	return $textEvidence;
+	return "<p>".$textEvidence;
 }
 ?>

@@ -1,17 +1,24 @@
 <?php
-/**
- * The template for displaying the footer.
- *
- * Contains the closing of the id=main div and all content
- * after.  Calls sidebar-footer.php for bottom widgets.
- *
- * @package WordPress
- * @subpackage Boilerplate
- * @since Boilerplate 1.0
- */
+	/* Always have wp_footer() just before the closing </body>
+	 * tag of your theme, or you will break many plugins, which
+	 * generally use this hook to reference JavaScript files.
+	 */
+	//wp_footer();
+	$template_url=get_bloginfo('template_url');
+	$pagename = get_query_var('pagename');
+	$source="$template_url/scripts/autocomplete.php?searchfor=$pagename";
+
 ?>
 		</section><!-- #main -->
-		<footer role="contentinfo">
+		<footer id="bottom" role="contentinfo">
+			<nav>
+				<ul>
+					<li>Spanish National Cancer Research Centre. CNIO Structural Biology and BioComputing Programme</li>
+					<li><a href="http://microme.eu"><img src="<?=$template_url?>/images/microme-off.png" border="0" class="rollover" /></a>
+					<li><a href="http://cnio.es"><img src="<?=$template_url?>/images/cnio-off.png" border="0" class="rollover" /></a>
+					<li><a href="http://inab.org"><img src="<?=$template_url?>/images/inb-off.png" border="0" class="rollover" /></a>
+				</ul>
+			</nav>
 <?php
 	/* A sidebar in the footer? Yep. You can can customize
 	 * your footer with four columns of widgets.
@@ -19,30 +26,39 @@
 	get_sidebar( 'footer' );
 ?>			
 		</footer><!-- footer -->
-<?php
-	/* Always have wp_footer() just before the closing </body>
-	 * tag of your theme, or you will break many plugins, which
-	 * generally use this hook to reference JavaScript files.
-	 */
-	wp_footer();
-	$template_url=get_bloginfo('template_url');
-	$pagename = get_query_var('pagename');
-	$source="$template_url/scripts/autocomplete.php?searchfor=$pagename";
 
-?>
 </div> <!-- End div page_wrap -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script><!--Load jQuery-->
+<script>!window.jQuery && document.write(unescape('%3Cscript src="<?=$template_url?>/yaff/js/libs/jquery-1.5.2.min.js"%3E%3C/script%3E'))</script>
+<script src="<?=$template_url?>/yaff/js/script.js"></script>
+<script src="<?=$template_url?>/yaff/js/jquery.tipsy.js"></script>
+<script src="<?=$template_url?>/yaff/js/jquery.reveal.js"></script>
+<script src="<?=$template_url?>/yaff/js/jquery.orbit.min.js"></script>
+<script src="<?=$template_url?>/uniform/jquery.uniform.js"></script>
+<script src="<?=$template_url?>/js/jquery-ui-1.8.21.js"></script>
+<script src="<?=$template_url?>/js/reactions.js"></script>
+
+
+
 <script type="text/javascript">
 	 
-	$(document).ready(function(){
-	 
-	        $(".slidingDiv").hide();
-	        $(".show_hide").show();
-	 
-	    $('.show_hide').click(function(){
-	    $(".slidingDiv").slideToggle();
-	    });
-	 
+$(document).ready(function(){
+	$("img.rollover").hover( 
+		function() { this.src = this.src.replace("-off", "-on"); 
+		}, 
+		function() { this.src = this.src.replace("-on", "-off"); 
 	});
+	$("input:text, input:checkbox, input:radio, input:file").uniform();
+	
+	 
+    $(".slidingDiv").hide();
+    $(".show_hide").show();
+	 
+    $('.show_hide').click(function(){
+    $(".slidingDiv").slideToggle();
+    });
+	 
+});
 	 
 </script>
 <script type="text/javascript">
@@ -62,7 +78,7 @@
 </script>	
 <script>	
 	$(function() {		
-		$("input:text, input:checkbox, input:radio, input:file").uniform();
+		
 		$( "#tags" ).autocomplete({
 			source: "<?php echo $source; ?>",
 			minLength:3,
