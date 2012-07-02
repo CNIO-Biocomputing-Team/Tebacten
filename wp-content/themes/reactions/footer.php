@@ -26,7 +26,6 @@
 	get_sidebar( 'footer' );
 ?>			
 		</footer><!-- footer -->
-
 </div> <!-- End div page_wrap -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script><!--Load jQuery-->
 <script>!window.jQuery && document.write(unescape('%3Cscript src="<?=$template_url?>/yaff/js/libs/jquery-1.5.2.min.js"%3E%3C/script%3E'))</script>
@@ -34,6 +33,7 @@
 <script src="<?php echo $template_url; ?>/yaff/js/jquery.tipsy.js"></script>
 <script src="<?php echo $template_url; ?>/yaff/js/jquery.reveal.js"></script>
 <script src="<?php echo $template_url; ?>/yaff/js/jquery.orbit.min.js"></script>
+<script src="<?php echo $template_url; ?>/yaff/js/jquery.bpopup-0.7.0.min.js"></script>
 <script src="<?php echo $template_url; ?>/uniform/jquery.uniform.js"></script>
 <script src="<?php echo $template_url; ?>/js/jquery-ui-1.8.21.js"></script>
 <script src="<?php echo $template_url; ?>/js/reactions.js"></script>
@@ -48,7 +48,7 @@ $(document).ready(function(){
 		}, 
 		function() { this.src = this.src.replace("-on", "-off"); 
 	});
-	$("input:text, input:checkbox, input:radio, input:file").uniform();
+	$("input:text, input:checkbox, input:radio, input:file, .uniform-button").uniform();
 	
 	 
     $(".slidingDiv").hide();
@@ -59,6 +59,17 @@ $(document).ready(function(){
     });
 	 
 });
+
+
+
+function annotate(url){
+	$('#popup').bPopup({
+          loadUrl: url,
+          modalClose: true,
+          position: ['auto',150]
+    });
+	
+}
 	 
 </script>
 <script type="text/javascript">
