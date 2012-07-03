@@ -1,12 +1,15 @@
 <?php
+include("scripts/config.php");
+include('scripts/functions.php');
+
 function printCompoundsTables($compoundsCounter,$textminingCompoundName,$strChebi,$strInputOutput,$display){
-	echo <<<EOT
+	echo <<<EOTC
 	<div id="compound_$compoundsCounter" name="compound_$compoundsCounter" style="$display">
 			<table>
 				<tr>
-					<td>Compound name: </td>
+					<td>Compound name:</td>
 					<td>
-						<input id=textminingCompoundName_$compoundsCounter" type="text" name="textminingCompoundName_$compoundsCounter" maxlenght="255" size="20" value="$textminingCompoundName"><small><a href="#" onClick="overlayCompounds($compoundsCounter);insertChebiIds($compoundsCounter)">Click to search</a></small>
+						<input id=textminingCompoundName_$compoundsCounter" type="text" name="textminingCompoundName_$compoundsCounter" maxlenght="255" size="20" value="$textminingCompoundName"><small><a href="#" onClick="insertChebiIds($compoundsCounter)">Click to search</a></small>
 						<div id="overlayCompounds_$compoundsCounter">&nbsp;</div>
 						<script>$('#overlayCompounds_compoundsCounter').unmask();</script>
 					</td>
@@ -37,21 +40,59 @@ function printCompoundsTables($compoundsCounter,$textminingCompoundName,$strCheb
 				</tr>
 			</table>
 	</div><!-- End of id#compound -->
-EOT;
+EOTC;
 }
 
+function printEnzymeTables($enzymesCounter,$textminingEnzymeName,$strProteins,$strSelectProteins,$display){
+	echo <<<EOTE
+	<div id="enzyme_$enzymesCounter" style="$display">
+		<table class="compoundsEnzymes">
+			<tr>
+				<td>Enzyme name:</td>
+				<td>
+					<input id="textminingEnzymeName_$enzymesCounter" type="text" name="textminingEnzymeName_$enzymesCounter" maxlenght="255" size="20" value="$textminingEnzymeName">
+					Search in:&nbsp;
+					<small>
+						<a href="javascript:;" onClick="overlayEnzymes($enzymesCounter);insertProteinsOfEnzyme('$enzymesCounter','selected')">Selected organism</a>&nbsp;
+						<a href="javascript:;" onClick="overlayEnzymes($enzymesCounter);insertProteinsOfEnzyme('$enzymesCounter','conventioned')">Conventioned species</a>&nbsp;
+						<a href="javascript:;" onClick="overlayEnzymes($enzymesCounter);insertProteinsOfEnzyme('$enzymesCounter','all')">All bacteria</a>&nbsp;
+					</small>
+					<div id="overlayEnzymes_$enzymesCounter">&nbsp;</div>
+					<script>
+	            		$('#overlayEnzymes_$enzymesCounter').unmask();
+	            	</script>
+            	</td>
+            </tr>
+            <tr>
+            	<td>Proteins: </td>
+            	<td>
+            		<div id="listOfProteinsOutside_$enzymesCounter">
+            		<div class="linksToCompounds">$strProteins</div>
+            		<select multiple="multiple" id="listOfProteins_$enzymesCounter" name="listOfProteins_$enzymesCounter" size="5">
+            		$strSelectProteins	
+            		</select>
+            	</td>
+            </tr>
+            <tr>
+        		<td>
+        			<input id="delete_enzyme_$enzymesCounter" type="button" onclick="deleteEnzyme($enzymesCounter)" name="delete_enzyme_$enzymesCounter" value="Delete Enzyme">
+        		</td>
+        		<td>
+        		</td>
+        	</tr>
+        </table>
+     </div><!-- End of id#enzyme_ -->
+EOTE;
 
-
-include("scripts/config.php");
-include('scripts/functions.php');
+}
 
 $conn = mysql_connect ($database, $db_user, $db_password);
 mysql_select_db("tebacten", $conn);
 mysql_query("SET NAMES 'utf8'");
 
-$MAX_ORGANISMS=10;
-$MAX_COMPOUNDS=26;
-$MAX_ENZYMES=26;
+$MAX_ORGANISMS	=	10;
+$MAX_COMPOUNDS	=	8;
+$MAX_ENZYMES	=	8;
 
 $idEvidence = $_GET['idEvidence'];
 $idCompound = $_GET['idCompound'];
@@ -60,15 +101,15 @@ $blogInfo	= get_bloginfo('home');
 
 
 #$selectSQL="select a.pubmed_id, a.text_evidence, a.curated, b.id_organism_ncbi, b.ncbi_organism_name, b.textmining_organism_name, c.strain     from evidences as a, organisms as b, evidences_organisms as c where a.id_evidence='$idEvidence' and a.id_evidence=c.id_evidence and  c.id_organism=b.id_organism";
-$selectSQL = "select pubmed_id,text_evidence,curated from evidences where id_evidence='$idEvidence'";
-$result = mysql_query($selectSQL);
-$row = mysql_fetch_row($result);
-$pubmedId = $row[0];
-$textEvidence = $row[1];
-$curated = $row[2];
+$selectSQL 		= "select pubmed_id,text_evidence,curated from evidences where id_evidence='$idEvidence'";
+$result 		= mysql_query($selectSQL);
+$row 			= mysql_fetch_row($result);
+$pubmedId 		= $row[0];
+$textEvidence	= $row[1];
+$curated 		= $row[2];
 
 #$pathToProgram="$blogInfo/scripts/returnPubmedInformation.py $pubmedId";
-$command="$pathToPython scripts/returnPubmedInformation.py $pubmedId";
+$command	=	"$pathToPython scripts/returnPubmedInformation.py $pubmedId";
 exec($command,$output,$return);
 $titlePaper=$output[0];
 if ($titlePaper==""){
@@ -197,12 +238,11 @@ echo "<div class=\"slidingDiv\"> <a href=\"#\" class=\"show_hide\"><small>hide</
 
 <section id="compounds" class="cols">
 	<h6>COMPOUNDS</h6>             	
- 	
-<?php           	
+ 	<?php           	
     //Ponemos los componentes implicados que pueden ser uno o varios O NINGUNO!!!! tanto de entrada como de salida
  	//Recuperamos todos los components que estén presentes en esa evidencia, para ello hacemos
- 	$selectSQL2="SELECT id_evidences_compounds, t1.id_compound, input_output, id_chebi, textmining_compound_name, substrate_score, product_score FROM evidences_compounds AS t1, compounds AS t2 WHERE t1.id_compound = t2.id_compound AND id_evidence ='$idEvidence'";
- 	#print $selectSQL2;
+ 	$selectSQL2	= "SELECT id_evidences_compounds, ec.id_compound, input_output, id_chebi, textmining_compound_name, substrate_score, product_score FROM evidences_compounds AS ec, compounds AS c WHERE ec.id_compound = c.id_compound AND ec.id_evidence ='$idEvidence'";
+
  	$result2 	= mysql_query($selectSQL2);
  	$row2 		= mysql_fetch_row($result2);
  	$existeEvidencesCompounds = (count($row2)==0)?false:true;
@@ -223,32 +263,32 @@ echo "<div class=\"slidingDiv\"> <a href=\"#\" class=\"show_hide\"><small>hide</
 		$strInputOutput 		= "";
 		
 		if ($idChebi!=""){//Si tenemos idChebi lo mostramos normalmente
-			$strChebi .= "<option value=\"\">Select <option value=\"$idChebi\" SELECTED>$textminingCompoundName ($idChebi)</option>";
+			$strChebi .= "<option value=\"$idChebi\" selected>$textminingCompoundName ($idChebi)</option>";
 		
 		}
 		if(($inputOutput == "")){
 			//No existe anotación para input/output entonces evaluamos los scores.
 			if (($substrateScore == 0) && ($productScore == 0)){
-				$inputOutput="";
+				$inputOutput = "";
 				$strInputOutput .= "<OPTION value=\"select\" selected>Select<OPTION value=\"input\">Substrate\n<OPTION value=\"output\" >Product\n";
 			}
 			elseif($substrateScore > $productScore){
-				$inputOutput="input";
-				$strInputOutput="<OPTION value=\"select\">Select<OPTION value=\"input\" selected>Substrate\n<OPTION value=\"output\" >Product\n";
+				$inputOutput = "input";
+				$strInputOutput .= "<OPTION value=\"select\">Select<OPTION value=\"input\" selected>Substrate\n<OPTION value=\"output\" >Product\n";
 			}
 			elseif($productScore > $substrateScore){
 				$inputOutput="output";
-				$strInputOutput="<OPTION value=\"select\">Select<OPTION value=\"input\">Substrate\n<OPTION value=\"output\" selected >Product\n";
+				$strInputOutput .= "<OPTION value=\"select\">Select<OPTION value=\"input\">Substrate\n<OPTION value=\"output\" selected >Product\n";
 			}
 		}elseif ($inputOutput==0){
 			//ya esta anotado como substrate(input)
 			$inputOutput="input";
-			$strInputOutput="<OPTION value=\"select\">Select<OPTION value=\"input\" selected>Substrate\n<OPTION value=\"output\" >Product\n";
+			$strInputOutput .= "<OPTION value=\"select\">Select<OPTION value=\"input\" selected>Substrate\n<OPTION value=\"output\" >Product\n";
 		}
 		elseif($inputOutput==1){
 			//ya esta anotado como product(output)
-			$inputOutput="output";
-			$strInputOutput="<OPTION value=\"select\">Select<OPTION value=\"input\">Substrate\n<OPTION value=\"output\" selected >Product\n";
+			$inputOutput = "output";
+			$strInputOutput .= "<OPTION value=\"select\">Select<OPTION value=\"input\">Substrate\n<OPTION value=\"output\" selected >Product\n";
 		}
 	
 		printCompoundsTables($compoundsCounter,$textminingCompoundName,$strChebi,$strInputOutput,"display:block");
@@ -258,127 +298,72 @@ echo "<div class=\"slidingDiv\"> <a href=\"#\" class=\"show_hide\"><small>hide</
 	for ($i=$compoundsCounter;$i < $MAX_COMPOUNDS;$i++){
 		printCompoundsTables($i,"","","","display:none");		
 	}
-?>
-	
+	?>
 	<input id="add_compound" type="button" onclick="addCompound();" name="add_compound_$compoundsCounter" value="Add Compound " class="button orange">
+
 </section><!-- End div#compounds -->
-             	
+    
+<section id="enzymes" class="cols"> 
+	<h6>ENZYMES</h6>            	
 <?php
              	
-             	//Ponemos las enzimas implicadas que pueden ser una o varias
-             	echo "<div id=\"enzymes\">\n";
-             	echo "<h6>ENZYMES</h6>";
-             	//Recuperamos todas las enzimas que estén presentes en esa evidencia, para ello hacemos
-             	//$selectSQL3="SELECT id_evidences_enzymes, t1.id_enzyme, textmining_enzyme_name, proteins_list FROM evidences_enzymes AS t1, enzymes AS t2, enzymes_proteins AS t3 WHERE t1.id_enzyme = t2.id_enzyme AND t1.id_enzymes_proteins=t3.id_enzymes_proteins AND id_evidence ='$idEvidence'";
-             	$selectSQL3="SELECT id_evidences_enzymes, a.id_enzyme, textmining_enzyme_name FROM evidences_enzymes as a, enzymes as b where a.id_enzyme = b.id_enzyme AND id_evidence ='$idEvidence'";
-             	$result3= mysql_query($selectSQL3);
-             	$enzymesCounter=0;
-             	while ($row3 = mysql_fetch_row($result3)){
-             		#Tenemos una serie de enzimas y tenemos que ver si tienen o no tienen un listado de proteínas asociadas.
-					$idEvidencesEnzymes=$row3[0];
-					$idEnzyme=$row3[1];
-					$textminingEnzymeName=$row3[2];
-					
-					$selectProteinList="SELECT proteins_list FROM evidences_enzymes AS t1, enzymes_proteins AS t2 WHERE t1.id_enzymes_proteins=t2.id_enzymes_proteins AND id_evidence ='$idEvidence'";
-					$resultProteinList= mysql_query($selectProteinList);
-					$rowProteinsList= mysql_fetch_row($resultProteinList);
-					$proteinsList=$rowProteinsList[0];
-					if ($proteinsList==""){
-						$existeEnzymesProteins=false;
-					}
-					else{
-						$existeEnzymesProteins=true;
-						$arrayProteins=explode(",",$proteinsList);
-					}
-					echo "<div id=\"enzyme_$enzymesCounter\" style=\"display:block;\">\n";
-					echo "<table class=\"compoundsEnzymes\">";
-					echo "<tr>";
-					echo "<td>Enzyme name: </td><td><input id=\"textminingEnzymeName_$enzymesCounter\" type=\"text\" NAME=\"textminingEnzymeName_$enzymesCounter\" maxlenght=\"255\" size=\"20\" value=\"$textminingEnzymeName\" >\n";
-					echo "Search in:&nbsp;";
-					echo "
-							<small>
-							<a href=\"javascript:;\" onClick=\"overlayEnzymes($enzymesCounter);insertProteinsOfEnzyme('$enzymesCounter','selected')\">Selected organism</a>&nbsp;
-							<a href=\"javascript:;\" onClick=\"overlayEnzymes($enzymesCounter);insertProteinsOfEnzyme('$enzymesCounter','conventioned')\">Conventioned species</a>&nbsp;
-							<a href=\"javascript:;\" onClick=\"overlayEnzymes($enzymesCounter);insertProteinsOfEnzyme('$enzymesCounter','all')\">All bacteria</a>&nbsp;
-							</small>
-							<div id=\"overlayEnzymes_$enzymesCounter\">&nbsp;</div>
-							<script>
-	                    		$('#overlayEnzymes_$enzymesCounter').unmask();
-	                    	</script>
-						</td>";
-					echo "</tr><tr>";
-					echo "<td>Proteins: </td><td><div id=\"listOfProteinsOutside_$enzymesCounter\">";
-					echo "<div class=\"linksToCompounds\">";
-					//colocamos un div con los links a las proteínas del selectbox para poder consultar antes de anotar.
-					if ($existeEnzymesProteins==true){
-						foreach($arrayProteins as $protein){
-							$selectProtein="select id_uniprot,protein_name from proteins where id_protein=$protein";
-							#print "<br>$selectProtein";
-							$resultSelectProtein= mysql_query($selectProtein);
-							$rowSelectProtein=mysql_fetch_row($resultSelectProtein);
-							$idUniprot=$rowSelectProtein[0];
-							echo "<a href=\"http://www.uniprot.org/uniprot/$idUniprot\" target=\"_blank\">$idUniprot</a>, ";
-						}
-					}
-					echo "</div>";
-					
-					echo "<select multiple=\"multiple\" id=\"listOfProteins_$enzymesCounter\" name=\"listOfProteins_$enzymesCounter\" size=\"5\">";
-					if ($existeEnzymesProteins==true){
-						foreach($arrayProteins as $protein){
-							#print "<br>$protein";
-							//Tenemos que consultar los datos de la proteína en cuestión para mostrarla en el selectbox
-							$selectProtein="select id_uniprot,protein_name from proteins where id_protein=$protein";
-							$resultSelectProtein= mysql_query($selectProtein);
-							$rowSelectProtein=mysql_fetch_row($resultSelectProtein);
-							$idUniprot=$rowSelectProtein[0];
-							$proteinName=$rowSelectProtein[1];
-							echo "<option value=\"$idUniprot\" selected>($idUniprot)-> $proteinName";
-						}
-					}
-					echo "</select></div></td>";
-					echo "</tr><tr>";
-					echo "<td><input id=\"delete_enzyme_$enzymesCounter\" type=\"button\" onclick=\"deleteEnzyme($enzymesCounter)\" name=\"delete_enzyme_$enzymesCounter\" value=\"Delete Enzyme \" class=\"\">\n</td><td></td>";
-					echo "</tr>";
-					echo "</table>";
-					$enzymesCounter=$enzymesCounter+1;
-					echo "</div><!-- End of id#enzyme_ -->";
-						
-				}   
-				//Completamos las enzimas con campos vacios que esconderemos para ir añadiendo enzimas.
-				for ($i=$enzymesCounter;$i<$MAX_ENZYMES;$i++){
-					$j=$i+1;
-					echo "<div id=\"enzyme_$i\" style=\"display:none;\">\n";
-					echo "<table class=\"compoundsEnzymes\">";
-					echo "<tr>";
-					echo "<td>Enzyme name: </td><td><input id=\"textminingEnzymeName_$i\" type=\"text\" NAME=\"textminingEnzymeName_$i\" maxlenght=\"255\" size=\"20\" value=\"\">\n";
-					echo "Search in:&nbsp;";
-					echo "
-							<small>
-							<a href=\"javascript:;\" onClick=\"overlayEnzymes($enzymesCounter);insertProteinsOfEnzyme('$enzymesCounter','selected')\">Selected organism</a>&nbsp;
-							<a href=\"javascript:;\" onClick=\"overlayEnzymes($enzymesCounter);insertProteinsOfEnzyme('$enzymesCounter','conventioned')\">Conventioned especies</a>&nbsp;
-							<a href=\"javascript:;\" onClick=\"overlayEnzymes($enzymesCounter);insertProteinsOfEnzyme('$enzymesCounter','all')\">All bacteria</a>&nbsp;
-							</small>
-							<div id=\"overlayEnzymes_$i\">&nbsp;</div>
-							<script>
-	                    		$('#overlayEnzymes_$i').unmask();
-	                    	</script>
-						</td>";
-					echo "</tr><tr>";
-					echo "<td>Proteins:</td><td><div id=\"listOfProteinsOutside_$i\"><select multiple=\"multiple\" id=\"listOfProteins_$i\" name=\"listOfProteins_$i\" size=\"5\"></select></div></td>";
-					echo "</tr><tr>";
-					echo "<td><input id=\"delete_enzyme_$i\" type=\"button\" onclick=\"deleteEnzyme($i)\" name=\"delete_enzyme_$i\" value=\"Delete Enzyme \" class=\"\">\n</td><td></td>";
-					echo "</tr>";
-					echo "</table>";
-					//echo "<input id=\"add_compound_$j\" type=\"button\" onclick=\"addCompound($j)\" name=\"add_compound_$j\" value=\"Add Compound \" class=\"\"><br/>";
-					echo "</div><!-- End of id#enzyme -->";
-				}
-				echo "<input id=\"add_enzyme\" type=\"button\" onclick=\"addEnzyme();\" name=\"add_enzyme\" value=\"Add Enzyme \" class=\"\"><br/>";
-             	echo "</div><!-- End div#compounds -->";   	
-?>             	
-             	
-             	<div id="buttons">
-					<input id="submitButton" class="right" type="submit" name="submitButton" value="Send">
-				</div>
+ 	//Ponemos las enzimas implicadas que pueden ser una o varias
+ 	//Recuperamos todas las enzimas que estén presentes en esa evidencia, para ello hacemos
+ 	//$selectSQL3="SELECT id_evidences_enzymes, t1.id_enzyme, textmining_enzyme_name, proteins_list FROM evidences_enzymes AS t1, enzymes AS t2, enzymes_proteins AS t3 WHERE t1.id_enzyme = t2.id_enzyme AND t1.id_enzymes_proteins=t3.id_enzymes_proteins AND id_evidence ='$idEvidence'";
+/*
+ 	$selectSQL3		= "SELECT id_evidences_enzymes, a.id_enzyme, textmining_enzyme_name FROM evidences_enzymes as a, enzymes as b where a.id_enzyme = b.id_enzyme AND id_evidence ='$idEvidence'";
+ 	$result3		= mysql_query($selectSQL3);
+ 	$enzymesCounter	= 0;
+ 	while ($row3 = mysql_fetch_row($result3)){
+ 		
+ 		#Tenemos una serie de enzimas y tenemos que ver si tienen o no tienen un listado de proteínas asociadas.
+		$strProteins 			= "";
+		$strSelectProteins 		= "";
+		$idEvidencesEnzymes		= $row3[0];
+		$idEnzyme				= $row3[1];
+		$textminingEnzymeName	= $row3[2];
+		$selectProteinList		= "SELECT proteins_list FROM evidences_enzymes AS t1, enzymes_proteins AS t2 WHERE t1.id_enzymes_proteins=t2.id_enzymes_proteins AND id_evidence ='$idEvidence'";
+		$resultProteinList		= mysql_query($selectProteinList);
+		$rowProteinsList		= mysql_fetch_row($resultProteinList);
+		$proteinsList			= $rowProteinsList[0];
+		
+		if ($proteinsList==""){
+			$existeEnzymesProteins	= false;
+		}else{
+			$existeEnzymesProteins	= true;
+			$arrayProteins	= explode(",",$proteinsList);
+		}
+		
+		//colocamos un div con los links a las proteínas del selectbox para poder consultar antes de anotar.
+		if ($existeEnzymesProteins == true){
+			foreach($arrayProteins as $protein){
+				$selectProtein="select id_uniprot,protein_name from proteins where id_protein=$protein";
+				$resultSelectProtein= mysql_query($selectProtein);
+				$rowSelectProtein=mysql_fetch_row($resultSelectProtein);
+				$idUniprot=$rowSelectProtein[0];
+				$proteinName=$rowSelectProtein[1];
+				$strProteins .= "<a href=\"http://www.uniprot.org/uniprot/$idUniprot\" target=\"_blank\">$idUniprot</a>, ";
+				$strSelectProteins .= "<option value=\"$idUniprot\" selected>($idUniprot)-> $proteinName";
+			}
+		}
+		
+		printEnzymeTables($enzymesCounter,$testminingEnzymeName,$strProteins,$strSelectProteins,"display:block");
+		$enzymesCounter++;
+			
+	}   
+	//Completamos las enzimas con campos vacios que esconderemos para ir añadiendo enzimas.
+	for ($i=$enzymesCounter;$i<$MAX_ENZYMES;$i++){
+		printEnzymeTables($i,"","","","display:none");
+	}
+*/
+
+?>   
+	<input id="add_enzyme" type="button" onclick="addEnzyme();" name="add_enzyme" value="Add Enzyme" class="button orange">  
+</section>        	
+ 	
+<section id="buttons" class="cols">
+		<input id="submitButton" class="button orange" type="submit" name="submitButton" value="Send">
+</section>
 				
 			
 </form>
