@@ -9,7 +9,7 @@ function printCompoundsTables($compoundsCounter,$textminingCompoundName,$strCheb
 				<tr>
 					<td>Compound name:</td>
 					<td>
-						<input id="textminingCompoundName_$compoundsCounter" type="text" name="textminingCompoundName_$compoundsCounter" maxlenght="255" size="20" value="$textminingCompoundName"><small><a href="#" onClick="insertChebiIds($compoundsCounter)">Click to search</a></small>
+						<input id="textminingCompoundName_$compoundsCounter" type="text" name="textminingCompoundName_$compoundsCounter" maxlenght="255" size="20" value="$textminingCompoundName"> <small><a href="#" onClick="insertChebiIds($compoundsCounter)">Search compound in ChEBI</a></small>
 						<div id="overlayCompounds_$compoundsCounter">&nbsp;</div>
 						<script>$('#overlayCompounds_compoundsCounter').unmask();</script>
 					</td>
@@ -51,11 +51,10 @@ function printEnzymeTables($enzymesCounter,$textminingEnzymeName,$strProteins,$s
 				<td>Enzyme name:</td>
 				<td>
 					<input id="textminingEnzymeName_$enzymesCounter" type="text" name="textminingEnzymeName_$enzymesCounter" maxlenght="255" size="20" value="$textminingEnzymeName">
-					Search in:&nbsp;
-					<small>
-						<a href="javascript:;" onClick="overlayEnzymes($enzymesCounter);insertProteinsOfEnzyme('$enzymesCounter','selected')">Selected organism</a>&nbsp;
-						<a href="javascript:;" onClick="overlayEnzymes($enzymesCounter);insertProteinsOfEnzyme('$enzymesCounter','conventioned')">Conventioned species</a>&nbsp;
-						<a href="javascript:;" onClick="overlayEnzymes($enzymesCounter);insertProteinsOfEnzyme('$enzymesCounter','all')">All bacteria</a>&nbsp;
+					<small>Search enzyme in UniProt &nbsp;					
+						<a href="javascript:;" onClick="insertProteinsOfEnzyme('$enzymesCounter','selected')">Selected organism</a>&nbsp;
+						<a href="javascript:;" onClick="insertProteinsOfEnzyme('$enzymesCounter','conventioned')">Conventioned species</a>&nbsp;
+						<a href="javascript:;" onClick="insertProteinsOfEnzyme('$enzymesCounter','all')">All bacteria</a>&nbsp;
 					</small>
 					<div id="overlayEnzymes_$enzymesCounter">&nbsp;</div>
 					<script>
@@ -310,8 +309,8 @@ echo "<div class=\"slidingDiv\"> <a href=\"#\" class=\"show_hide\"><small>hide</
  	//Ponemos las enzimas implicadas que pueden ser una o varias
  	//Recuperamos todas las enzimas que estén presentes en esa evidencia, para ello hacemos
  	//$selectSQL3="SELECT id_evidences_enzymes, t1.id_enzyme, textmining_enzyme_name, proteins_list FROM evidences_enzymes AS t1, enzymes AS t2, enzymes_proteins AS t3 WHERE t1.id_enzyme = t2.id_enzyme AND t1.id_enzymes_proteins=t3.id_enzymes_proteins AND id_evidence ='$idEvidence'";
-/*
- 	$selectSQL3		= "SELECT id_evidences_enzymes, a.id_enzyme, textmining_enzyme_name FROM evidences_enzymes as a, enzymes as b where a.id_enzyme = b.id_enzyme AND id_evidence ='$idEvidence'";
+ 	$selectSQL3		= "SELECT id_evidences_enzymes, ee.id_enzyme, e.textmining_enzyme_name FROM evidences_enzymes as ee, enzymes as e where ee.id_enzyme = e.id_enzyme AND ee.id_evidence ='$idEvidence'";
+ 	//echo $selectSQL3; 
  	$result3		= mysql_query($selectSQL3);
  	$enzymesCounter	= 0;
  	while ($row3 = mysql_fetch_row($result3)){
@@ -347,7 +346,7 @@ echo "<div class=\"slidingDiv\"> <a href=\"#\" class=\"show_hide\"><small>hide</
 			}
 		}
 		
-		printEnzymeTables($enzymesCounter,$testminingEnzymeName,$strProteins,$strSelectProteins,"display:block");
+		printEnzymeTables($enzymesCounter,$textminingEnzymeName,$strProteins,$strSelectProteins,"display:block");
 		$enzymesCounter++;
 			
 	}   
@@ -355,7 +354,6 @@ echo "<div class=\"slidingDiv\"> <a href=\"#\" class=\"show_hide\"><small>hide</
 	for ($i=$enzymesCounter;$i<$MAX_ENZYMES;$i++){
 		printEnzymeTables($i,"","","","display:none");
 	}
-*/
 
 ?>   
 	<input id="add_enzyme" type="button" onclick="addEnzyme();" name="add_enzyme" value="Add Enzyme" class="button orange">  
