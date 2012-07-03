@@ -15,13 +15,13 @@
 	mysql_query("SET NAMES 'utf8'");	
 	
 	$tmpString ='<h3>Evidences found for: '.$textminingName.'</h3>';
-	$tmpString .= '<div class="btmspc-dbl"><small><em>Entity mentions are highlighted as follows: <mark class="compound">Compounds</mark>, <mark class="enzyme">Enzymes</mark> and <mark class="organism">Organisms</mark></em></small></div>';
+	$tmpString .= '<div class="btmspc-dbl"><small><em>Entity mentions are highlighted as follows: <mark class="compound">Compounds</mark>, <mark class="enzyme">Enzymes</mark> and <mark class="organism">Organisms</mark></em>. Curated evidences are indicated by: <a href="#" class="curated">&nbsp;</a></small></div>';
 
 	
 	switch($type){
 		
 		case 'enzyme':
-			$selectSQL = "select a.id_evidence,b.text_evidence,b.curated,b.pubmed_id from evidences_enzymes a, evidences b where id_enzyme=$idCompuesto and a.id_evidence=b.id_evidence";
+			$selectSQL = "select a.id_evidence,b.text_evidence,b.curated,b.pubmed_id from evidences_enzymes a, evidences b where id_enzyme=$idCompuesto and a.id_evidence=b.id_evidence order by b.pubmed_id";
 			break;
 		case 'compound':
 			$selectSQL = "select a.id_evidence,b.text_evidence,b.curated,b.pubmed_id from evidences_compounds a, evidences b where id_compound=$idCompuesto and a.id_evidence=b.id_evidence";
@@ -53,12 +53,12 @@
 		$tmpString.="<div class=\"title_paper\">$titlePaper</div>\n";
 		$tmpString.=modificarTexto($idEvidence,$textEvidence);
 		if ($curated==0){
-			$tmpString.=' <a href="#" class="rgt-arw" onClick="javascript:annotate(\''.$home_url.'/curate-evidence?idEvidence='.$idEvidence.'&type='.$type.'&TB_iframe=true&height=600&width=1000\')">Annotate</a>';
+			$tmpString.= ' <small>[PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/'.$pubmedId.'" target="_blank">'.$pubmedId.'</a> ] <a href="#" class="rgt-arw no-curated tooltip" onClick="javascript:annotate(\''.$home_url.'/curate-evidence?idEvidence='.$idEvidence.'&type='.$type.'&TB_iframe=true&height=600&width=1000\')">Curate</a></small>';
 		}
 		else{
-			$tmpString.=' <a href="'.$home_url.'/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000" class="rgt-arw">Annotate</a><span style="color:#FF0000">(Annotated)</span>';
+			$tmpString.=' <small>[PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/'.$pubmedId.'" target="_blank">'.$pubmedId.'</a> ]  <a href="'.$home_url.'/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000" class="rgt-arw curated">Curate</a></small>';
 		}
-		$tmpString.="</p></div><!--  End div evidence -->\n";
+		$tmpString.="</div><!--  End div evidence -->\n";
 	}
 
 	

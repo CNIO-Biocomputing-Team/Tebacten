@@ -1,4 +1,5 @@
-#applogo{font-family: 'Kaushan Script', cursive;float: left;font-size: 36px;color: #F60;}
+#applogo a{font-family: 'Kaushan Script', cursive;float: left;font-size: 36px;color: #F60;text-decoration: none;}
+#applogo a:hover{text-decoration: none;}
 #bottom ul{margin-left: 0px;}
 #bottom li{padding-right: 20px;padding-left: 20px;}
 mark.compound{background-color:#d2fd28;}
@@ -6,3 +7,6 @@ mark.organism{background-color:#fcae11}
 #tags{height: 30px;background-color:white;width: 400px;font-size: 24px;}
 #bigSearch{padding: 11px 20px;}
 #popup{width: 960px;}
+.evidence{border-bottom: 1px dotted #E0DFDF;margin-bottom: 10px;}
+a.no-curated:before { content: "✔"; color: #f1f1f1; font-size: 18px; padding-right: 10px; }
+a.curated:before { content: "✔"; color: #F60; font-size: 18px; padding-right: 10px; }

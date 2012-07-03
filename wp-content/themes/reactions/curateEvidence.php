@@ -360,7 +360,7 @@ echo "<div class=\"slidingDiv\"> <a href=\"#\" class=\"show_hide\"><small>hide</
 </section>        	
  	
 <section id="buttons" class="cols">
-		<input id="submitButton" class="button orange" type="submit" name="submitButton" value="Send">
+		<input id="submitButton" class="button orange" type="submit" name="submitButton" value="Curate">
 </section>
 				
 			

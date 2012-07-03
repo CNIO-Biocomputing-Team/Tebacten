@@ -24,8 +24,7 @@
 	<div id="popup"></div>
 	<div id="wrapper">
 	<header id="top">
-		<h1 id="applogo">Tebacten</h1>
-		<!-- <h1><a href="<?php echo home_url( '/' ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>  -->
+		<h1 id="applogo"><a href="<?php echo home_url( '/' ); ?>" title="" rel="home">Tebacten</a></h1>
 		<nav id="access" role="navigation">
 		  <ul>
 		  	<li>Search by:</li>
