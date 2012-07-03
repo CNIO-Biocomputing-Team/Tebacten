@@ -1,4 +1,14 @@
+.htaccess
 wp-config.php
+wp-content/themes/reactions/archive.php
+wp-content/themes/reactions/author.php
+wp-content/themes/reactions/single.php
+wp-content/themes/reactions/tag.php
+wp-content/themes/reactions/search.php
+wp-content/themes/reactions/sidebar.php
+wp-content/themes/reactions/comments.php
+wp-content/themes/reactions/codigoQuitado.txt
+wp-content/themes/reactions/readme.txt
 wp-content/themes/reactions/scripts/config.txt
 wp-content/themes/reactions/scripts/config.php
-.htaccess
+wp-content/themes/reactions/scripts/modificarDatos2 BACKUP antesOrganismosModificacion.py
