@@ -5,8 +5,9 @@
 	include 'functions.php';
 			
 	$type 			= $_GET['type'];
-	$idCompuesto 	= $_GET['idCompuesto'];
-	$textminingName = $_GET['textminingName'];
+	$idCompuesto 	= trim(str_replace('e.g.','',$_GET['idCompuesto']));
+	$textminingName = trim(str_replace('e.g.','',$_GET['textminingName']));
+
 	$whatToSearch 	= $_GET['whatToSearch'];	
 
 	$pathToPython="/opt/python/2.7/bin/python";
@@ -47,12 +48,12 @@
 		$pubmedId=$row[3];
 		$tmpString.="<div class=\"evidence\">\n";
 		//Colocamos el articleTitle en vez del pubmedId:
-		$command="$pathToPython returnPubmedInformation.py $pubmedId";
+		$command = "$pathToPython returnPubmedInformation.py $pubmedId";
 		exec($command,$output,$return);
-		$titlePaper=$output[0];			
-		$tmpString.="<div class=\"title_paper\">$titlePaper</div>\n";
-		$tmpString.=modificarTexto($idEvidence,$textEvidence);
-		if ($curated==0){
+		$titlePaper = $output[0];			
+		$tmpString .= "<div class=\"title_paper\">$titlePaper</div>\n";
+		$tmpString .= modificarTexto($idEvidence,$textEvidence);
+		if ($curated == 0){
 			$tmpString.= ' <small>[PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/'.$pubmedId.'" target="_blank">'.$pubmedId.'</a> ] <a href="#" class="rgt-arw no-curated tooltip" onClick="javascript:annotate(\''.$home_url.'/curate-evidence?idEvidence='.$idEvidence.'&type='.$type.'&TB_iframe=true&height=600&width=1000\')">Curate</a></small>';
 		}
 		else{
