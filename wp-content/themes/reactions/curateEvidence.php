@@ -9,7 +9,7 @@ function printCompoundsTables($compoundsCounter,$textminingCompoundName,$strCheb
 				<tr>
 					<td>Compound name:</td>
 					<td>
-						<input id=textminingCompoundName_$compoundsCounter" type="text" name="textminingCompoundName_$compoundsCounter" maxlenght="255" size="20" value="$textminingCompoundName"><small><a href="#" onClick="insertChebiIds($compoundsCounter)">Click to search</a></small>
+						<input id="textminingCompoundName_$compoundsCounter" type="text" name="textminingCompoundName_$compoundsCounter" maxlenght="255" size="20" value="$textminingCompoundName"><small><a href="#" onClick="insertChebiIds($compoundsCounter)">Click to search</a></small>
 						<div id="overlayCompounds_$compoundsCounter">&nbsp;</div>
 						<script>$('#overlayCompounds_compoundsCounter').unmask();</script>
 					</td>
