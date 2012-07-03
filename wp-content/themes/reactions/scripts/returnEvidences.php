@@ -14,8 +14,8 @@
 	mysql_select_db("tebacten", $conn);
 	mysql_query("SET NAMES 'utf8'");	
 	
-	$tmpString="<h6>Results</h6>";
-	$tmpString .= "<p><em>Entity mentions are highlighted as follows: <mark class=\"compound\">Compounds</mark>, <mark class=\"enzyme\">Enzymes</mark> and <mark class=\"organism\">Organisms</mark></em></p>";
+	$tmpString ='<h3>Evidences found for: '.$textminingName.'</h3>';
+	$tmpString .= '<div class="btmspc-dbl"><small><em>Entity mentions are highlighted as follows: <mark class="compound">Compounds</mark>, <mark class="enzyme">Enzymes</mark> and <mark class="organism">Organisms</mark></em></small></div>';
 
 	
 	switch($type){

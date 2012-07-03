@@ -15,7 +15,7 @@ function printCompoundsTables($compoundsCounter,$textminingCompoundName,$strCheb
 					</td>
 				</tr>
 				<tr>
-					<td>ChEBI: </td>
+					<td>ChEBI Id: </td>
 					<td>
 						<div id="listaCompoundsIds_$compoundsCounter">
 							<select id="listOfChebiIds_$compoundsCounter" type="text" name="listOfChebiIds_$compoundsCounter" maxlenght="255" >
@@ -63,7 +63,7 @@ function printEnzymeTables($enzymesCounter,$textminingEnzymeName,$strProteins,$s
             	</td>
             </tr>
             <tr>
-            	<td>Proteins: </td>
+            	<td>UniProt Id(s): </td>
             	<td>
             		<div id="listOfProteinsOutside_$enzymesCounter">
             		<div class="linksToCompounds">$strProteins</div>
@@ -298,7 +298,7 @@ echo "<div class=\"slidingDiv\"> <a href=\"#\" class=\"show_hide\"><small>hide</
 		printCompoundsTables($i,"","","","display:none");		
 	}
 	?>
-	<input id="add_compound" type="button" onclick="addCompound();" name="add_compound_$compoundsCounter" value="Add Compound " class="button orange">
+	<input id="add_compound" type="button" onclick="addCompound();" name="add_compound_$compoundsCounter" value="Add more">
 
 </section><!-- End div#compounds -->
     
@@ -356,7 +356,7 @@ echo "<div class=\"slidingDiv\"> <a href=\"#\" class=\"show_hide\"><small>hide</
 	}
 
 ?>   
-	<input id="add_enzyme" type="button" onclick="addEnzyme();" name="add_enzyme" value="Add Enzyme" class="button orange">  
+	<input id="add_enzyme" type="button" onclick="addEnzyme();" name="add_enzyme" value="Add more">  
 </section>        	
  	
 <section id="buttons" class="cols">
