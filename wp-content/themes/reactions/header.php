@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
-	<title><?php  wp_title( '|', true, 'right' );?></title>
+	<title>TeBactEn</title>
 		<link rel="stylesheet" href="<?php bloginfo('template_url')?>/uniform/css/uniform.default.css" type="text/css" media="screen" charset="utf-8" />
 	<link rel="stylesheet" media="screen" href="<?php bloginfo('template_url')?>/yaff/css/base.css?v=2" /> <!--Load CSS-->
 	<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/css/jquery-ui-1.8.21.custom.css" />
