@@ -58,7 +58,7 @@
 			$tmpString.= ' <small>[PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/'.$pubmedId.'" target="_blank">'.$pubmedId.'</a> ] <a href="#" class="rgt-arw no-curated tooltip" onClick="javascript:annotate(\''.$home_url.'/curate-evidence?idEvidence='.$idEvidence.'&type='.$type.'&TB_iframe=true&height=600&width=1000\')">Curate</a></small>';
 		}
 		else{
-			$tmpString.=' <small>[PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/'.$pubmedId.'" target="_blank">'.$pubmedId.'</a> ]  <a href="'.$home_url.'/curate-evidence?idEvidence=$idEvidence&type=$type&TB_iframe=true&height=600&width=1000" class="rgt-arw curated">Curate</a></small>';
+			$tmpString.=' <small>[PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/'.$pubmedId.'" target="_blank">'.$pubmedId.'</a> ]  <a href="#" class="rgt-arw curated"onClick="javascript:annotate(\''.$home_url.'/curate-evidence?idEvidence='.$idEvidence.'&type='.$type.'&TB_iframe=true&height=600&width=1000\')">Curate</a></small>';
 		}
 		$tmpString.="</div><!--  End div evidence -->\n";
 	}
