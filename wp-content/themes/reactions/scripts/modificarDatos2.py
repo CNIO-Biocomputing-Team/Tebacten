@@ -60,7 +60,7 @@ def get_scientifc_name_from_tax_id(taxid):
     #sys.exit()
     return scientificName
     
-commonOutput()
+# commonOutput()
 #RECOGIDA DE DATOS:
 fs = cgi.FieldStorage()
 redirectionOKcurated=HOME_URL+"/curate-evidence/?"
