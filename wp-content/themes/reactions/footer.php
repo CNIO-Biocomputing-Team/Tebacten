@@ -23,7 +23,7 @@
 	/* A sidebar in the footer? Yep. You can can customize
 	 * your footer with four columns of widgets.
 	 */
-	get_sidebar( 'footer' );
+	//get_sidebar( 'footer' );
 ?>			
 		</footer><!-- footer -->
 </div> <!-- End div page_wrap -->
@@ -65,6 +65,7 @@ $(document).ready(function(){
 function annotate(url){
 	$('#popup').bPopup({
           loadUrl: url,
+          follow:[false,false],
           modalClose: true,
           position: ['auto',150]
     });
