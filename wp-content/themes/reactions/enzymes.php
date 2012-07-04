@@ -3,6 +3,6 @@
 	<input type="text" id="tags" class="ui-autocomplete-input" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true" value="e.g. 1,3-propanediol dehydrogenase" onclick="this.value=''"><a href="#" onClick="return searchEvidences('enzyme','search');" class="button orange" id="bigSearch">Search</a>
 </section>
 <section class="cols">
-	<div id="evidences"></div>
+	<div id="evidences"><img src="<?php bloginfo('template_url')?>/images/enzyme-example.jpg"></div>
 </section>
 <?php get_footer(); ?>

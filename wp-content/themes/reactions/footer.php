@@ -14,9 +14,9 @@
 			<nav>
 				<ul>
 					<li>Spanish National Cancer Research Centre. CNIO Structural Biology and BioComputing Programme</li>
-					<li><a href="http://microme.eu"><img src="<?php echo $template_url; ?>/images/microme-off.png" border="0" class="rollover" /></a>
-					<li><a href="http://cnio.es"><img src="<?php echo $template_url; ?>/images/cnio-off.png" border="0" class="rollover" /></a>
-					<li><a href="http://inab.org"><img src="<?php echo $template_url; ?>/images/inb-off.png" border="0" class="rollover" /></a>
+					<li><a href="http://microme.eu" target="_blank"><img src="<?php echo $template_url; ?>/images/microme-off.png" border="0" class="rollover" /></a>
+					<li><a href="http://cnio.es" target="_blank"><img src="<?php echo $template_url; ?>/images/cnio-off.png" border="0" class="rollover" /></a>
+					<li><a href="http://inab.org" target="_blank"><img src="<?php echo $template_url; ?>/images/inb-off.png" border="0" class="rollover" /></a>
 				</ul>
 			</nav>
 <?php
