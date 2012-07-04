@@ -502,6 +502,7 @@ if metodo=="curate":
 	updateEvidence="update evidences set curated=1 where id_evidence='"+str(idEvidence)+"'"
 	try:
 		rc=cur.execute(updateEvidence)
+		DB_CONN.commit()
 	except:
 		print "Location: "+str(redirectionKOcurated)+"idEvidence="+str(idEvidence)+"&error=updateEvidence \n\n"
 		sys.exit()
