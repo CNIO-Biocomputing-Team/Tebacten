@@ -2,8 +2,9 @@
 #applogo a:hover{text-decoration: none;}
 #bottom ul{margin-left: 0px;}
 #bottom li{padding-right: 20px;padding-left: 20px;}
-mark.compound{background-color:#d2fd28;}
-mark.organism{background-color:#fcae11}
+mark.enzyme{background-color:#fdecfe;}
+mark.compound{background-color:#f9fdd5;}
+mark.organism{background-color:#e9fee8}
 #tags{height: 30px;background-color:white;width: 400px;font-size: 24px;}
 #bigSearch{padding: 11px 20px;}
 #popup{width: 960px;}

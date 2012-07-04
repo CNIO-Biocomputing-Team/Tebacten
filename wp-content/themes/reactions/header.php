@@ -33,7 +33,7 @@
 		  	<li><a href="<?php bloginfo('home') ?>/enzymes" class="button gray">Enzymes</a></li>
 		  	<li><a href="<?php bloginfo('home') ?>/compounds" class="button gray">Chemicals</a></li>
 		  	
-		  	<li><a href="#">Help</a></li>
+		  	<!-- <li><a href="#">Help</a></li> -->
 		  </ul>	
 	  <?php /*  Allow screen readers / text browsers to skip the navigation menu and get right to the good stuff */ ?>
 		<?php /* Our navigation menu.  If one isn't filled out, wp_nav_menu falls back to wp_page_menu.  The menu assiged to the primary position is the one used.  If none is assigned, the menu with the lowest ID is used.  */ ?>
