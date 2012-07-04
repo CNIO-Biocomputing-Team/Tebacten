@@ -24,13 +24,15 @@
 	<div id="popup"></div>
 	<div id="wrapper">
 	<header id="top">
-		<h1 id="applogo"><a href="<?php echo home_url( '/' ); ?>" title="" rel="home">Tebacten</a></h1>
+		<h1 id="applogo"><a href="<?php echo home_url( '/' ); ?>" title="" rel="home">TeBactEn</a></h1>
 		<nav id="access" role="navigation">
 		  <ul>
-		  	<li>Search by:</li>
-		  	<li><a href="<?php bloginfo('home') ?>/enzymes" class="button gray">Enzymes</a></li>
-		  	<li><a href="<?php bloginfo('home') ?>/compounds" class="button gray">Compounds</a></li>
+		  	<li><a href="<?php bloginfo('home') ?>">Home</a></li>
+		  	<li><b>Search by:</b></li>
 		  	<li><a href="<?php bloginfo('home') ?>/species" class="button gray">Species</a></li>
+		  	<li><a href="<?php bloginfo('home') ?>/enzymes" class="button gray">Enzymes</a></li>
+		  	<li><a href="<?php bloginfo('home') ?>/compounds" class="button gray">Chemicals</a></li>
+		  	
 		  	<li><a href="#">Help</a></li>
 		  </ul>	
 	  <?php /*  Allow screen readers / text browsers to skip the navigation menu and get right to the good stuff */ ?>
