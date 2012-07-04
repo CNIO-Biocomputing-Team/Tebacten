@@ -49,8 +49,9 @@
 		$tmpString.="<div class=\"evidence\">\n";
 		//Colocamos el articleTitle en vez del pubmedId:
 		$command = "$pathToPython returnPubmedInformation.py $pubmedId";
+		$output=array();
 		exec($command,$output,$return);
-		$titlePaper = $output[0];			
+		$titlePaper = $output[0];
 		$tmpString .= "<div class=\"title_paper\">$titlePaper</div>\n";
 		$tmpString .= modificarTexto($idEvidence,$textEvidence);
 		if ($curated == 0){
