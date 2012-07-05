@@ -76,7 +76,7 @@
 			//Colocamos el articleTitle en vez del pubmedId:
 			$command = "$pathToPython returnPubmedInformation.py $pubmedId";
 			$output=array();
-			exec($command,$output,$return);
+			//exec($command,$output,$return);
 			$titlePaper = $output[0];
 			$tmpString .= "<h6>$titlePaper</h6>\n";
 			$tmpString .= modificarTexto($idEvidence,$textEvidence);
