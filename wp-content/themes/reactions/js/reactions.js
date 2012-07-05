@@ -2,7 +2,7 @@ var home_url="http://tebacten.bioinfo.cnio.es";
 var home_url="http://localhost/Tebacten";
 function showEvidences(idCompuesto,type){
     var ajaxDisplay = document.getElementById('evidences');
-	ajaxDisplay.innerHTML = "Searching for evidences. Please wait. This usually takes less than a minute, depending on the number of evidences";
+	ajaxDisplay.innerHTML = "<b>Searching for evidences...</b> Please wait. This usually takes less than a minute, depending on the number of evidences";
 	
 	var ajaxRequest;  // The variable that makes Ajax possible!
 	
@@ -37,7 +37,7 @@ function showEvidences(idCompuesto,type){
 	ajaxRequest.send(null); 
 }
 
-function searchEvidences(whatToSearch,type){
+function searchEvidences(whatToSearch,type,page){
 	var ajaxDisplay = document.getElementById('evidences');
 	ajaxDisplay.innerHTML = "Searching for evidences. Please wait. This usually takes less than a minute, depending on the number of evidences";
 	
@@ -74,7 +74,7 @@ function searchEvidences(whatToSearch,type){
 		}
 	}
 	
-	var queryString = "?textminingName="+termToSearch+"&type="+type+"&whatToSearch="+whatToSearch;
+	var queryString = "?textminingName="+termToSearch+"&type="+type+"&whatToSearch="+whatToSearch+"&page="+page;
 	ajaxRequest.open("GET", home_url+"/wp-content/themes/reactions/scripts/returnEvidences.php" + queryString, true);
 	//alert ("http://localhost/reactions/wp-content/themes/reactions/scripts/returnEvidences.php" + queryString);
 	ajaxRequest.send(null); 

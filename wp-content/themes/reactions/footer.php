@@ -49,7 +49,7 @@ $(document).ready(function(){
 		function() { this.src = this.src.replace("-on", "-off"); 
 	});
 	$("input:text, input:checkbox, input:radio, input:file, .uniform-button").uniform();
-	
+	$("#bigSearch").trigger('click');
 	 
     $(".slidingDiv").hide();
     $(".show_hide").show();

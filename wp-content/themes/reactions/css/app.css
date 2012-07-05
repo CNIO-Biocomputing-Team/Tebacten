@@ -11,3 +11,5 @@ mark.organism{background-color:#e9fee8}
 .evidence{border-bottom: 1px dotted #E0DFDF;margin-bottom: 10px;}
 a.no-curated:before { content: "✔"; color: #f1f1f1; font-size: 18px; padding-right: 10px; }
 a.curated:before { content: "✔"; color: #F60; font-size: 18px; padding-right: 10px; }
+.pagination a,.pagination .current{margin-left: 5px;margin-right: 5px;}
+.pagination .current{font-weight: bold;}
