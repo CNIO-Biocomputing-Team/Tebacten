@@ -111,7 +111,7 @@ function addCompound(){
 	i=0;
 	maxNumVisible=0;
 	while ((i<26)&&(found==0)){
-		display=$("#newCompound_"+i).css("display");
+		display=$("#compound_"+i).css("display");
 		
 		if (display=="none"){
 			
@@ -121,7 +121,7 @@ function addCompound(){
 		i=i+1;
 	}
 	
-	divToOpen="newCompound_"+maxNumVisible;
+	divToOpen="compound_"+maxNumVisible;
 	$("#"+divToOpen).attr("style","display:block");
 	
 }
