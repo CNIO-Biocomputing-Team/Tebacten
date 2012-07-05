@@ -78,7 +78,7 @@
 			$output=array();
 			exec($command,$output,$return);
 			$titlePaper = $output[0];
-			$tmpString .= "<div class=\"title_paper\">$titlePaper</div>\n";
+			$tmpString .= "<h6>$titlePaper</h6>\n";
 			$tmpString .= modificarTexto($idEvidence,$textEvidence);
 			if ($curated == 0){
 				$tmpString.= ' <small>[PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/'.$pubmedId.'" target="_blank">'.$pubmedId.'</a> ] <a href="#" class="rgt-arw no-curated tooltip" onClick="javascript:annotate(\''.$home_url.'/curate-evidence?idEvidence='.$idEvidence.'&type='.$type.'&TB_iframe=true&height=600&width=1000\')">Curate</a></small>';
