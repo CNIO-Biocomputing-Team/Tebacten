@@ -47,7 +47,7 @@ $textoModificado = modificarTexto($idEvidence,$textEvidence);
 <section id="fixed_header" class="cols">
 	<div id="title_paper"><?php echo $titlePaper; ?></div>
 	<div id="text_evidence"><?php echo $textoModificado; ?></div>
-	<a href="#" class="show_hide"><small>View more sentences</small></a>
+	<!-- <a href="#" class="show_hide"><small>View more sentences</small></a> -->
 </section>
 
 <section id="form" class="cols">
@@ -77,74 +77,40 @@ echo "<div class=\"slidingDiv\"> <a href=\"#\" class=\"show_hide\"><small>hide</
 	<h6>ORGANISM</h6>
 <?php
 	try{
-		$selectSQL="select a.pubmed_id, a.text_evidence, a.curated, b.id_organism_ncbi, b.ncbi_organism_name, b.textmining_organism_name, c.strain,c.id_evidences_organisms    from evidences as a, organisms as b, evidences_organisms as c where a.id_evidence='$idEvidence' and a.id_evidence=c.id_evidence and  c.id_organism=b.id_organism";
-
-		$result= mysql_query($selectSQL);
-		$row = mysql_fetch_row($result);
-		$organismsCounter=0;
+		$selectSQL	= "select a.pubmed_id, a.text_evidence, a.curated, b.id_organism_ncbi, b.ncbi_organism_name, b.textmining_organism_name, c.strain,c.id_evidences_organisms    from evidences as a, organisms as b, evidences_organisms as c where a.id_evidence='$idEvidence' and a.id_evidence=c.id_evidence and  c.id_organism=b.id_organism";
+		//echo $selectSQL;
+		$result	= mysql_query($selectSQL);
+		$row 	= mysql_fetch_row($result);
+		$organismsCounter	=	0;
+		
 		if (count($row)==0){
 			//No existe entrada en evidencia_organism.Así que ponemos un único espacio para un orgnismo. Luego rellenaremos con espacios vacíos.
-			$existeEvidenciaOrganism=false;
-			$id_organism_ncbi="0";
-			$ncbi_organism_name="";
-			$textminingOrganismName="";
+			$existeEvidenciaOrganism	= false;
+			$id_organism_ncbi			= "0";
+			$ncbi_organism_name			= "";
+			$textminingOrganismName		= "";
 			$strain="";
-			echo "<table>";
-				echo "<tr>";
-					echo "<td>Organism: </td><td><input id=\"textminingOrganismName_$organismsCounter\" type=\"text\" NAME=\"textminingOrganismName_$organismsCounter\" maxlenght=\"255\" size=\"20\" value=\"$textminingOrganismName\">\n";
-					echo "<small><a href=\"javascript:;\" onClick=\"overlayTaxonomy($organismsCounter); insertTaxonomy($organismsCounter);\">Click to search</a></small>
-						<div id=\"overlayTaxonomy_$organismsCounter\">&nbsp;</div>
-						<script>
-                    		$('#overlayTaxonomy_$organismsCounter').unmask();
-                    	</script>		
-					</td>
-			";
-			echo "</tr><tr>";
-			echo "</table>";
-			
-			echo "<div id=\"organism_ajax_$organismsCounter\">\n";
-				echo "<table>";
-					echo "<td>NCBI organism name: </td><td><select  id=\"idOrganismNCBI_$organismsCounter\" type=\"text\" name=\"idOrganismNCBI_$organismsCounter\"><option value=\"$idOrganismNCBI\">$idOrganismNCBIname</select></td>";
-					echo "</tr><tr>";
-					
-	             	//Ponemos el strain:
-	             	echo "<td>Strain: </td><td><SELECT name=\"strain_$organismsCounter\" div=\"strain_$organismsCounter\">";
-	             		echo "<OPTION value=\"\" SELECTED>Select";
-	             		echo "<OPTION value=\"+\">+";
-		             	echo "<OPTION value=\"-\">-";
-	             	echo "</SELECT>\n</div></td>";
-	             	echo "</tr>";
-	             	echo "<tr><td><input id=\"deleteOrganism_$organismsCounter\" type=\"button\" onclick=\"deleteOrganism('$organismsCounter')\" name=\"deleteOrganism_$organismsCounter\" value=\"Delete Organism \" class=\"\">\n</td><td></td></tr>";
-	             echo "</table>";
-			echo "</div><!-- End div#organism_ajax_$organismsCounter -->\n";
+			printOrganismsTable($organismsCounter,$textminingOrganismName,"");
 			$organismsCounter++;
+		
+		
 		}else{
 			//Si que existen entradas para la tabla evidences_organisms así que recuperamos los valores
 			$result2= mysql_query($selectSQL);
-				echo "<table>";
-						echo "<tr>";
-							echo "<td>Organism: </td><td>";
-							echo "<SELECT id=\"textminingOrganismName_$organismsCounter\" type=\"text\" NAME=\"textminingOrganismName_$organismsCounter\" maxlenght=\"255\" size=\"1\" onChange=\"overlayTaxonomy($organismsCounter);insertTaxonomy($organismsCounter,'$idEvidence');\">\n";
-							echo "<OPTION value=\"\" >Select an organism";
+			$orgOptions = "";
+
 			while ($row2 = mysql_fetch_row($result2)){
-				$existeEvidenciaOrganism=true;
-				$idOrganismNCBI=$row2[3];
-				$idOrganismNCBIname=$row2[4];
-				$textminingOrganismName=$row2[5];
-				$strain=$row2[6];
-				$idEvidencesOrganisms=$row2[7];
-				echo "<OPTION value=\"$idEvidencesOrganisms\" >$textminingOrganismName";
+				$existeEvidenciaOrganism	= true;
+				$idOrganismNCBI				= $row2[3];
+				$idOrganismNCBIname			= $row2[4];
+				$textminingOrganismName		= $row2[5];
+				$strain						= $row2[6];
+				$idEvidencesOrganisms		= $row2[7];
+				$orgOptions .= "<option value=\"$idEvidencesOrganisms\" >$textminingOrganismName</option>";
 				$organismsCounter++;
 			}
-				echo "</SELECT>\n</div></td>";
-	           echo "</tr>";
-	          echo "</table>";
-	        echo "<div id=\"organism_ajax_0\">\n";
-			echo "</div><!-- End div#organism_ajax_0 -->\n";
-			echo "<script>
-            		$('#overlayTaxonomy_$organismsCounter').unmask();
-            	</script>		
-			</td>";
+			printOrganismsTable($organismsCounter,$textminingOrganismName,$orgOptions);
+			
 		}
 	}
 	catch(Exception $e){

@@ -143,6 +143,54 @@ function printPagination($whatToSearch,$lastpage,$page,$adjacents,$prev,$next){
 
 }
 
+function printOrganismsTable($organismsCounter,$textminingOrganismName,$orgOptions){
+	
+	echo <<<EOOF
+	<div id="organism_ajax_$organismsCounter">
+	<table>
+		<tr>
+			<td>Organism: </td>
+			<td>
+				<input id="textminingOrganismName_$organismsCounter" type="text" name="textminingOrganismName_$organismsCounter" maxlenght="255" size="20" value="$textminingOrganismName">
+				<small><a href="javascript:;" onClick="overlayTaxonomy($organismsCounter); insertTaxonomy($organismsCounter);">Click to search</a></small>
+				<div id="overlayTaxonomy_$organismsCounter">&nbsp;</div>
+				<script>
+	        		$('#overlayTaxonomy_$organismsCounter').unmask();
+	        	</script>		
+	        </td>
+	    </tr>
+		<tr>
+			<td>NCBI organism name: </td>
+			<td>
+				<select  id="idOrganismNCBI_$organismsCounter" type="text" name="idOrganismNCBI_$organismsCounter">
+					$orgOptions
+				</select>
+			</td>
+		</tr>
+		<tr>				
+        	<td>Strain: </td>
+        	<td>
+        		<SELECT name="strain_$organismsCounter" div="strain_$organismsCounter">
+             		<option value="" selected>Select</option>
+             		<option value="+">+</option>
+	             	<option value="-">-</option>
+             	</SELECT>
+            </td>
+        </tr>
+        <tr>
+        	<td>
+        		<input id="deleteOrganism_$organismsCounter" type="button" onclick="deleteOrganism('$organismsCounter')" name="deleteOrganism_$organismsCounter" value="Delete Organism" class=""
+        	</td>
+        	<td></td>
+        </tr>
+        </table>
+    </div><!-- End div#organism_ajax_$organismsCounter -->
+EOOF;
+	
+}
+
+
+
 function printCompoundsTables($compoundsCounter,$textminingCompoundName,$strChebi,$strInputOutput,$display){
 	echo <<<EOTC
 	<div id="compound_$compoundsCounter" name="compound_$compoundsCounter" style="$display">
