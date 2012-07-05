@@ -39,7 +39,7 @@ function showEvidences(idCompuesto,type){
 
 function searchEvidences(whatToSearch,type,page){
 	var ajaxDisplay = document.getElementById('evidences');
-	ajaxDisplay.innerHTML = "Searching for evidences. Please wait. This usually takes less than a minute, depending on the number of evidences";
+	ajaxDisplay.innerHTML = "<b>Searching for evidences...</b>. Please wait. This usually takes less than a minute, depending on the number of evidences";
 	
     var termToSearch=$("#tags").val();
     if (termToSearch==""){
