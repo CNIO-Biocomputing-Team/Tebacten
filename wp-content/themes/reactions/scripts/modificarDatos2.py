@@ -95,7 +95,10 @@ if metodo=="curate":
 		rc = cur.execute(sqlUpdateEvidencesOrganisms)
 		DB_CONN.commit()
 		#Ahora recuperamos el ncbiOrganisms y lo guardamos no vaya a ser que se haya modificado por el usuario.Necesitamos conocer el idOrganism para guardar un id_organism_ncbi
-		idOrganismNCBI=fs['idOrganismNCBI_0'].value
+		try:
+			idOrganismNCBI=fs['idOrganismNCBI_0'].value
+		except:
+			strain=""	
 		selectEvidencesOrganisms="select id_organism from evidences_organisms where id_evidences_organisms="+str(idEvidencesOrganisms)
 		cur.execute(selectEvidencesOrganisms)
 		row = cur.fetchone()

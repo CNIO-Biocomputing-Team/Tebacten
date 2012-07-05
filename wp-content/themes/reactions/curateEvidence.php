@@ -2,88 +2,6 @@
 include("scripts/config.php");
 include('scripts/functions.php');
 
-function printCompoundsTables($compoundsCounter,$textminingCompoundName,$strChebi,$strInputOutput,$display){
-	echo <<<EOTC
-	<div id="compound_$compoundsCounter" name="compound_$compoundsCounter" style="$display">
-			<table>
-				<tr>
-					<td>Compound name:</td>
-					<td>
-						<input id="textminingCompoundName_$compoundsCounter" type="text" name="textminingCompoundName_$compoundsCounter" maxlenght="255" size="20" value="$textminingCompoundName"> <small><a href="#" onClick="insertChebiIds($compoundsCounter)">Search compound in ChEBI</a></small>
-						<div id="overlayCompounds_$compoundsCounter">&nbsp;</div>
-						<script>$('#overlayCompounds_compoundsCounter').unmask();</script>
-					</td>
-				</tr>
-				<tr>
-					<td>ChEBI Id: </td>
-					<td>
-						<div id="listaCompoundsIds_$compoundsCounter">
-							<select id="listOfChebiIds_$compoundsCounter" type="text" name="listOfChebiIds_$compoundsCounter" maxlenght="255" >
-							$strChebi
-							</select>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>Substrate/Product: </td>
-					<td>
-						<select name="inputOutput_$compoundsCounter">
-						$strInputOutput
-						</select>
-					</td>
-				</tr>
-				<tr>	
-					<td>
-						<input id="delete_compound_$compoundsCounter" type="button" onclick="deleteCompound('compound_$compoundsCounter')" name="delete_compound_$compoundsCounter" value="Delete Compound" class="uniform-button">
-					</td>
-					<td></td>
-				</tr>
-			</table>
-	</div><!-- End of id#compound -->
-EOTC;
-}
-
-function printEnzymeTables($enzymesCounter,$textminingEnzymeName,$strProteins,$strSelectProteins,$display){
-	echo <<<EOTE
-	<div id="enzyme_$enzymesCounter" style="$display">
-		<table class="compoundsEnzymes">
-			<tr>
-				<td>Enzyme name:</td>
-				<td>
-					<input id="textminingEnzymeName_$enzymesCounter" type="text" name="textminingEnzymeName_$enzymesCounter" maxlenght="255" size="20" value="$textminingEnzymeName">
-					<small>Search enzyme in UniProt &nbsp;					
-						<a href="javascript:;" onClick="insertProteinsOfEnzyme('$enzymesCounter','selected')">Selected organism</a>&nbsp;
-						<a href="javascript:;" onClick="insertProteinsOfEnzyme('$enzymesCounter','conventioned')">Conventioned species</a>&nbsp;
-						<a href="javascript:;" onClick="insertProteinsOfEnzyme('$enzymesCounter','all')">All bacteria</a>&nbsp;
-					</small>
-					<div id="overlayEnzymes_$enzymesCounter">&nbsp;</div>
-					<script>
-	            		$('#overlayEnzymes_$enzymesCounter').unmask();
-	            	</script>
-            	</td>
-            </tr>
-            <tr>
-            	<td>UniProt Id(s): </td>
-            	<td>
-            		<div id="listOfProteinsOutside_$enzymesCounter">
-            		<div class="linksToCompounds">$strProteins</div>
-            		<select multiple="multiple" id="listOfProteins_$enzymesCounter" name="listOfProteins_$enzymesCounter" size="5">
-            		$strSelectProteins	
-            		</select>
-            	</td>
-            </tr>
-            <tr>
-        		<td>
-        			<input id="delete_enzyme_$enzymesCounter" type="button" onclick="deleteEnzyme($enzymesCounter)" name="delete_enzyme_$enzymesCounter" value="Delete Enzyme">
-        		</td>
-        		<td>
-        		</td>
-        	</tr>
-        </table>
-     </div><!-- End of id#enzyme_ -->
-EOTE;
-
-}
 
 $conn = mysql_connect ($database, $db_user, $db_password);
 mysql_select_db("tebacten", $conn);
@@ -108,12 +26,14 @@ $textEvidence	= $row[1];
 $curated 		= $row[2];
 
 #$pathToProgram="$blogInfo/scripts/returnPubmedInformation.py $pubmedId";
+/*
 $command	=	"$pathToPython scripts/returnPubmedInformation.py $pubmedId";
 exec($command,$output,$return);
 $titlePaper=$output[0];
 if ($titlePaper==""){
 	echo "Sorry but we are experiencing problems retrieving the Article Title from NCBI";
 }
+*/
 
 //Incluimos el fichero functions.php que entre otras funciones contiene la funcion modificarTexto para el highlight de las enzimas y los compuestos
 $textoModificado = modificarTexto($idEvidence,$textEvidence);
