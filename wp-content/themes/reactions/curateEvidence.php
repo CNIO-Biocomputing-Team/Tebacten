@@ -50,8 +50,8 @@ $textoModificado = modificarTexto($idEvidence,$textEvidence);
 	<a href="#" class="show_hide"><small>View more sentences</small></a>
 </section>
 
-
-<form name="curateForm" method="post" id="curateForm" action="<?php echo $home_url;?>/wp-content/themes/reactions/scripts/modificarDatos2.py"  onsubmit="return validateForm();" accept-charset="UTF-8">
+<section id="form" class="cols">
+<form name="curateForm" method="post" id="curateForm" action=""  onsubmit="return validateForm();" accept-charset="UTF-8">
 	<input type="hidden" id="idEvidence" name="idEvidence" value="<?php echo $idEvidence; ?>">	
 	<input type="hidden" id="metodo" name="metodo" value="curate">
 				
@@ -282,6 +282,6 @@ echo "<div class=\"slidingDiv\"> <a href=\"#\" class=\"show_hide\"><small>hide</
 <section id="buttons" class="cols">
 		<input id="submitButton" class="button orange" type="submit" name="submitButton" value="Curate">
 </section>
-				
+</section>				
 			
 </form>
