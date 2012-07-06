@@ -1,4 +1,4 @@
-var home_url="http://localhost/Tebacten";
+//var home_url="http://localhost/Tebacten";
 var home_url="http://tebacten.bioinfo.cnio.es";
 
 function showEvidences(idCompuesto,type){
