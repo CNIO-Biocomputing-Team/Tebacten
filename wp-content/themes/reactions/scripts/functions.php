@@ -152,11 +152,12 @@ function printOrganismsTable($organismsCounter,$textminingOrganismName,$orgOptio
 			<td>Organism: </td>
 			<td>
 				<input id="textminingOrganismName_$organismsCounter" type="text" name="textminingOrganismName_$organismsCounter" maxlenght="255" size="20" value="$textminingOrganismName">
-				<small><a href="javascript:;" onClick="overlayTaxonomy($organismsCounter); insertTaxonomy($organismsCounter);">Click to search</a></small>
+				<small><a href="javascript:;" onClick="insertTaxonomy($organismsCounter);">Click to search</a></small>
 				<div id="overlayTaxonomy_$organismsCounter">&nbsp;</div>
-				<script>
+				<!-- <script>
 	        		$('#overlayTaxonomy_$organismsCounter').unmask();
 	        	</script>		
+	        	-->
 	        </td>
 	    </tr>
 		<tr>
@@ -200,7 +201,7 @@ function printCompoundsTables($compoundsCounter,$textminingCompoundName,$strCheb
 					<td>
 						<input id="textminingCompoundName_$compoundsCounter" type="text" name="textminingCompoundName_$compoundsCounter" maxlenght="255" size="20" value="$textminingCompoundName"> <small><a href="#" onClick="insertChebiIds($compoundsCounter)">Search compound in ChEBI</a></small>
 						<div id="overlayCompounds_$compoundsCounter">&nbsp;</div>
-						<script>$('#overlayCompounds_compoundsCounter').unmask();</script>
+						<!-- <script>$('#overlayCompounds_compoundsCounter').unmask();</script> -->
 					</td>
 				</tr>
 				<tr>
@@ -246,9 +247,9 @@ function printEnzymeTables($enzymesCounter,$textminingEnzymeName,$strProteins,$s
 						<a href="javascript:;" onClick="insertProteinsOfEnzyme('$enzymesCounter','all')">All bacteria</a>&nbsp;
 					</small>
 					<div id="overlayEnzymes_$enzymesCounter">&nbsp;</div>
-					<script>
+					<!-- <script>
 	            		$('#overlayEnzymes_$enzymesCounter').unmask();
-	            	</script>
+	            	</script> -->
             	</td>
             </tr>
             <tr>

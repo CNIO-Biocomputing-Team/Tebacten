@@ -75,7 +75,7 @@ function annotate(url){
 </script>
 <script type="text/javascript">
 		
-	function overlayTaxonomy(i){
+	/*function overlayTaxonomy(i){
 		$("#overlayTaxonomy_"+i).mask("Searching organism…");
 		return false;
 	}
@@ -86,7 +86,7 @@ function annotate(url){
 	function overlayEnzymes(i){
 		$("#overlayEnzymes_"+i).mask("Searching proteins…");
 		return false;
-	}
+	}*/
 </script>	
 <script>	
 	$(function() {		

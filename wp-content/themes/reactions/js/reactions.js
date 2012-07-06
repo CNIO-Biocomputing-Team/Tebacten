@@ -151,7 +151,7 @@ function deleteEnzyme(divToClose){
 }
 
 function validateForm(){
-	
+	var stringFormSubmission="";
 	//Primero quitamos el disabled de todos los textminingOrganismsName, 
 	for (var i=0;i<10;i++){
 		var selectorOrganism="input[name=textminingOrganismName_"+i+"]";
@@ -179,6 +179,10 @@ function validateForm(){
 				alert ("Please insert an organism name to annotate or delete the orgnanism");
 				return false;
 			}
+			else{
+				//Tenemos un organismo con con su valor asociado. Lo añadimos al stringFormSubmission.
+				stringFormSubmission+="&textminingOrganismName_"+i+"="+value;
+			}
 		}
 	}
 	//Luego tenemos que poner en disabled los campos ocultos y para eso hay que recorrerlos todos y si su style display es none entonces añadimos el atributo disabled=disabled
@@ -195,6 +199,10 @@ function validateForm(){
 			if (value==""){
 				alert ("Please insert a compound name to annotate or delete the compound");
 				return false;
+			}
+			else{
+				//Tenemos un compuesto con su valor asociado. Lo añadimos al stringFormSubmission.
+				stringFormSubmission+="&textminingCompoundName_"+i+"="+value;
 			}
 		}
 	}
@@ -214,12 +222,17 @@ function validateForm(){
 				alert ("Please insert an enzyme name to annotate or delete the enzyme");
 				return false;
 			}
+			else{
+				stringFormSubmission+="&textminingEnzymeName_"+i+"="+value;
+			}
 		}
 	}
 	var textminingOrganismName=$("#textminingOrganismName").val();
 	textminingOrganismName=$.trim(textminingOrganismName);
+	stringFormSubmission+="&textminingOrganismName="+textminingOrganismName;
 	
-		
+	alert (stringFormSubmission);
+	return false;
 	
 	//OJO!! NO ES OBLIGATORIO QUE SELECCIONAR UN ORGANISMO
 	
@@ -330,7 +343,7 @@ function insertTaxonomy(id,idEvidencesOrganisms){
 			var display='organism_ajax_'+id;
             var ajaxDisplay = document.getElementById(display);
 			ajaxDisplay.innerHTML = ajaxRequest.responseText;
-			$('#overlayTaxonomy_'+id).unmask();
+			//$('#overlayTaxonomy_'+id).unmask();
 		}
 	}
 	var queryString ="?organismName="+organismName+"&selectNumber="+id+"&idEvidencesOrganisms="+idEvidencesOrganisms;
@@ -343,7 +356,7 @@ function insertChebiIds(id){
     compoundName=$("#"+selector).val();
 	if (compoundName==""){
 		alert("Please fill in the compound name");
-		$("#overlayCompounds_"+id).unmask();
+		//$("#overlayCompounds_"+id).unmask();
 		return false;
 	}
 	var ajaxRequest;  // The variable that makes Ajax possible!
@@ -371,7 +384,7 @@ function insertChebiIds(id){
 			var display='listaCompoundsIds_'+id;
             var ajaxDisplay = document.getElementById(display);
 			ajaxDisplay.innerHTML = ajaxRequest.responseText;
-			$("#overlayCompounds_"+id).unmask();
+			//$("#overlayCompounds_"+id).unmask();
 		}
 	}
 	
@@ -387,7 +400,7 @@ function insertProteinsOfEnzyme (id,typeSearch){
     enzymeName=$("#"+selector).val();
     if (enzymeName==""){
     	alert("please type an enzyme to search its proteins");
-    	$("#overlayEnzymes_"+id).unmask();
+    	//$("#overlayEnzymes_"+id).unmask();
 		return false;	
     }
     queryString+="&enzymeName="+enzymeName
@@ -396,12 +409,12 @@ function insertProteinsOfEnzyme (id,typeSearch){
 		taxid=$("#idOrganismNCBI_"+id).val();
 		if (taxid==""){
 			alert("please select an organism before searching for proteins");
-			$("#overlayEnzymes_"+id).unmask();
+			//$("#overlayEnzymes_"+id).unmask();
 			return false;
 		}
 		if (taxid==null){
 			alert("You can't search in selected organism without selecting one above");
-			$("#overlayEnzymes_"+id).unmask();
+			//$("#overlayEnzymes_"+id).unmask();
 			return false;
 		}
 		queryString+="&taxid="+taxid
@@ -420,7 +433,7 @@ function insertProteinsOfEnzyme (id,typeSearch){
 			});
 		if (insertedOrganism==false){
 			alert("You can't search in conventioned species if no one have been conventioned");
-			$("#overlayEnzymes_"+id).unmask();
+			//$("#overlayEnzymes_"+id).unmask();
 			return false;
 		}
 		else{
@@ -455,7 +468,7 @@ function insertProteinsOfEnzyme (id,typeSearch){
 			var display='listOfProteinsOutside_'+id;
             var ajaxDisplay = document.getElementById(display);
 			ajaxDisplay.innerHTML = ajaxRequest.responseText;
-			$("#overlayEnzymes_"+id).unmask();
+			//$("#overlayEnzymes_"+id).unmask();
 		}
 	}
 	
