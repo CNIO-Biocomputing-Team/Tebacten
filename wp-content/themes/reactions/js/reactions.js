@@ -77,7 +77,6 @@ function searchEvidences(whatToSearch,type,page){
 	
 	var queryString = "?textminingName="+termToSearch+"&type="+type+"&whatToSearch="+whatToSearch+"&page="+page;
 	ajaxRequest.open("GET", home_url+"/wp-content/themes/reactions/scripts/returnEvidences.php" + queryString, true);
-	//alert ("http://localhost/reactions/wp-content/themes/reactions/scripts/returnEvidences.php" + queryString);
 	ajaxRequest.send(null); 
 }
 
