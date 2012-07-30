@@ -10,7 +10,7 @@ import cgitb; cgitb.enable();
 sys.stderr = sys.stdout
 from Bio import Entrez
 import Constants
-DB_READ_USER, DB_READ_PWD, DB_WRITE_USER, DB_WRITE_PWD, DB_JABBA_DB, HOME_URL, DB_HOST  = Constants.initConfig()
+DB_READ_USER, DB_READ_PWD, DB_WRITE_USER, DB_WRITE_PWD, DB_JABBA_DB, HOME_URL, DB_HOST = Constants.initConfig()
 charmap = {
     "\"":"\\\"",
     # ...
@@ -54,7 +54,6 @@ def get_scientifc_name_from_tax_id(taxid,selectNumber):
     except:
     	pass
     	sys.exit()
-    #sys.exit()
     return scientificName
 
 
@@ -87,13 +86,15 @@ for taxid in listaIdTaxonomy:
 tmpString+="</select></td>"
 tmpString+="</tr><tr><td>Strain: </td><td><SELECT name=\"strain_"+str(selectNumber)+"\" id=\"strain_"+str(selectNumber)+"\" >";
 
-if strain=="":
-	tmpString+="<OPTION value=\"\" SELECTED>Select<OPTION value=\"+\">+<OPTION value=\"-\">-</SELECT></td></tr></table>"
-elif strain=="+":
-	tmpString+="<OPTION value=\"\">Select<OPTION value=\"+\" SELECTED>+<OPTION value=\"-\">-</SELECT></td></tr></table>"
-elif strain=="-":
-	tmpString+="<OPTION value=\"\">Select<OPTION value=\"+\">+<OPTION value=\"-\" SELECTED>-</SELECT></td></tr></table>"
-	
+try:
+	if strain=="":
+		tmpString+="<OPTION value=\"\" SELECTED>Select<OPTION value=\"+\">+<OPTION value=\"-\">-</SELECT></td></tr></table>"
+	elif strain=="+":
+		tmpString+="<OPTION value=\"\">Select<OPTION value=\"+\" SELECTED>+<OPTION value=\"-\">-</SELECT></td></tr></table>"
+	elif strain=="-":
+		tmpString+="<OPTION value=\"\">Select<OPTION value=\"+\">+<OPTION value=\"-\" SELECTED>-</SELECT></td></tr></table>"
+except:
+	tmpString=""	
 
 print tmpString+"\n"
 #data = get_tax_data(taxid)

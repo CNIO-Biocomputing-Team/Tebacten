@@ -18,17 +18,18 @@ if not Entrez.email:
     print "you must add your email address"
     sys.exit(2)
 import Constants
-DB_READ_USER, DB_READ_PWD, DB_WRITE_USER, DB_WRITE_PWD, DB_JABBA_DB, HOME_URL = Constants.initConfig()
+DB_READ_USER, DB_READ_PWD, DB_WRITE_USER, DB_WRITE_PWD, DB_JABBA_DB, HOME_URL, DB_HOST = Constants.initConfig()
 charmap = {
     "\"":"\\\"",
     # ...
 }
+
 ################################################################################################
 #########Script que recoge del popup los datos de la evidencia curada en la que se han##########
 ################modificado/añadido/eliminado compuestos/enzimas… etc y que #####################
 ####################una vez parseados los guarda en la base de datos############################
 ################################################################################################
-
+httpReferer=os.environ['HTTP_REFERER']
 NUM_MAX_ORGANISMS=10
 NUM_MAX_COMPOUNDS=26
 NUM_MAX_ENZYMES=26
@@ -60,22 +61,27 @@ def get_scientifc_name_from_tax_id(taxid):
     #sys.exit()
     return scientificName
     
-# commonOutput()
+#commonOutput()
 #RECOGIDA DE DATOS:
 fs = cgi.FieldStorage()
 redirectionOKcurated=HOME_URL+"/curate-evidence/?"
 redirectionKOcurated=HOME_URL+"/curate-evidence/error?"
 idEvidence=fs['idEvidence'].value
-metodo=fs['metodo'].value
-idOrganismNCBI="unknown" 
-#print "<br/>"+str(metodo)
-DB_CONN = MySQLdb.connect(host= "jabba.cnio.es", port=3306, user = DB_READ_USER, passwd= DB_READ_PWD, db= DB_JABBA_DB, charset="utf8", init_command="set names utf8")
-cur = DB_CONN.cursor()	
+method=fs['method'].value
+pageNumber=fs['pageNumber'].value
+try:
+	idOrganismNCBI=fs['idOrganismNCBI'].value
+except:
+	idOrganismNCBI="unknown" 
+if idOrganismNCBI=="":
+	idOrganismNCBI="unknown" 
+	
+DB_CONN = MySQLdb.connect(host= DB_HOST, port=3306, user = DB_READ_USER, passwd= DB_READ_PWD, db= DB_JABBA_DB, charset="utf8", init_command="set names utf8")
+cur = DB_CONN.cursor()
 #print "<br/>"+str(idEvidence)
-
-if metodo=="curate":
+if method=="curate":
 	try:
-		idEvidencesOrganisms=fs['textminingOrganismName_0'].value
+		idEvidencesOrganisms=fs['idEvidencesOrganisms'].value
 		#Se ha seleccionado un id_evidences_organisms
 		existeIdEvidencesOrganisms=True
 	except:
@@ -86,7 +92,7 @@ if metodo=="curate":
 		#print "<br/>"+str(idEvidencesOrganisms)
 		#Recuperamos el strain
 		try:
-			strain=fs['strain_0'].value
+			strain=fs['strain'].value
 		except:
 			strain=""
 		#print "<br/>"+str(strain)
@@ -95,10 +101,7 @@ if metodo=="curate":
 		rc = cur.execute(sqlUpdateEvidencesOrganisms)
 		DB_CONN.commit()
 		#Ahora recuperamos el ncbiOrganisms y lo guardamos no vaya a ser que se haya modificado por el usuario.Necesitamos conocer el idOrganism para guardar un id_organism_ncbi
-		try:
-			idOrganismNCBI=fs['idOrganismNCBI_0'].value
-		except:
-			strain=""	
+		idOrganismNCBI=fs['idOrganismNCBI'].value
 		selectEvidencesOrganisms="select id_organism from evidences_organisms where id_evidences_organisms="+str(idEvidencesOrganisms)
 		cur.execute(selectEvidencesOrganisms)
 		row = cur.fetchone()
@@ -106,10 +109,8 @@ if metodo=="curate":
 		sqlUpdateOrganisms="update organisms set id_organism_ncbi='"+str(idOrganismNCBI)+"' where id_organism="+str(idOrganism)
 		#print "<br/>"+str(sqlUpdateOrganisms)
 		
+		#HASTA AQUI LA PARTE DE ORGANISMS Y EVIDENCES_ORGANISMS.
 	
-	
-	#HASTA AQUI LA PARTE DE ORGANISMS Y EVIDENCES_ORGANISMS.
-
 	#Recuperamos datos de los compounds
 	#Hay que ir guardando un array con los idEvidencesCompounds añadidos/modificados, porque una vez añadidos/modificados tendremos
 	#que eliminar el resto de compuestos que formaban parte de la evidencia.
@@ -241,18 +242,15 @@ if metodo=="curate":
 	#Recuperamos datos de las enzymes
 	#Hay que ir guardando un array con los idEvidencesEnzymes añadidos/modificados, porque una vez añadidos/modificados tendremos
 	#que eliminar el resto de compuestos que formaban parte de la evidencia.
-	arrayEvidencesEnzymesAddedModified=[]
 	
-	for i in range (NUM_MAX_ENZYMES):
-			
+	for i in range (NUM_MAX_ENZYMES):	
 		#print "<br/>*********************"+str(i)+"*************************<br/>"
-		
 		try:
 			textminingEnzymeName=fs['textminingEnzymeName_'+str(i)].value
-			
+			#print "<br/>*********************"+str(i)+"*************************<br/>"
 		except:
 			continue
-		#print "<br>"+str(textminingEnzymeName)
+		#print "<br>textminingEnzymeName: "+str(textminingEnzymeName)
 		#Si tenemos un textminingEnzymeName ya podemos guardarlo por si no existe o recuperar su idEnzyme si es que ya existe:
 		selectEnzyme="select id_enzyme from enzymes where textmining_enzyme_name='"+str(textminingEnzymeName)+"'"
 		#print "<br/>"+str(selectEnzyme)
@@ -272,55 +270,70 @@ if metodo=="curate":
 			idEnzyme=rowMaxEnzyme[0]
 		
 		#Aqui tenemos el idEnzyme del enzyme que nos ocupa.
-		
+		#print "<br>idEnzyme: "+str(idEnzyme)
 		##################################################################
 		##################################################################
 		###### RECUPERAMOS LAS PROTEINAS QUE FORMAN PARTE DE LA ENZIMA####
-		####   OJO QUE PUEDEN NO LLEGAR PROTEINAS!!!
+		####   OJO QUE PUEDEN NO LLEGAR PROTEINAS!!!No llegan proteinas cuando el listOfProteins_i_0=""
 		##################################################################
-		
-		selector='listOfProteins_'+str(i)
-		#listOfProteins=fs[selector]
-		form = cgi.FormContentDict()
-		value = fs.getvalue(selector, "")
-		if isinstance(value, ListType):
-			# Multiple username fields specified
-			stringWithProteins = ",".join(value)
-			#print"<br/>"+str(stringWithProteins)
-		else:
-			# Single or no username field specified
-			stringWithProteins = value
-			#print"<br/>"+str(stringWithProteins)
-		if stringWithProteins=="":
-			existenProteinsInsideEnzyme=False
-		else:
+		try:
+			value=fs["listOfProteins_"+str(i)+"_0"].value
 			existenProteinsInsideEnzyme=True
-		
-		#print "<br/>"+str(existenProteinsInsideEnzyme)
-		if existenProteinsInsideEnzyme==False:
-			#No existen proteínas para esta enzima. No guardamos nada en enzymes_proteins, ni en proteins. Pero si guardamos la información en la tabla evidences_enzymes
-			#Primero buscamos si existe la entrada en tabla evidences_enzymes. Si no existe la creamos	y si existe la modificamos (han desaparecido el posible id_enzymes_proteins)
-			arrayWithIdProteins=[]
-			selectEvidencesEnzymes="select id_evidences_enzymes from evidences_enzymes where id_evidence='"+str(idEvidence)+"' and id_enzyme="+str(idEnzyme)
-			#print "<br/>"+ selectEvidencesEnzymes
-			try:
-				cur.execute(selectEvidencesEnzymes)
-				#Existe la entrada en la tabla evidences_enzymes
-				rowSelectEvidencesEnzymes = cur.fetchone()
-				idEvidencesEnzymes=rowSelectEvidencesEnzymes[0]
-				arrayEvidencesEnzymesAddedModified.append(idEvidencesEnzymes)
-			except:
-				#No Existe la entrada en la tabla evidences_enzymes para esa enzyme. La generamos pero sin un id_enzymes_proteins
-				insertEvidencesEnzymes="insert into evidences_enzymes (id_evidences_enzymes,id_enzyme,id_evidence,id_enzymes_proteins,recognition_method) values (NULL,"+str(idEnzyme)+",'"+str(idEvidence)+"',NULL,'manually_annotated')"
-				cur.execute(insertEvidencesEnzymes)
-				DB_CONN.commit()
-				selectMaxEvidencesEnzymes="select max(id_evidences_enzymes) from evidences_enzymes"
-				cur.execute(selectMaxEvidencesEnzymes)
-				rowMaxEvidencesEnzymes = cur.fetchone()
-				idMaxEvidencesEnzymes=rowMaxEvidencesEnzymes[0]
-				arrayEvidencesEnzymesAddedModified.append(idMaxEvidencesEnzymes)
-				#print "<br>"+str(arrayEvidencesEnzymesAddedModified)
+		except:
+			existenProteinsInsideEnzyme=False
 		if existenProteinsInsideEnzyme==True:
+			#Recogemos los valores de las proteinas ligadas a esa enzyma.
+			stringWithProteins=""
+			for j in range(0,25):
+				try:
+					value=fs["listOfProteins_"+str(i)+"_"+str(j)].value
+					stringWithProteins += value+","
+				except:
+					pass
+			stringWithProteins=stringWithProteins[:-1]
+			#print "El stringWithProteins contiene: "+str(stringWithProteins)
+		#selector='listOfProteins_'+str(i)
+		##listOfProteins=fs[selector]
+		#form = cgi.FormContentDict()
+		#value = fs.getvalue(selector, "")
+		#if isinstance(value, ListType):
+		#	# Multiple username fields specified
+		#	stringWithProteins = ",".join(value)
+		#	#print"<br/>"+str(stringWithProteins)
+		#else:
+		#	# Single or no username field specified
+		#	stringWithProteins = value
+		##print"<br/>"+str(stringWithProteins)
+		#if stringWithProteins=="":
+		#	existenProteinsInsideEnzyme=False
+		#else:
+		#	existenProteinsInsideEnzyme=True
+		
+		#print "<br/>existenProteinsInsideEnzyme: "+str(existenProteinsInsideEnzyme)
+		#Guardamos la entrada en evidences_enzymes, primero miramos a ver si existe y si no existe la creamos.
+		selectEvidencesEnzymes="select id_evidences_enzymes from evidences_enzymes where id_evidence='"+str(idEvidence)+"' and id_enzyme="+str(idEnzyme)
+		#print "<br>selectEvidencesEnzymes: "+str(selectEvidencesEnzymes)
+		try:
+			cur.execute(selectEvidencesEnzymes)
+			#print "<br/>Existe la entrada en la tabla evidences_enzymes"
+			rowSelectEvidencesEnzymes = cur.fetchone()
+			idEvidencesEnzymes=rowSelectEvidencesEnzymes[0]
+			arrayEvidencesEnzymesAddedModified.append(idEvidencesEnzymes)
+		except:
+			#print "<br/>No Existe la entrada en la tabla evidences_enzymes para esa enzyme. La generamos pero sin un id_enzymes_proteins"
+			insertEvidencesEnzymes="insert into evidences_enzymes (id_evidences_enzymes,id_enzyme,id_evidence,id_enzymes_proteins,recognition_method) values (NULL,"+str(idEnzyme)+",'"+str(idEvidence)+"',NULL,'manually_annotated')"
+			cur.execute(insertEvidencesEnzymes)
+			DB_CONN.commit()
+			selectMaxEvidencesEnzymes="select max(id_evidences_enzymes) from evidences_enzymes"
+			cur.execute(selectMaxEvidencesEnzymes)
+			rowMaxEvidencesEnzymes = cur.fetchone()
+			idMaxEvidencesEnzymes=rowMaxEvidencesEnzymes[0]
+			arrayEvidencesEnzymesAddedModified.append(idMaxEvidencesEnzymes)
+		
+		#print "<br>arrayEvidencesEnzymesAddedModified: "+str(arrayEvidencesEnzymesAddedModified)
+		if existenProteinsInsideEnzyme==True:
+			#Si entramos aqui es porque la enzima tiene proteinas relacionadas y entonces las tenemos que guardar
+			#print "<br/>stringWithProteins:"+str(stringWithProteins)
 			arrayWithProteins=stringWithProteins.split(",");
 			#print "<br/>arrayWithProteins "+str(arrayWithProteins)
 			#Recorremos el arrayWithProteins y las guardamos en la tabla proteins, si es que no estan. De cada proteina este o no este tenemos que guardar el id_protein para generar el string
@@ -367,51 +380,37 @@ if metodo=="curate":
 					rowMaxProtein = cur.fetchone()
 					idProtein=rowMaxProtein[0]
 					arrayWithIdProteins.append(str(idProtein))
-		
-		#print "<br/>arrayWithIdProteins anadidas: "+str(arrayWithIdProteins)
-		stringWithProteins=",".join(arrayWithIdProteins)
-		if stringWithProteins=="":
-			existeListProteins=False
-		else:
-			existeListProteins=True
-		#print "<br/>El stringProteins es: "+str(stringWithProteins)+"***** y existeEnzymeProteins="+str(existeListProteins)
-		#sys.exit()
+				#Ademas tenemos que guardar la entrada en evidences_enzymes igual que antes:
+				
+			stringWithProteins=",".join(arrayWithIdProteins)
+			#print "<br/>El stringWithProteins tiene "+str(stringWithProteins)
+			if stringWithProteins=="":
+				existeListProteins=False
+			else:
+				existeListProteins=True
+			#print "<br/>El stringProteins es: "+str(stringWithProteins)+"***** y existeListProteins="+str(existeListProteins)
 		#En stringWithProteins tenemos una cadena con los id_protein de las proteinas implicadas en la enzima. Tenemos que guardarla. Pero primero hay que ver si
 		#Existe una entrada para esta enzima en este organismo y si existe se modifica y sino existe se crea. Obtendremos un id_enzymes_proteins para usarlo en la tabla evidences_enzymes
 
 		#Aqui tenemos una enzima con su textminingEnzymeName y tenemos que ver si esa enzima ya pertenece a la evidencia y ha sido modificada o 
 		#es una enzima nueva
-		#Lo que nos llega es la informacion asociada a una evidencia. Tenemos que ver si dicha evidencia existe y sino existe la creamos. 
-		#Para ello primero vemos cual es el idEnzyme de esa enzima y sino existe lo creamos y lo guardamos en idEnzyme
-		selectSQL="select id_enzyme, textmining_enzyme_name from enzymes where textmining_enzyme_name='"+str(textminingEnzymeName)+"'"
-		#print "<br/>"+selectSQL
-		try:
-			cur.execute(selectSQL)
-			row = cur.fetchone()
-			idEnzyme=row[0]
-			#print "<br/>"+str(row[0])
-			#print "<br/>"+str(row[1])
-		except:
-			#print "<br/>no existe el enzyme hay que crear uno nuevo!!"
-			#No existe la enzima y hay que añadir una nueva
-			#sql="insert into compounds (id_compound,textmining_compound_name)values(NULL,%s)"
-			#rc = cur.execute( sql,(str(textminingCompoundName),))
-			sql="insert into enzymes (id_enzyme,textmining_enzyme_name) values (NULL,'"+textminingEnzymeName+"')"
-			rc=cur.execute(sql)
-			DB_CONN.commit()
-			#Hemos añadido un nuevo enzyme a la tabla enzyme. Queremos saber ahora cual es el id_enzyme del enzyme que acabamos de añadir
-			selectSQL2="select max(id_enzyme) from enzymes";
-			cur.execute(selectSQL2)
-			row2 = cur.fetchone()
-			idEnzyme=row2[0]
-		#Al salir de aqui tenemos la enzima en la tabla de enzymes y su id_enzyme es idEnzyme
+		#Lo que nos llega es la informacion asociada a una evidencia. Tenemos que ver si dicha evidencia existe y sino existe la creamos.
 		#print "<br/>El idEnzyme es "+str(idEnzyme)+"<br/>"
 		#Antes de nada tenemos que ver si existe un listado de proteinas para esta enzima en ese organismo!!!. Si no existe lo creamos y si existe lo modificamos con este que es el definitivo
 		
-		#"Solo guardaremos enzymes proteins en el caso de que haya un idOrganismNCBI valido así que aquí solo entrará si"
+		#"Solo guardaremos enzymes proteins en el caso de que haya un idOrganismNCBI valido así que aquí solo entrará si" No es del todo así, (mirar en else)
 		#print "<br>idOrganismNCBI es: "+str(idOrganismNCBI)
-		
-		if idOrganismNCBI!="unknown":#Lo inicializamos así al principio pero cuando hay idOrganismNCBI lo susituimos
+
+
+
+
+
+
+
+		#Al llegar aqui tenemos en idOrganismNCBI el valor del id_organism_ncbi que irá a la tabla de enzymes_proteins, (o unknown en su defecto)
+		#print "<br/>Llega justo antes de idOrganismNCBI!=unknown"
+		#print "<br/>idOrganismNCBI "+str(idOrganismNCBI)
+		if idOrganismNCBI!="unknown":#Lo inicializamos como unknown al principio pero cuando hay idOrganismNCBI lo susituimos
 			selectEnzymesProteins="select id_enzymes_proteins,proteins_list from enzymes_proteins where id_enzyme="+str(idEnzyme)+" and id_organism_ncbi='"+idOrganismNCBI+"'"
 			#print "<br/>"+selectEnzymesProteins
 			try:
@@ -434,9 +433,9 @@ if metodo=="curate":
 				cur.execute(selectMaxEnzymesProteins)
 				row = cur.fetchone()
 				idEnzymesProteins=row[0]
+		
 			#Aqui ya tenemos el idEnzymesProteins, nuevo o modificado, que necesitaremos para añadirle a la entrada evidences_enzymes
 			#print "<br/>El id_enzymes_proteins para esta enzima es: "+str(idEnzymesProteins)
-			
 			#Tenemos que guardar una entrada en la tabla evidences_enzymes, pero primero tenemos que saber si ya existe para modificarla.
 			#para ello tenemos que buscar si existe una entrada para esa enzyme y esa evidencia
 			selectBuscarEnzimaEvidencia="select id_evidences_enzymes from evidences_enzymes where id_evidence='"+str(idEvidence)+"' and id_enzyme="+str(idEnzyme)
@@ -471,8 +470,12 @@ if metodo=="curate":
 				idMaxEvidencesEnzymes=row[0]
 				arrayEvidencesEnzymesAddedModified.append(idMaxEvidencesEnzymes)
 				#sqlInsertEvidenceCompound="insert into evidences_compounds (id_evidences_compounds,id_evidence, id_compound, input_output, id_chebi) values(NULL,%d,%d,%d,%s)"
-				#rc = cur.execute( sqlInsertEvidenceCompound,(int(idEvidence),int(idCompound),int(inputOutput),str(idChebi),))
+	
 	#En arrayEvidencesEnzymesAddedModified tenemos las enzimas que formaran parte de esa evidencia, El resto no, hay que quitarlas. Para ello tenemos que recorrer todas las enzimas de la evidencia y si no estan en el arrayEvidencesEnzymesAddedModified entonces eliminarlas de la tabla evidences_enzymes ya que esas enzymes se han eliminado de la evidencia
+	
+	
+	#print "<br/>#########################################################################################################"
+	
 	#print "<br/> el arrayEvidencesEnzymesAddedModified contiene: "+str(arrayEvidencesEnzymesAddedModified)		
 	#Creamos un array con los id_evidences_enzymes de las entradas que contienen esta evidencia para compararlos:
 	arrayExistentEvidencesEnzymes=[]
@@ -494,24 +497,24 @@ if metodo=="curate":
 			#si el idEvidencesEnzymes no se encuentra entre los existentes en la base de datos lo eliminamos
 			deleteSQL="delete from evidences_enzymes where id_evidences_enzymes="+str(idEvidencesEnzymes)
 			#print "<br/>"+str(deleteSQL)
-			#sys.exit()
 			try:
 				rc = cur.execute( deleteSQL)
 				DB_CONN.commit()
+				#print "borramos id_evidences_enzymes "+str(idEvidencesEnzymes)
 			except MySQLdb.OperationalError, e:
 				print "Location: "+str(redirectionKOcurated)+"error=deleteOldEnzyme&idEvidence="+idEvidence+" \n\n"
 				sys.exit()
-
 	updateEvidence="update evidences set curated=1 where id_evidence='"+str(idEvidence)+"'"
+	#print "<br>"+str(updateEvidence)
 	try:
 		rc=cur.execute(updateEvidence)
 		DB_CONN.commit()
 	except:
 		print "Location: "+str(redirectionKOcurated)+"idEvidence="+str(idEvidence)+"&error=updateEvidence \n\n"
 		sys.exit()
-	print "Location: "+str(redirectionOKcurated)+"idEvidence="+str(idEvidence)+" \n\n"		
-	sys.exit()		
-		
+	#print "Location: "+str(redirectionOKcurated)+"idEvidence="+str(idEvidence)+" \n\n"		
+	#print "Location: "+str(httpReferer)+" \n\n"	
+	print "Content-type: text/html\n\n "+str(httpReferer)+"?page="+str(pageNumber)	
 #####################################################################################################################
 #####################################################################################################################
 #####################################################################################################################
@@ -526,7 +529,7 @@ if metodo=="curate":
 #print "Location: http://localhost/reactions/wp-content/themes/reactions/curateEvidence.php?idEvidence="+idEvidence+" \n\n"
 
 
-if metodo=="delete":
+if method=="delete":
 	sys.exit()
 	#Tenemos que saber que tipo de evidencia se intenta borrar (organismo,enzima,compuesto).Para ello:
 	typeEvidence=fs['type'].value

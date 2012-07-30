@@ -63,13 +63,15 @@ $(document).ready(function(){
 
 
 function annotate(url){
+	//window.open (url,'_self',false)
+	var pageNumber=$(".pagination span.current").text();
+	url+="&pageNumber="+pageNumber
 	$('#popup').bPopup({
           loadUrl: url,
           follow:[false,false],
           modalClose: true,
           position: ['auto',150]
     });
-	
 }
 	 
 </script>

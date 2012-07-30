@@ -143,139 +143,204 @@ function printPagination($whatToSearch,$lastpage,$page,$adjacents,$prev,$next){
 
 }
 
-function printOrganismsTable($organismsCounter,$textminingOrganismName,$orgOptions){
+function printOrganismsTable($organismsCounter,$textminingOrganismName,$id_organism_ncbi,$orgs){
+	echo "<table class=\"compoundsEnzymes\">";
+		echo "<tr>";
+		echo "<td>Organism: </td>";
+		echo "<td>";
+			echo "<SELECT id=\"textminingOrganismName_$organismsCounter\" type=\"text\" NAME=\"textminingOrganismName_$organismsCounter\" maxlenght=\"255\" size=\"1\" onChange=\"insertTaxonomy($organismsCounter,'$idEvidence');\">";
+				echo "<OPTION value=\"\" >Select an organism";
+				echo $orgs;
+				echo "</SELECT>\n</div></td>";
+		echo "</tr>";
+	echo "</table>";
+	echo "<div id=\"organism_ajax_$organismsCounter\">\n";
+	echo "</div><!-- End div#organism_ajax_$organismsCounter -->\n</td>";
+}
+
+function createStringInputOutput($inputOutput,$substrateScore,$productScore,$compoundsCounter){
+	if(($inputOutput=="")){
+		//No existe anotación para input/output entonces evaluamos los scores.
+		if (($substrateScore==0)&&($productScore==0)){
+			$inputOutput="";
+			$strInputOutput="<td>Substrate/Product: </td><td><SELECT id=\"inputOutput_$compoundsCounter\" name=\"inputOutput_$compoundsCounter\">\n<OPTION value=\"select\" selected>Select<OPTION value=\"input\">Substrate\n<OPTION value=\"output\" >Product\n</SELECT></td>";
+		}
+		elseif($substrateScore>$productScore){
+			$inputOutput="input";
+			$strInputOutput="<td>Substrate/Product: </td><td><SELECT id=\"inputOutput_$compoundsCounter\" name=\"inputOutput_$compoundsCounter\">\n<OPTION value=\"select\">Select<OPTION value=\"input\" selected>Substrate\n<OPTION value=\"output\" >Product\n</SELECT></td>";
+		}
+		elseif($productScore>$substrateScore){
+			$inputOutput="output";
+			$strInputOutput="<td>Substrate/Product: </td><td><SELECT id=\"inputOutput_$compoundsCounter\" name=\"inputOutput_$compoundsCounter\">\n<OPTION value=\"select\">Select<OPTION value=\"input\">Substrate\n<OPTION value=\"output\" selected >Product\n</SELECT></td>";
+		}
+	}
+	elseif ($inputOutput==0){
+		//ya esta anotado como substrate(input)
+		$inputOutput="input";
+		$strInputOutput="<td>Substrate/Product: </td><td><SELECT id=\"inputOutput_$compoundsCounter\" name=\"inputOutput_$compoundsCounter\">\n<OPTION value=\"select\">Select<OPTION value=\"input\" selected>Substrate\n<OPTION value=\"output\" >Product\n</SELECT></td>";
+	}
+	elseif($inputOutput==1){
+		//ya esta anotado como product(output)
+		$inputOutput="output";
+		$strInputOutput="<td>Substrate/Product: </td><td><SELECT id=\"inputOutput_$compoundsCounter\" name=\"inputOutput_$compoundsCounter\">\n<OPTION value=\"select\">Select<OPTION value=\"input\">Substrate\n<OPTION value=\"output\" selected >Product\n</SELECT></td>";
+	}
+	return $strInputOutput;	
+}
+
+function printCompoundsTable($compoundsCounter,$textminingCompoundName,$idChebi,$strInputOutput){
+	echo "<div id=\"compound_$compoundsCounter\" name=\"compound_$compoundsCounter\" style=\"display:block;\">\n";
+		echo "<table class=\"compoundsEnzymes\">";
+			echo "<tr>";
+				echo "<td>Compound name: </td>";
+				echo "<td><input id=\"textminingCompoundName_$compoundsCounter\" type=\"text\" NAME=\"textminingCompoundName_$compoundsCounter\" maxlenght=\"255\" size=\"20\" value=\"$textminingCompoundName\">";
+					echo "<small><a href=\"javascript:;\" onClick=\"insertChebiIds('$compoundsCounter')\">Click to search</a></small></td>";
+			echo "</tr>";
+			echo "<tr>";
+				if ($idChebi!=""){//Si tenemos idChebi lo mostramos normalmente
+					echo "<td>ChEBI: </td>";
+					echo "<td>";
+						echo "<div id=\"listaCompoundsIds_$compoundsCounter\">";
+							echo "<select id=\"listOfChebiIds_$compoundsCounter\" type=\"text\" NAME=\"listOfChebiIds_$compoundsCounter\" maxlenght=\"255\" >";
+								echo "<option value=\"\">Select <option value=\"$idChebi\" SELECTED>$textminingCompoundName ($idChebi)";
+							echo "</select>";
+						echo "</div>";
+					echo "</td>";
+				}
+				else{//Sino hay chebiId entonces mostramos un select vacio, sin options
+					echo "<td>ChEBI: </td>";
+					echo "<td>";
+						echo "<div id=\"listaCompoundsIds_$compoundsCounter\">";
+							echo "<select id=\"listOfChebiIds_$compoundsCounter\" type=\"text\" NAME=\"listOfChebiIds_$compoundsCounter\" maxlenght=\"255\" >";
+							echo "</select>";
+						echo "</div>";
+					echo "</td>";
+				}
+			echo "</tr>";
+			echo "<tr>";
+			echo $strInputOutput;
+			echo "</tr>";
+			echo "<tr>";
+				echo "<td>";
+					echo "<input id=\"delete_compound_$compoundsCounter\" type=\"button\" onclick=\"deleteCompound('compound_$compoundsCounter')\" name=\"delete_compound_$compoundsCounter\" value=\"Delete Compound \" class=\"\">";
+				echo "</td>";
+				echo "<td></td>";
+			echo "</tr>";
+		echo "</table>";
+	echo "</div><!-- end div#compound_$compoundsCounter -->";
+}
+
+function printBlankCompounds($MAX_COMPOUNDS,$compoundsCounter){
+	for ($compoundsCounter;$compoundsCounter<$MAX_COMPOUNDS;$compoundsCounter++){
+		echo "<div id=\"compound_$compoundsCounter\" style=\"display:none;\">";
+			echo "<table class=\"compoundsEnzymes\">";
+				echo "<tr>";
+					echo "<td>Compound name: </td>";
+					echo "<td>";
+						echo "<input id=\"textminingCompoundName_$compoundsCounter\" type=\"text\" NAME=\"textminingCompoundName_$compoundsCounter\" maxlenght=\"255\" size=\"20\" value=\"\">";
+						echo "<small><a href=\"javascript:;\" onClick=\"insertChebiIds('$compoundsCounter')\">Click to search</a></small>";
+					echo "</td>";
+				echo "</tr>";
+				echo "<tr>";
+					echo "<td>ChEBI: </td>";
+					echo "<td>";
+						echo "<div id=\"listaCompoundsIds_$compoundsCounter\">";
+							echo "<select id=listOfChebiIds_$compoundsCounter name=\"listOfChebiIds_$compoundsCounter\"></select>";
+						echo "</div>";
+					echo "</td>";
+				echo "</tr>";
+				echo "<tr>";
+					echo "<td>Substrate/Product: </td>";
+					echo "<td>";
+						echo "<SELECT id=\"inputOutput_$compoundsCounter\" name=\"inputOutput_$compoundsCounter\">";
+							echo "<OPTION value=\"select\" SELECTED>Select\n<OPTION value=\"input\">Subtrate\n<OPTION value=\"output\" >Product";
+						echo "</SELECT>";
+					echo "</td>";
+				echo "</tr>";
+				echo "<tr>";
+					echo "<td><input id=\"delete_compound_$compoundsCounter \" type=\"button\" onclick=\"deleteCompound('compound_$compoundsCounter')\" name=\"delete_compound_$compoundsCounter\" value=\"Delete Compound \" class=\"\"></td>";
+					echo "<td></td>";
+				echo "</tr>";
+			echo "</table>";
+		echo "</div><!-- End of id#compound_$compoundsCounter -->";
+	}
+}
+
+
+function printEnzymesTable($textminingEnzymeName,$enzymesCounter,$linksToProteins,$optionsProteins){
 	
-	echo <<<EOOF
-	<div id="organism_ajax_$organismsCounter">
-	<table>
-		<tr>
-			<td>Organism: </td>
-			<td>
-				<input id="textminingOrganismName_$organismsCounter" type="text" name="textminingOrganismName_$organismsCounter" maxlenght="255" size="20" value="$textminingOrganismName">
-				<small><a href="javascript:;" onClick="insertTaxonomy($organismsCounter);">Click to search</a></small>
-				<div id="overlayTaxonomy_$organismsCounter">&nbsp;</div>
-				<!-- <script>
-	        		$('#overlayTaxonomy_$organismsCounter').unmask();
-	        	</script>		
-	        	-->
-	        </td>
-	    </tr>
-		<tr>
-			<td>NCBI organism name: </td>
-			<td>
-				<select  id="idOrganismNCBI_$organismsCounter" type="text" name="idOrganismNCBI_$organismsCounter">
-					$orgOptions
-				</select>
-			</td>
-		</tr>
-		<tr>				
-        	<td>Strain: </td>
-        	<td>
-        		<SELECT name="strain_$organismsCounter" div="strain_$organismsCounter">
-             		<option value="" selected>Select</option>
-             		<option value="+">+</option>
-	             	<option value="-">-</option>
-             	</SELECT>
-            </td>
-        </tr>
-        <tr>
-        	<td>
-        		<input id="deleteOrganism_$organismsCounter" type="button" onclick="deleteOrganism('$organismsCounter')" name="deleteOrganism_$organismsCounter" value="Delete Organism" class=""
-        	</td>
-        	<td></td>
-        </tr>
-        </table>
-    </div><!-- End div#organism_ajax_$organismsCounter -->
-EOOF;
+	echo "<div id=\"enzyme_$enzymesCounter\" style=\"display:block;\">";
+		echo "<table class=\"compoundsEnzymes\">";
+			echo "<tr>";
+				echo "<td>Enzyme name: </td>";
+				echo "<td>";
+					echo "<input id=\"textminingEnzymeName_$enzymesCounter\" type=\"text\" NAME=\"textminingEnzymeName_$enzymesCounter\" maxlenght=\"255\" size=\"20\" value=\"$textminingEnzymeName\" >";
+					echo "Search in:&nbsp;";
+					echo "
+						<small>
+							<a href=\"javascript:;\" onClick=\"insertProteinsOfEnzyme('$enzymesCounter','selected')\">Selected organism</a>&nbsp;
+							<a href=\"javascript:;\" onClick=\"insertProteinsOfEnzyme('$enzymesCounter','conventioned')\">Conventioned species</a>&nbsp;
+							<a href=\"javascript:;\" onClick=\"insertProteinsOfEnzyme('$enzymesCounter','all')\">All bacteria</a>&nbsp;
+						</small>";
+				echo "</td>";
+			echo "</tr>";
+			echo "<tr>";
+				echo "<td>Proteins: </td>";
+				echo "<td>";
+					echo "<div id=\"listOfProteinsOutside_$enzymesCounter\">";
+						echo "<div class=\"linksToCompounds\">";
+							//colocamos un div con los links a las proteínas del selectbox para poder consultar antes de anotar.
+							echo $linksToProteins;
+						echo "</div>";
+						echo "<select multiple=\"multiple\" id=\"listOfProteins_$enzymesCounter\" name=\"listOfProteins_$enzymesCounter\" size=\"5\">";
+							echo $optionsProteins;
+						echo "</select>";
+					echo "</div>";
+				echo "</td>";
+			echo "</tr>";
+			echo "<tr>";
+				echo "<td><input id=\"delete_enzyme_$enzymesCounter\" type=\"button\" onclick=\"deleteEnzyme($enzymesCounter)\" name=\"delete_enzyme_$enzymesCounter\" value=\"Delete Enzyme \" class=\"\"></td>";
+				echo "<td></td>";
+			echo "</tr>";
+		echo "</table>";
+		$enzymesCounter=$enzymesCounter+1;
+	echo "</div><!-- End of id#enzyme_ -->";
+}
+
+function printBlankEnzymes($enzymesCounter,$MAX_ENZYMES){
+	
+	for ($i=$enzymesCounter;$i<$MAX_ENZYMES;$i++){
+		$j=$i+1;
+		echo "<div id=\"enzyme_$i\" style=\"display:none;\">";
+			echo "<table class=\"compoundsEnzymes\">";
+				echo "<tr>";
+					echo "<td>Enzyme name: </td>";
+					echo "<td><input id=\"textminingEnzymeName_$i\" type=\"text\" NAME=\"textminingEnzymeName_$i\" maxlenght=\"255\" size=\"20\" value=\"\">";
+						echo "Search in:&nbsp;";
+						echo "
+							<small>
+								<a href=\"javascript:;\" onClick=\"insertProteinsOfEnzyme('$enzymesCounter','selected')\">Selected organism</a>&nbsp;
+								<a href=\"javascript:;\" onClick=\"insertProteinsOfEnzyme('$enzymesCounter','conventioned')\">Conventioned species</a>&nbsp;
+								<a href=\"javascript:;\" onClick=\"insertProteinsOfEnzyme('$enzymesCounter','all')\">All bacteria</a>&nbsp;
+							</small>";
+					echo "</td>";
+				echo "</tr>";
+				echo "<tr>";
+					echo "<td>Proteins:</td>";
+					echo "<td>";
+						echo "<div id=\"listOfProteinsOutside_$i\">";
+							echo "<select multiple=\"multiple\" id=\"listOfProteins_$i\" name=\"listOfProteins_$i\" size=\"5\">";
+							echo "</select>";
+						echo "</div>";
+					echo "</td>";
+				echo "</tr>";
+				echo "<tr>";
+					echo "<td><input id=\"delete_enzyme_$i\" type=\"button\" onclick=\"deleteEnzyme($i)\" name=\"delete_enzyme_$i\" value=\"Delete Enzyme \" class=\"\">\n</td>";
+					echo "<td></td>";
+				echo "</tr>";
+			echo "</table>";
+		echo "</div><!-- End of id#enzyme_$i -->";
+	}
 	
 }
-
-
-
-function printCompoundsTables($compoundsCounter,$textminingCompoundName,$strChebi,$strInputOutput,$display){
-	echo <<<EOTC
-	<div id="compound_$compoundsCounter" name="compound_$compoundsCounter" style="$display">
-			<table>
-				<tr>
-					<td>Compound name:</td>
-					<td>
-						<input id="textminingCompoundName_$compoundsCounter" type="text" name="textminingCompoundName_$compoundsCounter" maxlenght="255" size="20" value="$textminingCompoundName"> <small><a href="#" onClick="insertChebiIds($compoundsCounter)">Search compound in ChEBI</a></small>
-						<div id="overlayCompounds_$compoundsCounter">&nbsp;</div>
-						<!-- <script>$('#overlayCompounds_compoundsCounter').unmask();</script> -->
-					</td>
-				</tr>
-				<tr>
-					<td>ChEBI Id: </td>
-					<td>
-						<div id="listaCompoundsIds_$compoundsCounter">
-							<select id="listOfChebiIds_$compoundsCounter" type="text" name="listOfChebiIds_$compoundsCounter" maxlenght="255" >
-							$strChebi
-							</select>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>Substrate/Product: </td>
-					<td>
-						<select name="inputOutput_$compoundsCounter">
-						$strInputOutput
-						</select>
-					</td>
-				</tr>
-				<tr>	
-					<td>
-						<input id="delete_compound_$compoundsCounter" type="button" onclick="deleteCompound('compound_$compoundsCounter')" name="delete_compound_$compoundsCounter" value="Delete Compound" class="uniform-button">
-					</td>
-					<td></td>
-				</tr>
-			</table>
-	</div><!-- End of id#compound -->
-EOTC;
-}
-
-function printEnzymeTables($enzymesCounter,$textminingEnzymeName,$strProteins,$strSelectProteins,$display){
-	echo <<<EOTE
-	<div id="enzyme_$enzymesCounter" style="$display">
-		<table class="compoundsEnzymes">
-			<tr>
-				<td>Enzyme name:</td>
-				<td>
-					<input id="textminingEnzymeName_$enzymesCounter" type="text" name="textminingEnzymeName_$enzymesCounter" maxlenght="255" size="20" value="$textminingEnzymeName">
-					<small>Search enzyme in UniProt &nbsp;					
-						<a href="javascript:;" onClick="insertProteinsOfEnzyme('$enzymesCounter','selected')">Selected organism</a>&nbsp;
-						<a href="javascript:;" onClick="insertProteinsOfEnzyme('$enzymesCounter','conventioned')">Conventioned species</a>&nbsp;
-						<a href="javascript:;" onClick="insertProteinsOfEnzyme('$enzymesCounter','all')">All bacteria</a>&nbsp;
-					</small>
-					<div id="overlayEnzymes_$enzymesCounter">&nbsp;</div>
-					<!-- <script>
-	            		$('#overlayEnzymes_$enzymesCounter').unmask();
-	            	</script> -->
-            	</td>
-            </tr>
-            <tr>
-            	<td>UniProt Id(s): </td>
-            	<td>
-            		<div id="listOfProteinsOutside_$enzymesCounter">
-            		<div class="linksToCompounds">$strProteins</div>
-            		<select multiple="multiple" id="listOfProteins_$enzymesCounter" name="listOfProteins_$enzymesCounter" size="5">
-            		$strSelectProteins	
-            		</select>
-            	</td>
-            </tr>
-            <tr>
-        		<td>
-        			<input id="delete_enzyme_$enzymesCounter" type="button" onclick="deleteEnzyme($enzymesCounter)" name="delete_enzyme_$enzymesCounter" value="Delete Enzyme">
-        		</td>
-        		<td>
-        		</td>
-        	</tr>
-        </table>
-     </div><!-- End of id#enzyme_ -->
-EOTE;
-
-}
-
-
-
 
 ?>

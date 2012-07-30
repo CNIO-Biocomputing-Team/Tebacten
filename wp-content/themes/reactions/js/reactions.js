@@ -1,9 +1,9 @@
-//var home_url="http://localhost/Tebacten";
-var home_url="http://tebacten.bioinfo.cnio.es";
+var home_url="http://localhost/Tebacten";
+//var home_url="http://tebacten.bioinfo.cnio.es";
 
 function showEvidences(idCompuesto,type){
     var ajaxDisplay = document.getElementById('evidences');
-	ajaxDisplay.innerHTML = "<b>Searching for evidences...</b> Please wait. This usually takes less than a minute, depending on the number of evidences";
+	ajaxDisplay.innerHTML = "Searching for evidences. Please wait. This usually takes less than a minute, depending on the number of evidences";
 	
 	var ajaxRequest;  // The variable that makes Ajax possible!
 	
@@ -29,7 +29,6 @@ function showEvidences(idCompuesto,type){
 		if(ajaxRequest.readyState == 4){
             ajaxDisplay = document.getElementById('evidences');
 			ajaxDisplay.innerHTML = ajaxRequest.responseText;
-			//$("#overlay").unmask("Loading…");
 		}
 	}
 	
@@ -39,6 +38,7 @@ function showEvidences(idCompuesto,type){
 }
 
 function searchEvidences(whatToSearch,type,page){
+    
 	var ajaxDisplay = document.getElementById('evidences');
 	ajaxDisplay.innerHTML = "<b>Searching for evidences...</b>. Please wait. This usually takes less than a minute, depending on the number of evidences";
 	
@@ -105,6 +105,8 @@ function deleteOrganism(id){
 	$("#organism_ajax_"+id).attr("style","display:none");
 }
 
+
+
 function addCompound(){
 	//Recorremos el bucle desde el inicio para ver cual es el máximo numero posible para abrirlo:
 	found=0;
@@ -151,7 +153,16 @@ function deleteEnzyme(divToClose){
 }
 
 function validateForm(){
+	
+	var idEvidence=$("#idEvidence").val();
+	var method=$("#method").val();
+	var whatToSearch=$("#whatToSearch").val();
+	var type="search";
+	var pageNumber=$("#pageNumber").val();
+	var textminingName=$("#tags").val();
+
 	var stringFormSubmission="";
+	stringFormSubmission+="&method="+method+"&idEvidence="+idEvidence+"&pageNumber="+pageNumber;
 	//Primero quitamos el disabled de todos los textminingOrganismsName, 
 	for (var i=0;i<10;i++){
 		var selectorOrganism="input[name=textminingOrganismName_"+i+"]";
@@ -165,7 +176,7 @@ function validateForm(){
 		$(selectorEnzyme).removeAttr("disabled");
 	}
 	//Luego tenemos que poner en disabled los campos ocultos de los organisms y para eso hay que recorrerlos todos y si su style display es none entonces añadimos el atributo disabled=disabled
-	for (var i=0;i<10;i++){
+	/*for (var i=0;i<10;i++){
 		var selectorOrganism="input[name=textminingOrganismName_"+i+"]";
 		var display=$(selectorOrganism).parent().parent().parent().parent().parent().css("display");
 		//alert (selectorOrganism+" display: "+display);
@@ -174,6 +185,7 @@ function validateForm(){
 		}
 		else if(display=="block"){
 			//Si esta presente entonces no puede estar vacio…
+			alert ("llega al "+i);
 			var value=$(selectorOrganism).val();
 			if (value==""){
 				alert ("Please insert an organism name to annotate or delete the orgnanism");
@@ -182,9 +194,20 @@ function validateForm(){
 			else{
 				//Tenemos un organismo con con su valor asociado. Lo añadimos al stringFormSubmission.
 				stringFormSubmission+="&textminingOrganismName_"+i+"="+value;
+				alert("sale")
 			}
 		}
+	}*/
+	var idEvidencesOrganisms="";
+	var textminingOrganismName=$("#textminingOrganismName_0 option:selected").text();
+	textminingOrganismName=$.trim(textminingOrganismName);
+	if (textminingOrganismName=="Select an organism"){
+		textminingOrganismName="";
 	}
+	else{
+		var idEvidencesOrganisms=$("#textminingOrganismName_0 option:selected").val();
+	}
+	stringFormSubmission+="&textminingOrganismName="+textminingOrganismName+"&idEvidencesOrganisms="+idEvidencesOrganisms;
 	//Luego tenemos que poner en disabled los campos ocultos y para eso hay que recorrerlos todos y si su style display es none entonces añadimos el atributo disabled=disabled
 	for (var i=0;i<26;i++){
 		var selectorCompound="input[name=textminingCompoundName_"+i+"]";
@@ -203,6 +226,16 @@ function validateForm(){
 			else{
 				//Tenemos un compuesto con su valor asociado. Lo añadimos al stringFormSubmission.
 				stringFormSubmission+="&textminingCompoundName_"+i+"="+value;
+				//Ademas intentamos coger el valor del ChEBIid y del InputOutput correspondiente
+				var chebiId=$("#listOfChebiIds_"+i).val();
+				if (chebiId==null){
+					chebiId=""
+				}
+				var inputOutput=$("#inputOutput_"+i).val();
+				if (inputOutput==null){
+					inputOutput="";
+				}
+				stringFormSubmission+="&listOfChebiIds_"+i+"="+chebiId+"&inputOutput_"+i+"="+inputOutput;
 			}
 		}
 	}
@@ -224,15 +257,42 @@ function validateForm(){
 			}
 			else{
 				stringFormSubmission+="&textminingEnzymeName_"+i+"="+value;
+				//Ademas intentamos coger los valores de los multiselect listOfProteins_i
+				listOfProteinsObj=document.getElementById('listOfProteins_'+i);
+				var j;
+				var count = 0;
+				for (j=0; j<listOfProteinsObj.options.length; j++) {
+					if (listOfProteinsObj.options[j].selected) {
+						idProt=(listOfProteinsObj.options[j].value);
+						stringFormSubmission+="&listOfProteins_"+i+"_"+count+"="+idProt;
+						count++;
+					}
+				}
+				if (count==0){
+					stringFormSubmission+="&listOfProteins_"+i+"_0=";
+				}
 			}
 		}
 	}
-	var textminingOrganismName=$("#textminingOrganismName").val();
-	textminingOrganismName=$.trim(textminingOrganismName);
-	stringFormSubmission+="&textminingOrganismName="+textminingOrganismName;
 	
-	alert (stringFormSubmission);
-	return false;
+	var idOrganismNCBI=$("#idOrganismNCBI_0").val();
+	if (idOrganismNCBI==null){
+		idOrganismNCBI="";
+	}
+	var ncbiOrganismName=$("#idOrganismNCBI_0 option:selected").text();
+	ncbiOrganismName=$.trim(ncbiOrganismName);
+	//tomamos valor de strain (puede ser undefined,"","+","-")
+	var strain=$("#strain_0 option:selected").val();
+	if (strain==null){
+		strain="";
+	}
+	else if(strain=="+"){
+		strain="%2B";
+	}
+	else if (strain=="-"){
+		strain="%2D";
+	}
+	stringFormSubmission+="&idOrganismNCBI="+idOrganismNCBI+"&ncbiOrganismName="+ncbiOrganismName+"&strain="+strain;
 	
 	//OJO!! NO ES OBLIGATORIO QUE SELECCIONAR UN ORGANISMO
 	
@@ -248,12 +308,6 @@ function validateForm(){
 		return false;	
 	}
 	*/
-	
-	
-	
-	
-	
-	
 	
 	$("#idOrganismNCBI").removeAttr("disabled");
 	
@@ -276,9 +330,18 @@ function validateForm(){
 		}
 	}
 	
-	
-	
-	
+	//alert ("http://localhost/Tebacten/wp-content/themes/reactions/scripts/modificarDatos2.py/"+stringFormSubmission);
+	$.ajax({  
+	  type: "GET",  
+	  url: home_url+"/wp-content/themes/reactions/scripts/modificarDatos2.py",  
+	  data: stringFormSubmission,    
+	  async: false,
+	  success:function(data) {
+	  	searchEvidences(whatToSearch,type,pageNumber);
+	  	$('#popup').bPopup().close();
+	  }
+	});
+	return false;
 	//Comprobamos que no haya ningún listOfProteins_i que no tenga ningún valor asociado
 	//OJO!! NO ES OBLIGATORIO QUE LA ENZIMA TENGA LISTA DE PROTEINAS. Esto puede ocurrir cuando no sabemos el organismo para el que estamos anotando!!
 	/*
@@ -312,7 +375,6 @@ function insertTaxonomy(id,idEvidencesOrganisms){
     organismName=$("#"+selector+" option:selected").text();
     /*if (organismName=="Select an organism"){
     	alert ("Please fill in the organism name");
-    	$('#overlayTaxonomy_'+id).unmask();
     	return false;
     	
     }*/
@@ -343,7 +405,6 @@ function insertTaxonomy(id,idEvidencesOrganisms){
 			var display='organism_ajax_'+id;
             var ajaxDisplay = document.getElementById(display);
 			ajaxDisplay.innerHTML = ajaxRequest.responseText;
-			//$('#overlayTaxonomy_'+id).unmask();
 		}
 	}
 	var queryString ="?organismName="+organismName+"&selectNumber="+id+"&idEvidencesOrganisms="+idEvidencesOrganisms;
@@ -356,7 +417,6 @@ function insertChebiIds(id){
     compoundName=$("#"+selector).val();
 	if (compoundName==""){
 		alert("Please fill in the compound name");
-		//$("#overlayCompounds_"+id).unmask();
 		return false;
 	}
 	var ajaxRequest;  // The variable that makes Ajax possible!
@@ -384,7 +444,7 @@ function insertChebiIds(id){
 			var display='listaCompoundsIds_'+id;
             var ajaxDisplay = document.getElementById(display);
 			ajaxDisplay.innerHTML = ajaxRequest.responseText;
-			//$("#overlayCompounds_"+id).unmask();
+
 		}
 	}
 	
@@ -400,21 +460,20 @@ function insertProteinsOfEnzyme (id,typeSearch){
     enzymeName=$("#"+selector).val();
     if (enzymeName==""){
     	alert("please type an enzyme to search its proteins");
-    	//$("#overlayEnzymes_"+id).unmask();
+    	
 		return false;	
     }
     queryString+="&enzymeName="+enzymeName
 	if (typeSearch=="selected"){
 		
-		taxid=$("#idOrganismNCBI_"+id).val();
+		taxid=$("#idOrganismNCBI_0").val();
 		if (taxid==""){
 			alert("please select an organism before searching for proteins");
-			//$("#overlayEnzymes_"+id).unmask();
+			
 			return false;
 		}
 		if (taxid==null){
 			alert("You can't search in selected organism without selecting one above");
-			//$("#overlayEnzymes_"+id).unmask();
 			return false;
 		}
 		queryString+="&taxid="+taxid
@@ -425,15 +484,14 @@ function insertProteinsOfEnzyme (id,typeSearch){
 		var insertedOrganism=false;
 		$("#textminingOrganismName_0 option").each(function()
 			{
-    			texminingOrganismName = $(this).val();
-    			if (texminingOrganismName!=""){
-    				stringOrganisms=stringOrganisms+texminingOrganismName+"_";
+    			textminingOrganismName = $(this).text();
+    			if (textminingOrganismName!="Select an organism"){
+    				stringOrganisms=stringOrganisms+textminingOrganismName+"_";
     				insertedOrganism=true;
     			}
 			});
 		if (insertedOrganism==false){
 			alert("You can't search in conventioned species if no one have been conventioned");
-			//$("#overlayEnzymes_"+id).unmask();
 			return false;
 		}
 		else{
@@ -468,7 +526,6 @@ function insertProteinsOfEnzyme (id,typeSearch){
 			var display='listOfProteinsOutside_'+id;
             var ajaxDisplay = document.getElementById(display);
 			ajaxDisplay.innerHTML = ajaxRequest.responseText;
-			//$("#overlayEnzymes_"+id).unmask();
 		}
 	}
 	

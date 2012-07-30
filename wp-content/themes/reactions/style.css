@@ -52,6 +52,10 @@ html { font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 10
 
 html, button, input, select, textarea { font-family: sans-serif; color: #222; }
 
+select {
+	max-width: 600px;
+}
+
 body { margin: 0; font-size: 1em; line-height: 1.4; margin-top: 0px;}
 
 /*

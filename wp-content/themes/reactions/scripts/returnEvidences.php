@@ -3,7 +3,7 @@
 	// Retrieve data from Query String
 	include("config.php");
 	include 'functions.php';
-		
+	ini_set( "display_errors", 0);	
 	$pathToPython="/opt/python/2.7/bin/python";
 	$conn = mysql_connect ($database, $db_user, $db_password);
 	mysql_select_db("tebacten", $conn);
@@ -18,7 +18,6 @@
 	$idCompuesto 	= trim(str_replace('e.g.','',$_GET['idCompuesto']));
 	$textminingName = trim(str_replace('e.g.','',$_GET['textminingName']));
 	$whatToSearch 	= $_GET['whatToSearch'];	
-	
 	$tmpString ='<h3>Evidences found for: '.$textminingName.'</h3>';
 	$tmpString .= '<div class="btmspc-dbl"><small><em>Entity mentions are highlighted as follows: <mark class="compound">Compounds</mark>, <mark class="enzyme">Enzymes</mark> and <mark class="organism">Organisms</mark></em>. Curated evidences are indicated by: <a href="#" class="curated">&nbsp;</a></small></div>';
 
@@ -81,10 +80,10 @@
 			$tmpString .= "<h6>$titlePaper</h6>\n";
 			$tmpString .= modificarTexto($idEvidence,$textEvidence);
 			if ($curated == 0){
-				$tmpString.= ' <small>[PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/'.$pubmedId.'" target="_blank">'.$pubmedId.'</a> ] <a href="#" class="rgt-arw no-curated tooltip" onClick="javascript:annotate(\''.$home_url.'/curate-evidence?idEvidence='.$idEvidence.'&type='.$type.'&TB_iframe=true&height=600&width=1000\')">Curate</a></small>';
+				$tmpString.= ' <small>[PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/'.$pubmedId.'" target="_blank">'.$pubmedId.'</a> ] <a href="#" class="rgt-arw no-curated tooltip" onClick="javascript:annotate(\''.$home_url.'/curate-evidence?idEvidence='.$idEvidence.'&whatToSearch='.$whatToSearch.'&type='.$type.'\')">Curate</a></small>';
 			}
 			else{
-				$tmpString.=' <small>[PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/'.$pubmedId.'" target="_blank">'.$pubmedId.'</a> ]  <a href="#" class="rgt-arw curated"onClick="javascript:annotate(\''.$home_url.'/curate-evidence?idEvidence='.$idEvidence.'&type='.$type.'&TB_iframe=true&height=600&width=1000\')">Curate</a></small>';
+				$tmpString.=' <small>[PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/'.$pubmedId.'" target="_blank">'.$pubmedId.'</a> ]  <a href="#" class="rgt-arw curated"onClick="javascript:annotate(\''.$home_url.'/curate-evidence?idEvidence='.$idEvidence.'&whatToSearch='.$whatToSearch.'&type='.$type.'\')">Curate</a></small>';
 			}
 			$tmpString.="</div><!--  End div evidence -->\n";
 		}
