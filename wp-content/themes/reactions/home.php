@@ -6,7 +6,7 @@
 		<p>The system has been developed in the context of the <a href="http://microme.eu" target="_blank">Microme</a> project and contains three different data collections, namely (a) a compilation of articles derived from the Microme database, i.e. articles (abstracts and full text articles) that had been used for manual annotation of bacterial pathways (Microme set), (b) a set that covers abstracts from the entire PubMed database that are relevant to bacteria (PubMed set) and finally (c) a collection of abstracts and full text articles that are relevant for a list of bacteria of special interest to the Microme project, facilitating a more exhaustive extraction of enzymes particularly for these bacteria (species set). </p>
 		<p>In case of all three TeBactEn data collections, an exhaustive recognition of mentions of all species and taxonomic entities was carried out.</p>
 	</article>
-	<article class="col side-nav">
+	<article class="col side-nav" style="width:48%">
 		<h6>Main features</h6>
 		<p>TeBactEn covers all the main steps relevant for the automatic extraction and ranking of metabolism relations from the literature and allows enhanced access and annotation of related information:</p>
 		<ul>

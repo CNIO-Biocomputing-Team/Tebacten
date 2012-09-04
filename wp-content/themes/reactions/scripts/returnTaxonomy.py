@@ -57,7 +57,7 @@ def get_scientifc_name_from_tax_id(taxid,selectNumber):
     return scientificName
 
 
-organismName=fs['organismName'].value 
+organismName=fs['organismName'].value
 selectNumber= fs['selectNumber'].value
 
 try:
